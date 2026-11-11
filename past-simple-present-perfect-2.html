@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Unit 14: Present Perfect and Past (2)</title>
+    <style>
+        :root {
+            --primary: #0f766e;
+            --secondary: #14b8a6;
+            --success: #16a34a;
+            --error: #dc2626;
+            --bg: #f0fdf4;
+            --card-bg: #ffffff;
+            --text: #0f172a;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--bg);
+            color: var(--text);
+            line-height: 1.6;
+            margin: 0;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 850px;
+            margin: 0 auto;
+        }
+
+        header {
+            background: var(--primary);
+            color: white;
+            padding: 24px;
+            border-radius: 12px;
+            margin-bottom: 24px;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 { margin: 0 0 8px 0; font-size: 1.8rem; }
+        p.subtitle { margin: 0; opacity: 0.9; font-size: 1rem; }
+
+        .exercise-card {
+            background: var(--card-bg);
+            border-radius: 12px;
+            padding: 24px;
+            margin-bottom: 24px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+            border: 1px solid #ccfbf1;
+        }
+
+        h2 {
+            color: var(--primary);
+            border-bottom: 2px solid #ccfbf1;
+            padding-bottom: 8px;
+            margin-top: 0;
+            font-size: 1.3rem;
+        }
+
+        .item {
+            margin-bottom: 18px;
+            padding: 12px;
+            border-radius: 6px;
+            background-color: #f8fafc;
+        }
+
+        input[type="text"], select {
+            padding: 8px 12px;
+            border: 1px solid #cbd5e1;
+            border-radius: 6px;
+            font-size: 0.95rem;
+            margin: 2px 4px;
+            outline: none;
+        }
+
+        input[type="text"]:focus, select:focus {
+            border-color: var(--secondary);
+            box-shadow: 0 0 0 3px rgba(20, 184, 166, 0.2);
+        }
+
+        .input-inline { width: 170px; }
+
+        .correct {
+            border-color: var(--success) !important;
+            background-color: #f0fdf4 !important;
+            color: var(--success);
+            font-weight: bold;
+        }
+
+        .incorrect {
+            border-color: var(--error) !important;
+            background-color: #fef2f2 !important;
+            color: var(--error);
+        }
+
+        .feedback {
+            font-size: 0.85rem;
+            margin-left: 8px;
+            font-weight: 600;
+            color: var(--error);
+        }
+
+        .controls {
+            position: sticky;
+            bottom: 20px;
+            background: white;
+            padding: 16px 24px;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        button {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 6px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+        }
+
+        .btn-submit { background: var(--primary); color: white; }
+        .btn-submit:hover { background: #115e59; }
+        .btn-reset { background: #64748b; color: white; }
+        .btn-reset:hover { background: #475569; }
+
+        #score-display { font-size: 1.1rem; font-weight: bold; }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <header>
+        <h1>Unit 14: Present Perfect and Past (2)</h1>
+        <p class="subtitle">Finished time vs. Period of time until now</p>
+    </header>
+
+    <div class="exercise-card">
+        <h2>14.1 Are the underlined parts right or wrong? Correct the ones that are wrong.</h2>
+
+        <div class="item">
+            1. <u>I've lost</u> my key. I can't find it anywhere.<br>
+            Status: <select class="dropdown-status" data-ans="RIGHT"><option value="">-- Select --</option><option value="RIGHT">RIGHT</option><option value="WRONG">WRONG</option></select>
+            Correction: <input type="text" class="gap-corr" data-ans="-" placeholder="Leave blank if RIGHT">
+        </div>
+
+        <div class="item">
+            2. <u>Have you seen</u> the news on TV last night?<br>
+            Status: <select class="dropdown-status" data-ans="WRONG"><option value="">-- Select --</option><option value="RIGHT">RIGHT</option><option value="WRONG">WRONG</option></select>
+            Correction: <input type="text" class="gap-corr" data-ans="Did you see" placeholder="Correct phrase">
+        </div>
+
+        <div class="item">
+            3. <u>I've bought</u> a new car 3 days ago.<br>
+            Status: <select class="dropdown-status" data-ans="WRONG"><option value="">-- Select --</option><option value="RIGHT">RIGHT</option><option value="WRONG">WRONG</option></select>
+            Correction: <input type="text" class="gap-corr" data-ans="I bought|bought" placeholder="Correct phrase">
+        </div>
+
+        <div class="item">
+            4. Where <u>have you been</u> yesterday evening?<br>
+            Status: <select class="dropdown-status" data-ans="WRONG"><option value="">-- Select --</option><option value="RIGHT">RIGHT</option><option value="WRONG">WRONG</option></select>
+            Correction: <input type="text" class="gap-corr" data-ans="were you" placeholder="Correct phrase">
+        </div>
+
+        <div class="item">
+            5. Lucy <u>has left</u> school in 2012.<br>
+            Status: <select class="dropdown-status" data-ans="WRONG"><option value="">-- Select --</option><option value="RIGHT">RIGHT</option><option value="WRONG">WRONG</option></select>
+            Correction: <input type="text" class="gap-corr" data-ans="left" placeholder="Correct phrase">
+        </div>
+
+        <div class="item">
+            6. I'm hungry. <u>I haven't eaten</u> anything today.<br>
+            Status: <select class="dropdown-status" data-ans="RIGHT"><option value="">-- Select --</option><option value="RIGHT">RIGHT</option><option value="WRONG">WRONG</option></select>
+            Correction: <input type="text" class="gap-corr" data-ans="-" placeholder="Leave blank if RIGHT">
+        </div>
+    </div>
+
+    <div class="exercise-card">
+        <h2>14.2 Put the verb into the correct form: Present Perfect or Past Simple.</h2>
+
+        <div class="item">
+            1. I don't know where Amy is. <input type="text" class="input-inline gap" data-ans="Have you seen"> (you / see) her?
+        </div>
+
+        <div class="item">
+            2. When I <input type="text" class="input-inline gap" data-ans="got"> (get) home last night, I <input type="text" class="input-inline gap" data-ans="was"> (be) very tired and I <input type="text" class="input-inline gap" data-ans="went"> (go) straight to bed.
+        </div>
+
+        <div class="item">
+            3. Your car looks very clean. <input type="text" class="input-inline gap" data-ans="Have you washed"> (you / wash) it?
+        </div>
+
+        <div class="item">
+            4. George <input type="text" class="input-inline gap" data-ans="wasn't|was not"> (not / be) very well last week.
+        </div>
+
+        <div class="item">
+            5. Mr Clark <input type="text" class="input-inline gap" data-ans="worked"> (work) in a bank for 15 years. Then he gave it up.
+        </div>
+
+        <div class="item">
+            6. Molly lives in Dublin. She <input type="text" class="input-inline gap" data-ans="has lived|has been living"> (live) there all her life.
+        </div>
+
+        <div class="item">
+            7. '<input type="text" class="input-inline gap" data-ans="Did you go"> (you / go) to the cinema last night?' — 'Yes, but it <input type="text" class="input-inline gap" data-ans="was"> (be) a mistake. The film <input type="text" class="input-inline gap" data-ans="was"> (be) awful.'
+        </div>
+
+        <div class="item">
+            8. My grandfather <input type="text" class="input-inline gap" data-ans="died"> (die) 30 years ago. I <input type="text" class="input-inline gap" data-ans="never met|have never met"> (never / meet) him.
+        </div>
+
+        <div class="item">
+            9. A: Is your father at home? — B: No, I'm afraid he <input type="text" class="input-inline gap" data-ans="has gone|went"> (go) out.<br>
+            A: When exactly <input type="text" class="input-inline gap" data-ans="did he go"> (he / go) out?<br>
+            B: About ten minutes ago.
+        </div>
+
+        <div class="item">
+            10. A: Where do you live? — B: In Boston.<br>
+            A: How long <input type="text" class="input-inline gap" data-ans="have you lived|have you been living"> (you / live) there? — B: Five years.<br>
+            A: Where <input type="text" class="input-inline gap" data-ans="did you live"> (you / live) before that? — B: In Chicago.<br>
+            A: And how long <input type="text" class="input-inline gap" data-ans="did you live"> (you / live) in Chicago? — B: For two years.
+        </div>
+    </div>
+
+    <div class="controls">
+        <button class="btn-submit" onclick="checkAnswers()">Check Answers</button>
+        <div id="score-display">Score: - / -</div>
+        <button class="btn-reset" onclick="resetForm()">Reset</button>
+    </div>
+</div>
+
+<script>
+function checkAnswers() {
+    let score = 0;
+    let total = 0;
+
+    document.querySelectorAll('.feedback').forEach(e => e.remove());
+
+    const gaps = document.querySelectorAll('.gap, .gap-corr');
+    gaps.forEach(gap => {
+        const userVal = gap.value.trim().toLowerCase();
+        const correctAnswers = gap.dataset.ans.toLowerCase().split('|');
+
+        if (userVal === "" && gap.dataset.ans === "-") return; // skip default blank for RIGHT items
+
+        if (userVal === "") {
+            gap.classList.remove('correct', 'incorrect');
+            return;
+        }
+
+        total++;
+        if (correctAnswers.includes(userVal)) {
+            gap.classList.add('correct');
+            gap.classList.remove('incorrect');
+            score++;
+        } else {
+            gap.classList.add('incorrect');
+            gap.classList.remove('correct');
+            showFeedback(gap, `Expected: ${gap.dataset.ans.replace(/\|/g, ' or ')}`);
+        }
+    });
+
+    const dropdowns = document.querySelectorAll('.dropdown-status');
+    dropdowns.forEach(dd => {
+        const userVal = dd.value;
+        const correctVal = dd.dataset.ans;
+
+        if (userVal === "") return;
+
+        total++;
+        if (userVal === correctVal) {
+            dd.classList.add('correct');
+            dd.classList.remove('incorrect');
+            score++;
+        } else {
+            dd.classList.add('incorrect');
+            dd.classList.remove('correct');
+            showFeedback(dd, `Correct: ${correctVal}`);
+        }
+    });
+
+    document.getElementById('score-display').innerText = `Score: ${score} / ${total}`;
+}
+
+function showFeedback(element, text) {
+    const span = document.createElement('span');
+    span.className = 'feedback';
+    span.innerText = text;
+    element.parentNode.insertBefore(span, element.nextSibling);
+}
+
+function resetForm() {
+    document.querySelectorAll('input').forEach(i => {
+        i.value = '';
+        i.classList.remove('correct', 'incorrect');
+    });
+    document.querySelectorAll('select').forEach(s => {
+        s.selectedIndex = 0;
+        s.classList.remove('correct', 'incorrect');
+    });
+    document.querySelectorAll('.feedback').forEach(e => e.remove());
+    document.getElementById('score-display').innerText = 'Score: - / -';
+}
+</script>
+
+</body>
+</html>

@@ -1,0 +1,567 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>English Placement · Computer Adaptive CEFR Assessment</title>
+<style>
+:root{--navy:#12233f;--ink:#182538;--muted:#66758b;--line:#dfe6ef;--bg:#f6f8fb;--white:#fff;--accent:#ee8b5c;--accent2:#5c8dff;--good:#2b9a78;--shadow:0 20px 60px rgba(18,35,63,.10)}*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.55 Inter,ui-sans-serif,system-ui,-apple-system,Segoe UI,sans-serif}button{font:inherit}.screen{display:none;min-height:100vh}.screen.active{display:flex}.shell{width:min(1080px,calc(100% - 40px));margin:auto}.landing{align-items:center;padding:48px 0}.brand{font-size:12px;font-weight:800;letter-spacing:.16em;text-transform:uppercase;color:var(--accent);margin-bottom:22px}.hero{display:grid;grid-template-columns:1.1fr .9fr;gap:64px;align-items:center}.eyebrow{color:var(--accent2);font-weight:800;letter-spacing:.12em;text-transform:uppercase;font-size:12px}.h1{font-size:clamp(38px,5vw,68px);line-height:1.05;letter-spacing:-.05em;margin:12px 0 22px;color:var(--navy)}.lead{font-size:16px;color:var(--muted);max-width:540px;line-height:1.6}.instructions{background:#fff;border:1px solid var(--line);border-radius:16px;padding:20px;margin-top:20px}.instructions h4{margin:0 0 10px;color:var(--navy)}.instructions ul{margin:0;padding-left:18px;color:var(--muted);font-size:14px}.instructions li{margin-bottom:6px}.meta{display:flex;gap:12px;flex-wrap:wrap;margin-top:24px}.meta span{padding:8px 12px;border:1px solid var(--line);background:#fff;border-radius:999px;color:var(--muted);font-size:13px}.level-grid{display:grid;gap:14px}.level-card{display:flex;align-items:center;gap:16px;padding:22px;background:#fff;border:1px solid var(--line);border-radius:18px;cursor:pointer;text-align:left;transition:.2s;box-shadow:0 8px 20px rgba(18,35,63,.04)}.level-card:hover{transform:translateY(-3px);border-color:var(--accent2);box-shadow:var(--shadow)}.level-badge{width:54px;height:54px;display:grid;place-items:center;background:#edf3ff;color:var(--accent2);border-radius:16px;font-weight:900;font-size:17px}.level-card h3{margin:0;color:var(--navy);font-size:18px}.level-card p{margin:4px 0 0;color:var(--muted);font-size:13px}.test{display:block}.topbar{position:sticky;top:0;z-index:5;background:rgba(246,248,251,.92);backdrop-filter:blur(14px);border-bottom:1px solid var(--line)}.topbar-inner{width:min(800px,calc(100% - 40px));margin:auto;padding:18px 0;display:flex;justify-content:space-between;gap:20px;align-items:center}.progress{flex:1}.counter{font-weight:800;color:var(--navy)}.timer{font-variant-numeric:tabular-nums;color:var(--muted);white-space:nowrap}.question{width:min(700px,calc(100% - 40px));margin:50px auto}.question-tag{display:inline-flex;gap:8px;align-items:center;color:var(--accent2);font-size:12px;font-weight:800;letter-spacing:.12em;text-transform:uppercase}.question h2{font-size:clamp(22px,2.8vw,30px);line-height:1.3;letter-spacing:-.02em;color:var(--navy);margin:16px 0 28px}.options{display:grid;gap:12px}.option{display:flex;gap:14px;align-items:flex-start;width:100%;padding:16px 18px;border:1px solid var(--line);border-radius:14px;background:#fff;color:var(--ink);cursor:pointer;text-align:left;transition:.16s}.option:hover{border-color:var(--accent2);transform:translateX(3px)}.option.selected{border-color:var(--accent2);background:#f0f5ff;box-shadow:0 0 0 3px rgba(92,141,255,.12)}.letter{width:28px;height:28px;border-radius:99px;background:#eef2f7;color:var(--muted);display:grid;place-items:center;font-size:12px;font-weight:900;flex:none}.selected .letter{background:var(--accent2);color:#fff}.actions{display:flex;justify-content:space-between;align-items:center;margin-top:30px}.hint{color:var(--muted);font-size:13px}.primary,.ghost{border:0;border-radius:12px;padding:13px 22px;font-weight:800;cursor:pointer}.primary{background:var(--navy);color:#fff}.primary:hover{background:var(--accent2)}.primary:disabled{opacity:.4;cursor:not-allowed;background:var(--navy)}.ghost{background:transparent;color:var(--muted)}.result{align-items:center;padding:50px 0}.result-card{width:min(720px,100%);background:#fff;border:1px solid var(--line);border-radius:26px;padding:42px;box-shadow:var(--shadow);text-align:center}.result-kicker{color:var(--accent);font-weight:900;text-transform:uppercase;letter-spacing:.15em;font-size:12px}.level-result{font-size:96px;line-height:1;font-weight:950;letter-spacing:-.08em;color:var(--navy);margin:15px 0 4px}.result-title{font-size:24px;font-weight:850;color:var(--navy)}.result-copy{color:var(--muted);max-width:580px;margin:16px auto 28px;line-height:1.65;font-size:15px}.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:25px 0}.stat{padding:15px;background:var(--bg);border-radius:14px}.stat strong{display:block;font-size:24px;color:var(--navy)}.stat small{color:var(--muted)}.result-actions{display:flex;gap:10px;justify-content:center;margin-top:25px}@media(max-width:760px){.hero{grid-template-columns:1fr;gap:32px}.landing{padding:32px 0}.result-card{padding:28px 20px}.stats{grid-template-columns:1fr 1fr}.stat:last-child{grid-column:span 2}}
+</style>
+</head>
+<body>
+
+<section id="landing" class="screen active landing">
+  <div class="shell">
+    <div class="brand">Balmain English</div>
+    <div class="hero">
+      <div>
+        <div class="eyebrow">Computer Adaptive CEFR Assessment</div>
+        <h1 class="h1">What is your English level?</h1>
+        <p class="lead">An intelligent adaptive placement test that continuously measures your ability level and adjusts question difficulty in real time.</p>
+        
+        <div class="instructions">
+          <h4>How the adaptive test works:</h4>
+          <ul>
+            <li>Select your estimated baseline level to begin the test.</li>
+            <li>Questions adjust dynamically based on your accuracy.</li>
+            <li><strong>Completion rule:</strong> The test completes when you achieve at least 3 runs of 3 correct answers at a given CEFR level, but fail to achieve 2 runs of 3 at the next higher level.</li>
+          </ul>
+        </div>
+
+        <div class="meta">
+          <span>240-question adaptive pool</span>
+          <span>Dynamic duration</span>
+          <span>Automated CEFR mastery placement</span>
+        </div>
+      </div>
+
+      <div class="level-grid">
+        <button class="level-card" data-start="beginner">
+          <span>
+            <h3>Beginner</h3>
+            <p>You're just starting</p>
+          </span>
+        </button>
+        <button class="level-card" data-start="intermediate">
+          <span>
+            <h3>Intermediate</h3>
+            <p>Starting to feel comfortable</p>
+          </span>
+        </button>
+        <button class="level-card" data-start="advanced">
+          <span>
+            <h3>Advanced</h3>
+            <p>Well on the way</p>
+          </span>
+        </button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="test" class="screen test">
+  <header class="topbar">
+    <div class="topbar-inner">
+      <div class="progress">
+        <div class="counter" id="counter">Question 1</div>
+      </div>
+      <div class="timer" id="timer">25:00</div>
+    </div>
+  </header>
+  <main class="question" id="question"></main>
+</section>
+
+<section id="result" class="screen result">
+  <div class="shell">
+    <div class="result-card">
+      <div class="result-kicker">Your Assessed CEFR Level</div>
+      <div class="level-result" id="resultLevel">—</div>
+      <div class="result-title" id="resultTitle"></div>
+      <p class="result-copy" id="resultCopy"></p>
+      
+      <div class="stats">
+        <div class="stat"><strong id="correct">0</strong><small>correct answers</small></div>
+        <div class="stat"><strong id="answered">0</strong><small>total questions</small></div>
+        <div class="stat"><strong id="timeUsed">—</strong><small>time elapsed</small></div>
+      </div>
+
+      <div class="result-actions">
+        <button class="ghost" id="homeBtn">Return to Start</button>
+        <button class="primary" id="againBtn">Retake Assessment</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+const QUESTION_BANK = {
+  "A1": [
+    {"id":"a1_01","level":"A1","stem":"Complete the sentence: “I ___ from Spain.”","options":["are","be","am","is"],"answer":2},
+    {"id":"a1_02","level":"A1","stem":"Complete the sentence: “She ___ a new laptop.”","options":["have","is having","haves","has"],"answer":3},
+    {"id":"a1_03","level":"A1","stem":"Choose the correct question form: “___ at school today?”","options":["Are they","Is they","They are","Be they"],"answer":0},
+    {"id":"a1_04","level":"A1","stem":"Select the correct option: “He ___ fast.”","options":["can swimming","can swim","can to swim","cans swim"],"answer":1},
+    {"id":"a1_05","level":"A1","stem":"Complete the sentence: “We ___ to work by bus.”","options":["going","are go","go","goes"],"answer":2},
+    {"id":"a1_06","level":"A1","stem":"Complete the sentence: “There ___ four apples on the table.”","options":["is","am","be","are"],"answer":3},
+    {"id":"a1_07","level":"A1","stem":"Choose the correct question form: “___ tea in the morning?”","options":["Does she drink","Drinks she","Is she drink","Do she drink"],"answer":0},
+    {"id":"a1_08","level":"A1","stem":"Select the correct negative form: “They ___ live in London.”","options":["not","don't","doesn't","aren't"],"answer":1},
+    {"id":"a1_09","level":"A1","stem":"Complete the sentence: “This is ___ pen.”","options":["mine","I","my","me"],"answer":2},
+    {"id":"a1_10","level":"A1","stem":"Complete the sentence: “___ you like coffee?”","options":["Are","Have","Does","Do"],"answer":3},
+    {"id":"a1_11","level":"A1","stem":"Complete the sentence: “My brother ___ twenty years old.”","options":["has","is","have","are"],"answer":1},
+    {"id":"a1_12","level":"A1","stem":"Choose the correct option: “Where ___ you live?”","options":["does","are","do","is"],"answer":2},
+    {"id":"a1_13","level":"A1","stem":"Complete the sentence: “Look at ___!”","options":["they","them","their","they're"],"answer":1},
+    {"id":"a1_14","level":"A1","stem":"Select the correct option: “What time ___ it?”","options":["is","are","does","be"],"answer":0},
+    {"id":"a1_15","level":"A1","stem":"Complete the sentence: “She ___ speak French.”","options":["don't","doesn't","not","isn't"],"answer":1},
+    {"id":"a1_16","level":"A1","stem":"Complete the sentence: “We have two ___.”","options":["childs","child","childrens","children"],"answer":3},
+    {"id":"a1_17","level":"A1","stem":"Select the correct preposition: “The book is ___ the table.”","options":["on","at","into","to"],"answer":0},
+    {"id":"a1_18","level":"A1","stem":"Choose the correct sentence:","options":["I no like milk.","I don't like milk.","I doesn't like milk.","I not like milk."],"answer":1},
+    {"id":"a1_19","level":"A1","stem":"Complete the sentence: “Peter is ___ brother.”","options":["she","her","hers","herself"],"answer":1},
+    {"id":"a1_20","level":"A1","stem":"Choose the correct form: “What ___ your name?”","options":["be","is","are","am"],"answer":1},
+    {"id":"a1_21","level":"A1","stem":"Complete the sentence: “Today is ___.”","options":["monday","Monday","the Monday","a Monday"],"answer":1},
+    {"id":"a1_22","level":"A1","stem":"Complete the sentence: “They ___ university students.”","options":["is","am","are","be"],"answer":2},
+    {"id":"a1_23","level":"A1","stem":"Choose the correct word: “I go to sleep ___ 10 PM.”","options":["on","in","at","to"],"answer":2},
+    {"id":"a1_24","level":"A1","stem":"Complete the sentence: “Is this ___ umbrella?”","options":["you","your","yours","yourself"],"answer":1},
+    {"id":"a1_25","level":"A1","stem":"Select the correct spelling:","options":["Thursdae","Thursdaic","Thursday","Thursdy"],"answer":2},
+    {"id":"a1_26","level":"A1","stem":"Complete the sentence: “She lives ___ Paris.”","options":["at","on","in","to"],"answer":2},
+    {"id":"a1_27","level":"A1","stem":"Complete the sentence: “How old ___ you?”","options":["is","are","have","am"],"answer":1},
+    {"id":"a1_28","level":"A1","stem":"Select the correct option: “There is ___ elephant in the zoo.”","options":["a","an","the two","some"],"answer":1},
+    {"id":"a1_29","level":"A1","stem":"Complete the sentence: “I work ___ a hospital.”","options":["at","on","in","to"],"answer":2},
+    {"id":"a1_30","level":"A1","stem":"Choose the correct phrase: “___ your hands before dinner.”","options":["Wash","Washing","Washes","To wash"],"answer":0},
+    {"id":"a1_31","level":"A1","stem":"Complete the sentence: “He doesn't ___ television.”","options":["watches","watch","watching","watched"],"answer":1},
+    {"id":"a1_32","level":"A1","stem":"Select the plural form of 'city':","options":["citys","cities","cityes","cites"],"answer":1},
+    {"id":"a1_33","level":"A1","stem":"Complete the sentence: “This shirt is ___ small for me.”","options":["too","to","two","twoo"],"answer":0},
+    {"id":"a1_34","level":"A1","stem":"Choose the appropriate response to: “Thank you very much.”","options":["Yes","You're welcome","Please","Nothing"],"answer":1},
+    {"id":"a1_35","level":"A1","stem":"Complete the sentence: “We usually eat breakfast in the ___.”","options":["night","evening","morning","afternoon"],"answer":2},
+    {"id":"a1_36","level":"A1","stem":"Choose the correct word: “My shoes ___ under the bed.”","options":["is","are","was","be"],"answer":1},
+    {"id":"a1_37","level":"A1","stem":"Complete the sentence: “Can you help ___, please?”","options":["I","me","my","mine"],"answer":1},
+    {"id":"a1_38","level":"A1","stem":"Complete the sentence: “She usually ___ early on weekdays.”","options":["wake up","wakes up","waking up","is wake up"],"answer":1},
+    {"id":"a1_39","level":"A1","stem":"Choose the correct pronoun: “___ is my best friend, David.”","options":["He","She","It","They"],"answer":0},
+    {"id":"a1_40","level":"A1","stem":"Complete the sentence: “Do you have ___ water?”","options":["a","any","many","an"],"answer":1}
+  ],
+  "A2": [
+    {"id":"a2_01","level":"A2","stem":"Complete the sentence: “If it rains tomorrow, we ___ inside.”","options":["would stayed","staying","will stay","stay will"],"answer":2},
+    {"id":"a2_02","level":"A2","stem":"Complete the sentence: “I ___ TV when you called me.”","options":["watched was","am watching","was watch","was watching"],"answer":3},
+    {"id":"a2_03","level":"A2","stem":"Select the correct sentence:","options":["You should see a doctor.","You should to see a doctor.","You shoulds see a doctor.","You are should see a doctor."],"answer":0},
+    {"id":"a2_04","level":"A2","stem":"Complete the sentence: “This exercise is ___ than the last one.”","options":["more difficulty","more difficult","difficulter","most difficult than"],"answer":1},
+    {"id":"a2_05","level":"A2","stem":"Complete the sentence: “Have you ever ___ to London?”","options":["go","were","been","did"],"answer":2},
+    {"id":"a2_06","level":"A2","stem":"Complete the sentence: “She ___ in this house since 2020.”","options":["is live","have lived","lived has","has lived"],"answer":3},
+    {"id":"a2_07","level":"A2","stem":"Select the correct sentence:","options":["We are meeting the tutor tomorrow.","We meeting are the tutor tomorrow.","We meet are the tutor tomorrow.","We are meet the tutor tomorrow."],"answer":0},
+    {"id":"a2_08","level":"A2","stem":"Complete the sentence: “He ___ leave the office early yesterday.”","options":["should to","had to","must to","has to"],"answer":1},
+    {"id":"a2_09","level":"A2","stem":"Complete the sentence: “I really enjoy ___ books before bed.”","options":["readings","am read","reading","to reading"],"answer":2},
+    {"id":"a2_10","level":"A2","stem":"Complete the sentence: “The train ___ at six sharp tomorrow.”","options":["leave","is leave","leaving is","leaves"],"answer":3},
+    {"id":"a2_11","level":"A2","stem":"They walked ___ the park on Sunday morning.","options":["through","across to","into on","through at"],"answer":0},
+    {"id":"a2_12","level":"A2","stem":"Who ___ you yesterday at the event?","options":["did see","saw","was see","did saw"],"answer":1},
+    {"id":"a2_13","level":"A2","stem":"She is the ___ girl in the class.","options":["tallest","taller","most tall","tall"],"answer":0},
+    {"id":"a2_14","level":"A2","stem":"I'm going to the store ___ some milk.","options":["for buy","to buy","for to buy","buying"],"answer":1},
+    {"id":"a2_15","level":"A2","stem":"We don't have ___ money left.","options":["some","many","much","no"],"answer":2},
+    {"id":"a2_16","level":"A2","stem":"He spoke to me very ___ during the interview.","options":["polite","politely","more polite","politeness"],"answer":1},
+    {"id":"a2_17","level":"A2","stem":"What ___ you do if you win the competition?","options":["will","would","did","are"],"answer":0},
+    {"id":"a2_18","level":"A2","stem":"My car is ___ than yours.","options":["expensiver","more expensive","most expensive","as expensive"],"answer":1},
+    {"id":"a2_19","level":"A2","stem":"She told me that she ___ busy.","options":["is","was","be","were"],"answer":1},
+    {"id":"a2_20","level":"A2","stem":"We've lived in this neighborhood ___ three years.","options":["since","for","during","from"],"answer":1},
+    {"id":"a2_21","level":"A2","stem":"I haven't finished my homework ___.","options":["already","just","yet","ever"],"answer":2},
+    {"id":"a2_22","level":"A2","stem":"There aren't ___ people in the museum today.","options":["much","many","some","lot"],"answer":1},
+    {"id":"a2_23","level":"A2","stem":"He was born ___ July 15th.","options":["in","at","on","from"],"answer":2},
+    {"id":"a2_24","level":"A2","stem":"You ___ bring an umbrella; it's going to rain.","options":["should","would","must to","ought"],"answer":0},
+    {"id":"a2_25","level":"A2","stem":"Look at those dark clouds! It ___ rain soon.","options":["will going to","is going to","is will","goes to"],"answer":1},
+    {"id":"a2_26","level":"A2","stem":"He is interested ___ learning computer programming.","options":["on","at","in","for"],"answer":2},
+    {"id":"a2_27","level":"A2","stem":"I prefer coffee ___ tea.","options":["to","than","more","over to"],"answer":0},
+    {"id":"a2_28","level":"A2","stem":"She was tired, ___ she stayed up late.","options":["because","but","so","although"],"answer":1},
+    {"id":"a2_29","level":"A2","stem":"Have you ___ seen a shooting star?","options":["never","always","ever","yet"],"answer":2},
+    {"id":"a2_30","level":"A2","stem":"They ___ a new car last week.","options":["buy","buys","bought","have bought"],"answer":2},
+    {"id":"a2_31","level":"A2","stem":"I'm looking forward to ___ you next week.","options":["see","seeing","saw","be seeing"],"answer":1},
+    {"id":"a2_32","level":"A2","stem":"This delicious cake was baked ___ my grandmother.","options":["from","by","with","of"],"answer":1},
+    {"id":"a2_33","level":"A2","stem":"He left the meeting room without ___ a word.","options":["say","saying","to say","said"],"answer":1},
+    {"id":"a2_34","level":"A2","stem":"Could you tell me where ___?","options":["is the bank","the bank is","does the bank be","is bank"],"answer":1},
+    {"id":"a2_35","level":"A2","stem":"She is very good ___ playing the piano.","options":["at","in","on","with"],"answer":0},
+    {"id":"a2_36","level":"A2","stem":"We decided ___ a weekend trip to the coast.","options":["taking","to take","take","for taking"],"answer":1},
+    {"id":"a2_37","level":"A2","stem":"While I ___ my breakfast, the telephone rang.","options":["ate","was eating","have eaten","am eating"],"answer":1},
+    {"id":"a2_38","level":"A2","stem":"You don't have to pay for entry; it's ___.","options":["free","cheap","costless","expensive"],"answer":0},
+    {"id":"a2_39","level":"A2","stem":"If you heat ice, it ___.","options":["melted","melts","will melt","would melt"],"answer":1},
+    {"id":"a2_40","level":"A2","stem":"He drives much more ___ than his brother.","options":["carefully","careful","careless","carefully than"],"answer":0},
+    {"id":"a2_41","level":"A2","stem":"My new apartment is as big ___ yours.","options":["than","as","like","so"],"answer":1},
+    {"id":"a2_42","level":"A2","stem":"I've lost my keys. I can't find them ___.","options":["somewhere","anywhere","nowhere","everywhere"],"answer":1},
+    {"id":"a2_43","level":"A2","stem":"___ I borrow your pen for a moment?","options":["Must","May","Should","Would"],"answer":1},
+    {"id":"a2_44","level":"A2","stem":"They promised ___ us as soon as they arrived.","options":["calling","to call","call","for calling"],"answer":1},
+    {"id":"a2_45","level":"A2","stem":"He didn't come to class because he ___ sick.","options":["is","was","were","has been"],"answer":1},
+    {"id":"a2_46","level":"A2","stem":"I usually go to bed ___ midnight.","options":["at","in","on","to"],"answer":0},
+    {"id":"a2_47","level":"A2","stem":"Is there ___ water left in the bottle?","options":["some","any","many","few"],"answer":1},
+    {"id":"a2_48","level":"A2","stem":"She was wearing a beautiful ___ dress.","options":["red silk","silk red","redly silk","silky red"],"answer":0},
+    {"id":"a2_49","level":"A2","stem":"We had a wonderful time ___ the birthday party.","options":["at","on","into","to"],"answer":0},
+    {"id":"a2_50","level":"A2","stem":"He works harder ___ anyone else in our team.","options":["than","as","from","that"],"answer":0},
+    {"id":"a2_51","level":"A2","stem":"Where ___ you go on holiday last summer?","options":["do","did","were","have"],"answer":1},
+    {"id":"a2_52","level":"A2","stem":"I need to buy some new ___ for work.","options":["cloths","clothes","clothings","clothe"],"answer":1},
+    {"id":"a2_53","level":"A2","stem":"How ___ luggage do you have with you?","options":["many","much","few","large"],"answer":1},
+    {"id":"a2_54","level":"A2","stem":"She was standing ___ the two large trees.","options":["among","between","inside","through"],"answer":1},
+    {"id":"a2_55","level":"A2","stem":"Don't forget ___ the door when you leave.","options":["locking","to lock","lock","locked"],"answer":1},
+    {"id":"a2_56","level":"A2","stem":"He isn't old ___ to drive a car yet.","options":["too","enough","so","very"],"answer":1},
+    {"id":"a2_57","level":"A2","stem":"We ___ lunch when the unexpected guest arrived.","options":["were having","had","are having","have had"],"answer":0},
+    {"id":"a2_58","level":"A2","stem":"This textbook is ___ interesting than that one.","options":["more","most","much","very"],"answer":0},
+    {"id":"a2_59","level":"A2","stem":"She stopped ___ fuel at the gas station.","options":["get","to get","getting","for get"],"answer":1},
+    {"id":"a2_60","level":"A2","stem":"I think it will rain, so take an umbrella ___ you.","options":["with","for","to","by"],"answer":0}
+  ],
+  "B1": [
+    {"id":"b1_01","level":"B1","stem":"Complete the sentence: “If I had more time, I ___ more often.”","options":["would have travel","travelled would","would travel","will travel"],"answer":2},
+    {"id":"b1_02","level":"B1","stem":"Complete the sentence: “When we arrived at the cinema, the film ___ already.”","options":["has started","was start","started had","had started"],"answer":3},
+    {"id":"b1_03","level":"B1","stem":"Select the correct sentence:","options":["She said she was feeling tired.","She said she is feeling tired.","She said she has feel tired.","She said she feeling was tired."],"answer":0},
+    {"id":"b1_04","level":"B1","stem":"Complete the sentence: “The final report ___ by the research team.”","options":["was writing","was written","wrote was","has write"],"answer":1},
+    {"id":"b1_05","level":"B1","stem":"Complete the sentence: “I ___ here for five years now.”","options":["worked have","have working","have been working","am work"],"answer":2},
+    {"id":"b1_06","level":"B1","stem":"Complete the sentence: “When he was younger, he ___ tennis every weekend.”","options":["use to played","was use play","used playing to","used to play"],"answer":3},
+    {"id":"b1_07","level":"B1","stem":"Complete the sentence: “If they had left earlier, they ___ the train.”","options":["would have caught","will catch","would caught","had catch"],"answer":0},
+    {"id":"b1_08","level":"B1","stem":"Complete the sentence: “The manager asked me ___ with the new project.”","options":["whether could help I","whether I could help","could I help whether","if can I helped"],"answer":1},
+    {"id":"b1_09","level":"B1","stem":"Complete the sentence: “Although it was raining heavily, we ___ to the station.”","options":["carry on walked","were carry","carried on walking","carried walking on"],"answer":2},
+    {"id":"b1_10","level":"B1","stem":"Complete the sentence: “I wish I ___ the answer to your question.”","options":["know","had know","am knowing","knew"],"answer":3},
+    {"id":"b1_11","level":"B1","stem":"He asked me where I ___ my holiday.","options":["had spent","have spent","spend","was spent"],"answer":0},
+    {"id":"b1_12","level":"B1","stem":"The historic building ___ restored in the late 19th century.","options":["was","has","is being","were"],"answer":0},
+    {"id":"b1_13","level":"B1","stem":"If you ___ hard, you will pass the final examination.","options":["study","studied","would study","will study"],"answer":0},
+    {"id":"b1_14","level":"B1","stem":"She apologized ___ late for the team meeting.","options":["for being","to be","about being","of being"],"answer":0},
+    {"id":"b1_15","level":"B1","stem":"He speaks English fluently, ___ he?","options":["doesn't","isn't","don't","hasn't"],"answer":0},
+    {"id":"b1_16","level":"B1","stem":"I would rather ___ home tonight than go out to dinner.","options":["stay","to stay","staying","stayed"],"answer":0},
+    {"id":"b1_17","level":"B1","stem":"The scientist ___ research won the prize gave a lecture.","options":["whose","whom","which","who"],"answer":0},
+    {"id":"b1_18","level":"B1","stem":"By the time we reached the theater, the play ___ already.","options":["had finished","finished","has finished","was finishing"],"answer":0},
+    {"id":"b1_19","level":"B1","stem":"She suggested ___ a short break after hours of working.","options":["taking","to take","take","for taking"],"answer":0},
+    {"id":"b1_20","level":"B1","stem":"He works as a software engineer, ___ his father used to do.","options":["like","as","same","similar"],"answer":0},
+    {"id":"b1_21","level":"B1","stem":"I'm not used to ___ up so early in the morning.","options":["getting","get","got","have got"],"answer":0},
+    {"id":"b1_22","level":"B1","stem":"Neither John ___ his brother attended the conference.","options":["nor","or","and","neither"],"answer":0},
+    {"id":"b1_23","level":"B1","stem":"He was so exhausted ___ he fell asleep on the train home.","options":["that","so","because","than"],"answer":0},
+    {"id":"b1_24","level":"B1","stem":"Unless you ___ immediately, you will miss your flight.","options":["leave","don't leave","will leave","left"],"answer":0},
+    {"id":"b1_25","level":"B1","stem":"She accused him ___ copying her design layout.","options":["of","for","with","about"],"answer":0},
+    {"id":"b1_26","level":"B1","stem":"He managed ___ the solution after several hours of trial.","options":["to find","finding","find","in finding"],"answer":0},
+    {"id":"b1_27","level":"B1","stem":"Despite ___ the weather was severe, they continued hiking.","options":["the fact that","of","it","that"],"answer":0},
+    {"id":"b1_28","level":"B1","stem":"I look forward to ___ from you regarding the application.","options":["hearing","hear","heard","be hearing"],"answer":0},
+    {"id":"b1_29","level":"B1","stem":"The vehicle needs ___ before we depart on our road trip.","options":["servicing","to service","serviced","be service"],"answer":0},
+    {"id":"b1_30","level":"B1","stem":"You ___ have called her; she was already informed.","options":["needn't","couldn't","mustn't","shouldn't to"],"answer":0},
+    {"id":"b1_31","level":"B1","stem":"He succeeded ___ convincing the panel to approve the budget.","options":["in","on","at","with"],"answer":0},
+    {"id":"b1_32","level":"B1","stem":"She asked me if I ___ her brother prior to the party.","options":["had met","met","have met","would meet"],"answer":0},
+    {"id":"b1_33","level":"B1","stem":"The police ___ currently investigating the burglary.","options":["are","is","was","has been"],"answer":0},
+    {"id":"b1_34","level":"B1","stem":"It was such a boring presentation that I ___ asleep.","options":["fell","felt","fallen","fall"],"answer":0},
+    {"id":"b1_35","level":"B1","stem":"I can't afford ___ a new car at this point in time.","options":["to buy","buying","buy","for buying"],"answer":0},
+    {"id":"b1_36","level":"B1","stem":"The book ___ I borrowed from the library was insightful.","options":["which","who","whom","whose"],"answer":0},
+    {"id":"b1_37","level":"B1","stem":"If I ___ in your position, I would consult an expert.","options":["were","am","was to be","had been"],"answer":0},
+    {"id":"b1_38","level":"B1","stem":"He was convicted ___ financial fraud after a lengthy trial.","options":["of","with","for","by"],"answer":0},
+    {"id":"b1_39","level":"B1","stem":"We'd better ___ now or we will run late.","options":["leave","to leave","leaving","left"],"answer":0},
+    {"id":"b1_40","level":"B1","stem":"She made me ___ the entire report from scratch.","options":["rewrite","to rewrite","rewriting","rewrote"],"answer":0},
+    {"id":"b1_41","level":"B1","stem":"I'd rather you ___ tell anyone about this private matter.","options":["didn't","don't","not","won't"],"answer":0},
+    {"id":"b1_42","level":"B1","stem":"The exhibition is well worth ___ if you are in town.","options":["visiting","to visit","visit","a visit to"],"answer":0},
+    {"id":"b1_43","level":"B1","stem":"He behaves as if he ___ the CEO of the company.","options":["were","is","will be","has been"],"answer":0},
+    {"id":"b1_44","level":"B1","stem":"There's no point in ___ about circumstances you can't change.","options":["complaining","complain","to complain","complained"],"answer":0},
+    {"id":"b1_45","level":"B1","stem":"By next month, I ___ working here for a full decade.","options":["will have been","will be","am","have been"],"answer":0},
+    {"id":"b1_46","level":"B1","stem":"She turned ___ the job offer due to the excessive commute.","options":["down","off","out","up"],"answer":0},
+    {"id":"b1_47","level":"B1","stem":"I wish I ___ so much money during the holiday sales.","options":["hadn't spent","didn't spend","haven't spent","wouldn't spend"],"answer":0},
+    {"id":"b1_48","level":"B1","stem":"He was prevented from entering ___ lack of documentation.","options":["due to","because","owing","since"],"answer":0},
+    {"id":"b1_49","level":"B1","stem":"They had the entire roof ___ after the hail storm.","options":["repaired","repair","to repair","repairing"],"answer":0},
+    {"id":"b1_50","level":"B1","stem":"The suspect denied ___ anywhere near the crime scene.","options":["being","to be","be","been"],"answer":0},
+    {"id":"b1_51","level":"B1","stem":"I'll lend you the camera as long as you ___ it back safely.","options":["bring","will bring","brought","are bringing"],"answer":0},
+    {"id":"b1_52","level":"B1","stem":"She insisted ___ paying for our entire dinner bill.","options":["on","in","to","at"],"answer":0},
+    {"id":"b1_53","level":"B1","stem":"It took us two hours ___ to the airport during rush hour.","options":["to get","getting","get","for getting"],"answer":0},
+    {"id":"b1_54","level":"B1","stem":"He ran fast in order ___ miss the last train home.","options":["not to","to not","so not to","don't"],"answer":0},
+    {"id":"b1_55","level":"B1","stem":"Passengers are supposed ___ their seatbelts now.","options":["to fasten","fastening","fasten","to have fasten"],"answer":0},
+    {"id":"b1_56","level":"B1","stem":"She lets her children ___ up late on Saturday nights.","options":["stay","to stay","staying","stayed"],"answer":0},
+    {"id":"b1_57","level":"B1","stem":"The candidate proved capable ___ managing complex teams.","options":["of","in","to","for"],"answer":0},
+    {"id":"b1_58","level":"B1","stem":"Had we known about the blizzard, we ___ safely at home.","options":["would have stayed","will stay","stayed","had stayed"],"answer":0},
+    {"id":"b1_59","level":"B1","stem":"He couldn't help ___ when he heard the hilarious mistake.","options":["laughing","to laugh","laugh","laughed"],"answer":0},
+    {"id":"b1_60","level":"B1","stem":"She was brought ___ by her grandparents in Texas.","options":["up","out","on","in"],"answer":0}
+  ],
+  "B2": [
+    {"id":"b2_01","level":"B2","stem":"Complete the sentence: “By next June, she ___ her training course.”","options":["will completed","has completing","will have completed","completes will"],"answer":2},
+    {"id":"b2_02","level":"B2","stem":"Complete the sentence: “The initial proposal ___ by the board.”","options":["is thought rejected to","thought has rejected","is thinking reject","is thought to have been rejected"],"answer":3},
+    {"id":"b2_03","level":"B2","stem":"Complete the sentence: “Had I known about the changes, I ___ differently.”","options":["would have acted","would acted have","will have acted","had acted would"],"answer":0},
+    {"id":"b2_04","level":"B2","stem":"Complete the sentence: “___ the requisite precautions, they proceeded with the test.”","options":["Had taking","Having taken","To have took","Take having"],"answer":1},
+    {"id":"b2_05","level":"B2","stem":"Complete the sentence: “The new regulation is intended to ___ unnecessary delays.”","options":["be reduce","reduced","reduce","reducing"],"answer":2},
+    {"id":"b2_06","level":"B2","stem":"Complete the sentence: “Rarely ___ such dedication to a cause.”","options":["we see do","see we do","we are see","do we see"],"answer":3},
+    {"id":"b2_07","level":"B2","stem":"Complete the sentence: “The evidence was too limited to ___ about causation.”","options":["draw a firm conclusion","drawing firm conclude","draw firmly conclusion","a firm conclude"],"answer":0},
+    {"id":"b2_08","level":"B2","stem":"Complete the sentence: “It was the first time she ___ such hostility.”","options":["is experienced had","had experienced","has experience","would experiencing"],"answer":1},
+    {"id":"b2_09","level":"B2","stem":"Complete the sentence: “The results, which ___ yesterday, attracted wide interest.”","options":["were publishing yesterday","have publish yesterday","were published yesterday","published were yesterday"],"answer":2},
+    {"id":"b2_10","level":"B2","stem":"Complete the sentence: “Hardly had the talk started ___ interrupted.”","options":["then began meeting","the meeting than began","than the meeting began","when it was"],"answer":3},
+    {"id":"b2_11","level":"B2","stem":"So intense ___ that structural integrity was compromised.","options":["was the fire","the fire was","did the fire","the fire had been"],"answer":0},
+    {"id":"b2_12","level":"B2","stem":"Under no circumstances ___ leave the lab unattended.","options":["should staff","staff should","must staff to","staff must"],"answer":0},
+    {"id":"b2_13","level":"B2","stem":"Not only ___ the target, but they also doubled output.","options":["did they meet","they met","they have met","were they met"],"answer":0},
+    {"id":"b2_14","level":"B2","stem":"The director requested that all staff ___ present at the opening.","options":["be","are","were","to be"],"answer":0},
+    {"id":"b2_15","level":"B2","stem":"Little ___ how much the project would ultimately cost.","options":["did they realize","they realized","realized they","they did realize"],"answer":0},
+    {"id":"b2_16","level":"B2","stem":"Were the manager ___ to resign, the department would stall.","options":["to decide","decides","deciding","decided"],"answer":0},
+    {"id":"b2_17","level":"B2","stem":"The initiative failed primarily due to a severe ___ of funds.","options":["lack","short","miss","paucity"],"answer":0},
+    {"id":"b2_18","level":"B2","stem":"It is essential that every applicant ___ the guidelines precisely.","options":["follow","follows","followed","following"],"answer":0},
+    {"id":"b2_19","level":"B2","stem":"She would rather ___ informed earlier about the itinerary change.","options":["have been","be","was","had been"],"answer":0},
+    {"id":"b2_20","level":"B2","stem":"Should you ___ any difficulties, contact technical support immediately.","options":["encounter","encountered","encounters","will encounter"],"answer":0},
+    {"id":"b2_21","level":"B2","stem":"The contract was declared null and ___ after the breach.","options":["void","empty","blank","clear"],"answer":0},
+    {"id":"b2_22","level":"B2","stem":"The system is prone to errors, ___ regular maintenance.","options":["notwithstanding","despite of","regardless","nonetheless"],"answer":0},
+    {"id":"b2_23","level":"B2","stem":"He spoke with such authority that he ___ the entire audience.","options":["swayed","swung","swiped","swelled"],"answer":0},
+    {"id":"b2_24","level":"B2","stem":"Scarcely ___ the announcement when the crowd erupted.","options":["had he made","he made","did he make","he had made"],"answer":0},
+    {"id":"b2_25","level":"B2","stem":"The chief executive was on the ___ of signing the deal.","options":["verge","edge","limit","border"],"answer":0},
+    {"id":"b2_26","level":"B2","stem":"He managed to pass the challenging exam by the skin of his ___ .","options":["teeth","lips","fingers","chin"],"answer":0},
+    {"id":"b2_27","level":"B2","stem":"___ severe the conditions get, the mission will press on.","options":["However","Whatever","Whenever","Wherever"],"answer":0},
+    {"id":"b2_28","level":"B2","stem":"The team worked around the clock to meet the ___ deadline.","options":["tight","narrow","close","strict"],"answer":0},
+    {"id":"b2_29","level":"B2","stem":"He made a point ___ thanking every speaker individually.","options":["of","to","for","in"],"answer":0},
+    {"id":"b2_30","level":"B2","stem":"The proposed infrastructure expansion plans are currently ___ hold.","options":["on","in","at","under"],"answer":0},
+    {"id":"b2_31","level":"B2","stem":"In the event of an emergency, trigger the alarm ___ delay.","options":["without","no","avoiding","lacking"],"answer":0},
+    {"id":"b2_32","level":"B2","stem":"She was determined to finish her degree, ___ the obstacles.","options":["irrespective of","regardless for","no matter of","disregarding to"],"answer":0},
+    {"id":"b2_33","level":"B2","stem":"The software patch should eliminate ___ security vulnerabilities.","options":["potential","possible to","plausibly","eventualities"],"answer":0},
+    {"id":"b2_34","level":"B2","stem":"He came ___ a rare historical document while clearing the attic.","options":["across","into","through","upon to"],"answer":0},
+    {"id":"b2_35","level":"B2","stem":"The financial crisis brought ___ substantial economic reforms.","options":["about","up","on to","out"],"answer":0},
+    {"id":"b2_36","level":"B2","stem":"The committee reached a consensus ___ after long negotiation.","options":["only","just","solely","merely"],"answer":0},
+    {"id":"b2_37","level":"B2","stem":"His contribution to the breakthrough was of paramount ___ .","options":["importance","important","importantly","importing"],"answer":0},
+    {"id":"b2_38","level":"B2","stem":"They decided to postpone the launch on account ___ bad weather.","options":["of","for","to","with"],"answer":0},
+    {"id":"b2_39","level":"B2","stem":"She has an enviable grasp ___ complex quantum mechanics.","options":["of","on","in","at"],"answer":0},
+    {"id":"b2_40","level":"B2","stem":"The regulatory agency pledged to clamp ___ on insider trading.","options":["down","up","off","back"],"answer":0}
+  ],
+  "C1": [
+    {"id":"c1_01","level":"C1","stem":"Complete the sentence: “The new findings lend considerable ___ the core argument.”","options":["weighted with","weights at","weight to","weighting for"],"answer":2},
+    {"id":"c1_02","level":"C1","stem":"Complete the sentence: “It is imperative that the final report ___ before Friday.”","options":["is submitted","will submitted","was submitting","be submitted"],"answer":3},
+    {"id":"c1_03","level":"C1","stem":"Complete the sentence: “Were the figures to be revised, the conclusions ___ substantially.”","options":["might change","will changed","would changing","might have change"],"answer":0},
+    {"id":"c1_04","level":"C1","stem":"Complete the sentence: “The argument is predicated ___ that demand remains stable.”","options":["with assumed","on the assumption","in assuming","at assumption"],"answer":1},
+    {"id":"c1_05","level":"C1","stem":"Complete the sentence: “The policy was introduced with a view to ___ long-term risk.”","options":["mitigation of","be mitigated","mitigating","mitigate to"],"answer":2},
+    {"id":"c1_06","level":"C1","stem":"Complete the sentence: “Much as I ___ the gesture, I am forced to decline.”","options":["am appreciating","would appreciate to","appreciated am","appreciate"],"answer":3},
+    {"id":"c1_07","level":"C1","stem":"Complete the sentence: “The distinction is subtle, but ___ in this context.”","options":["nonetheless significant","significant nonetheless it","significance nonetheless","notwithstanding significant"],"answer":0},
+    {"id":"c1_08","level":"C1","stem":"Complete the sentence: “The committee stopped short of ___ the proposal outright.”","options":["having endorse","endorsing","endorse to","an endorsement to"],"answer":1},
+    {"id":"c1_09","level":"C1","stem":"Complete the sentence: “His account does not entirely ___ the physical evidence.”","options":["accordance with","agreeing on","accord with","accords to"],"answer":2},
+    {"id":"c1_10","level":"C1","stem":"Complete the sentence: “The ruling leaves the policy open to ___ .”","options":["interpreting of","interpretive to","interpretations by","interpretation"],"answer":3},
+    {"id":"c1_11","level":"C1","stem":"Such was the complexity of the dilemma that no simple resolution was ___ .","options":["forthcoming","forthright","forthwith","furthering"],"answer":0},
+    {"id":"c1_12","level":"C1","stem":"The board expressed reservations concerning the commercial ___ of the venture.","options":["feasibility","feasibleness","feasibly","feasible"],"answer":0},
+    {"id":"c1_13","level":"C1","stem":"Far from being a drawback, his outspokenness proved a distinct ___ .","options":["asset","advent","access","aspect"],"answer":0},
+    {"id":"c1_14","level":"C1","stem":"The report highlights the urgent need to ___ environmental degradation.","options":["curb","curve","curd","cue"],"answer":0},
+    {"id":"c1_15","level":"C1","stem":"He was remarkably taciturn, revealing little ___ his true intentions.","options":["as to","so for","in regarding","whereby"],"answer":0},
+    {"id":"c1_16","level":"C1","stem":"The emergency measures were deemed wholly inadequate to ___ the crisis.","options":["stem","stalk","steer","stave in"],"answer":0},
+    {"id":"c1_17","level":"C1","stem":"Her arguments were so cogent that they ___ all remaining opposition.","options":["disarmed","disbanded","dislodged","disjointed"],"answer":0},
+    {"id":"c1_18","level":"C1","stem":"The two witness accounts differ fundamentally in several key ___ .","options":["respects","aspecting","respectives","prospects"],"answer":0},
+    {"id":"c1_19","level":"C1","stem":"He managed to navigate diplomatic nuances with consummate ___ .","options":["skill","skilful","skillfully","skilling"],"answer":0},
+    {"id":"c1_20","level":"C1","stem":"The reform bill met with fierce resistance from entrenched ___ interests.","options":["vested","vesting","invested","divested"],"answer":0}
+  ],
+  "C2": [
+    {"id":"c2_01","level":"C2","stem":"Complete the sentence: “The concession does little to ___ of the argument.”","options":["underlying alter the premise","altered the premise","alter the underlying premise","altering premise under"],"answer":2},
+    {"id":"c2_02","level":"C2","stem":"Complete the sentence: “The decision was seen as ___ of their previous policy.”","options":["constitute outright repudiate","a repudiating outright","repudiated outright","constituting an outright repudiation"],"answer":3},
+    {"id":"c2_03","level":"C2","stem":"Complete the sentence: “The policy is liable to yield outcomes that are ___ its aims.”","options":["antithetical to its stated","antithetically its","antithesis to","antithetical with"],"answer":0},
+    {"id":"c2_04","level":"C2","stem":"Complete the sentence: “He answered the criticism with characteristic ___ .”","options":["equivocate","equivocation","equivocal","equivocatingly"],"answer":1},
+    {"id":"c2_05","level":"C2","stem":"Complete the sentence: “The two factors are best understood as being ___ .”","options":["constituting mutuality","constituted mutually","mutually constitutive","mutual constitute"],"answer":2},
+    {"id":"c2_06","level":"C2","stem":"Complete the sentence: “The comparison with previous cases is highly ___ .”","options":["instruction","instructed","instructively","instructive"],"answer":3},
+    {"id":"c2_07","level":"C2","stem":"Complete the sentence: “His remarks were notable mainly for their ___ .”","options":["calculated ambiguity","ambiguously calculated","ambiguity calculating","calculate ambivalence"],"answer":0},
+    {"id":"c2_08","level":"C2","stem":"Complete the sentence: “A successful outcome is ___ at this stage.”","options":["guaranteed far from","far from guaranteed","far from guarantee","guaranteeing far"],"answer":1},
+    {"id":"c2_09","level":"C2","stem":"Complete the sentence: “The distinction is ultimately ___ for our purpose.”","options":["absolute rather heuristic","heuristic absolute than","heuristic rather than absolute","heuristically absolute"],"answer":2},
+    {"id":"c2_10","level":"C2","stem":"Complete the sentence: “The findings provide ___ proof of the hypothesis.”","options":["conclude","conclusively","conclusion","conclusive"],"answer":3},
+    {"id":"c2_11","level":"C2","stem":"Her commentary was replete with subtle ___ and biting irony.","options":["innuendo","innuendos","innuendoing","innuendoed"],"answer":0},
+    {"id":"c2_12","level":"C2","stem":"The author obfuscated the central issue with excessive ___ .","options":["verbiage","verbose","verbalism","verbosity"],"answer":0},
+    {"id":"c2_13","level":"C2","stem":"The treaty was rendered functionally obsolete, effectively becoming a dead ___ .","options":["letter","note","word","document"],"answer":0},
+    {"id":"c2_14","level":"C2","stem":"His elaborate explanation failed to ___ the fundamental contradiction.","options":["reconcile","rectify to","reciprocate","recapitulate"],"answer":0},
+    {"id":"c2_15","level":"C2","stem":"The critic disparaged the manifesto as mere intellectual ___ .","options":["posturing","positing","postulating","pondering"],"answer":0},
+    {"id":"c2_16","level":"C2","stem":"The project collapsed under the weight of administrative ___ .","options":["sclerosis","scrutiny","schism","scintilla"],"answer":0},
+    {"id":"c2_17","level":"C2","stem":"He displayed a surprising degree of ___ in acquiescing so readily.","options":["pusillanimity","pungency","purport","punctilio"],"answer":0},
+    {"id":"c2_18","level":"C2","stem":"The findings should be interpreted with caution, given the ___ sample size.","options":["exiguous","exigent","exuberant","excoriated"],"answer":0},
+    {"id":"c2_19","level":"C2","stem":"She treated the grandiloquent claims with a healthy dose of ___ .","options":["skepticism","skeptic","skeptically","skepticize"],"answer":0},
+    {"id":"c2_20","level":"C2","stem":"The phenomenon is widely acknowledged, yet its underlying etiology remains ___ .","options":["opaque","opacified","opacities","opaquely"],"answer":0}
+  ]
+};
+
+const LEVELS = ['A1','A2','B1','B2','C1','C2'];
+const START_MAPPING = { beginner:'A2', intermediate:'B1', advanced:'B2' };
+
+const CEFR = {
+  A1: {
+    title: 'Breakthrough / Beginner',
+    copy: 'You can understand and use familiar everyday expressions and basic phrases aimed at the satisfaction of needs of a concrete type. You can introduce yourself and others and can ask and answer questions about personal details such as where you live, people you know, and things you have.'
+  },
+  A2: {
+    title: 'Waystage / Elementary',
+    copy: 'You can understand sentences and frequently used expressions related to areas of most immediate relevance (e.g. basic personal and family information, shopping, local geography, employment). You can communicate in simple and routine tasks requiring a direct exchange of information.'
+  },
+  B1: {
+    title: 'Threshold / Intermediate',
+    copy: 'You can understand the main points of clear standard input on familiar matters regularly encountered in work, school, leisure, etc. You can deal with most situations likely to arise whilst travelling and produce simple connected text on topics which are familiar or of personal interest.'
+  },
+  B2: {
+    title: 'Vantage / Upper-Intermediate',
+    copy: 'You can understand the main ideas of complex text on both concrete and abstract topics, including technical discussions in your field of specialization. You can interact with a degree of fluency and spontaneity that makes regular interaction with native speakers quite possible without strain.'
+  },
+  C1: {
+    title: 'Effective Operational Proficiency / Advanced',
+    copy: 'You can understand a wide range of demanding, longer texts, and recognize implicit meaning. You can express yourself fluently and spontaneously without much obvious searching for expressions, and use language flexibly and effectively for social, academic, and professional purposes.'
+  },
+  C2: {
+    title: 'Mastery / Proficient',
+    copy: 'You can understand with ease virtually everything heard or read. You can summarize information from different spoken and written sources, reconstructing arguments and accounts in a coherent presentation, and express yourself spontaneously, very fluently, and precisely, differentiating finer shades of meaning.'
+  }
+};
+
+let state;
+const $ = id => document.getElementById(id);
+
+function show(id) {
+  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+  $(id).classList.add('active');
+  window.scrollTo(0,0);
+}
+
+function begin(startKey) {
+  const startLevel = START_MAPPING[startKey];
+  state = {
+    startKey,
+    currentLevel: startLevel,
+    used: new Set(),
+    correct: 0,
+    answered: 0,
+    startedAt: Date.now(),
+    timeLeft: 1500,
+    selection: null,
+    runs: { A1:0, A2:0, B1:0, B2:0, C1:0, C2:0 },
+    streak: { A1:0, A2:0, B1:0, B2:0, C1:0, C2:0 },
+    attempts: { A1:0, A2:0, B1:0, B2:0, C1:0, C2:0 },
+    failedHigherAttempts: { A1:false, A2:false, B1:false, B2:false, C1:false, C2:false }
+  };
+  show('test');
+  render();
+  state.clock = setInterval(tick, 1000);
+}
+
+function tick() {
+  if (!state) return;
+  state.timeLeft--;
+  if (state.timeLeft <= 0) {
+    clearInterval(state.clock);
+    finish(determinePlacement());
+    return;
+  }
+  const m = String(Math.floor(state.timeLeft / 60)).padStart(2, '0');
+  const s = String(state.timeLeft % 60).padStart(2, '0');
+  $('timer').textContent = `${m}:${s}`;
+  $('timer').style.color = state.timeLeft < 120 ? '#c65f4c' : '';
+}
+
+function getNextItem() {
+  const levelCandidates = QUESTION_BANK[state.currentLevel].filter(q => !state.used.has(q.id));
+  if (levelCandidates.length > 0) {
+    return levelCandidates[Math.floor(Math.random() * levelCandidates.length)];
+  }
+  
+  for (let lvl of LEVELS) {
+    const candidates = QUESTION_BANK[lvl].filter(q => !state.used.has(q.id));
+    if (candidates.length > 0) {
+      state.currentLevel = lvl;
+      return candidates[Math.floor(Math.random() * candidates.length)];
+    }
+  }
+  return null;
+}
+
+function render() {
+  const item = getNextItem();
+  if (!item) {
+    finish(determinePlacement());
+    return;
+  }
+  
+  state.current = item;
+  state.used.add(item.id);
+  state.selection = null;
+  const n = state.answered + 1;
+  $('counter').textContent = `Question ${n}`;
+  
+  $('question').innerHTML = `
+    <div class="question-tag"><span>Level ${item.level}</span><span>·</span><span>Adaptive Assessment</span></div>
+    <h2>${item.stem}</h2>
+    <div class="options">
+      ${item.options.map((o, i) => `
+        <button class="option" data-index="${i}">
+          <span class="letter">${String.fromCharCode(65 + i)}</span>
+          <span>${o}</span>
+        </button>
+      `).join('')}
+    </div>
+    <div class="actions">
+      <span class="hint">Choose your response and click Continue.</span>
+      <button class="primary" id="continue" disabled>Continue</button>
+    </div>`;
+
+  document.querySelectorAll('.option').forEach(btn => btn.addEventListener('click', () => {
+    document.querySelectorAll('.option').forEach(x => x.classList.remove('selected'));
+    btn.classList.add('selected');
+    state.selection = Number(btn.dataset.index);
+    $('continue').disabled = false;
+  }));
+
+  $('continue').addEventListener('click', answer);
+}
+
+function answer() {
+  const q = state.current;
+  const lvl = q.level;
+  const isCorrect = state.selection === q.answer;
+  
+  state.answered++;
+  state.attempts[lvl]++;
+
+  if (isCorrect) {
+    state.correct++;
+    state.streak[lvl]++;
+    if (state.streak[lvl] === 3) {
+      state.runs[lvl]++;
+      state.streak[lvl] = 0;
+    }
+    const idx = LEVELS.indexOf(lvl);
+    if (idx < LEVELS.length - 1) {
+      state.currentLevel = LEVELS[idx + 1];
+    }
+  } else {
+    state.streak[lvl] = 0;
+    const idx = LEVELS.indexOf(lvl);
+    if (idx > 0) {
+      state.currentLevel = LEVELS[idx - 1];
+    }
+  }
+
+  const terminationCheck = checkTerminationCondition();
+  if (terminationCheck.done) {
+    finish(terminationCheck.level);
+  } else {
+    render();
+  }
+}
+
+function checkTerminationCondition() {
+  for (let i = LEVELS.length - 1; i >= 0; i--) {
+    const lvl = LEVELS[i];
+    if (state.runs[lvl] >= 3) {
+      if (lvl === 'C2') return { done: true, level: 'C2' };
+      
+      const higherLvl = LEVELS[i + 1];
+      if (state.attempts[higherLvl] >= 6 && state.runs[higherLvl] < 2 && LEVELS.indexOf(state.currentLevel) <= i) {
+        return { done: true, level: lvl };
+      }
+    }
+  }
+  return { done: false };
+}
+
+function determinePlacement() {
+  for (let i = LEVELS.length - 1; i >= 0; i--) {
+    const lvl = LEVELS[i];
+    if (state.runs[lvl] >= 3) return lvl;
+  }
+  for (let i = LEVELS.length - 1; i >= 0; i--) {
+    const lvl = LEVELS[i];
+    if (state.runs[lvl] >= 1) return lvl;
+  }
+  return START_MAPPING[state.startKey];
+}
+
+function finish(finalLevel) {
+  if (!state) return;
+  clearInterval(state.clock);
+  const elapsed = 1500 - state.timeLeft;
+  
+  $('resultLevel').textContent = finalLevel;
+  $('resultTitle').textContent = CEFR[finalLevel].title;
+  $('resultCopy').textContent = CEFR[finalLevel].copy;
+  $('correct').textContent = state.correct;
+  $('answered').textContent = state.answered;
+  $('timeUsed').textContent = `${Math.floor(elapsed / 60)}m ${String(elapsed % 60).padStart(2, '0')}s`;
+  
+  show('result');
+}
+
+function reset() {
+  state = null;
+  show('landing');
+}
+
+document.querySelectorAll('[data-start]').forEach(b => b.addEventListener('click', () => begin(b.dataset.start)));
+$('againBtn').addEventListener('click', () => begin(state.startKey));
+$('homeBtn').addEventListener('click', reset);
+</script>
+</body>
+</html>

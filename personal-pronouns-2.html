@@ -1,0 +1,743 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Personal Pronouns Exercise - B1 Level</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+            padding: 30px;
+        }
+        
+        h1 {
+            color: #667eea;
+            text-align: center;
+            margin-bottom: 10px;
+            font-size: 28px;
+        }
+        
+        .subtitle {
+            text-align: center;
+            color: #666;
+            margin-bottom: 30px;
+            font-size: 14px;
+        }
+        
+        .section-header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 15px 20px;
+            border-radius: 10px;
+            margin: 30px 0 20px 0;
+            font-size: 18px;
+            font-weight: bold;
+        }
+        
+        .progress-bar {
+            width: 100%;
+            height: 8px;
+            background: #e0e0e0;
+            border-radius: 10px;
+            margin-bottom: 30px;
+            overflow: hidden;
+        }
+        
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
+            width: 0%;
+            transition: width 0.3s ease;
+        }
+        
+        .question-container {
+            margin-bottom: 25px;
+            padding: 20px;
+            background: #f8f9fa;
+            border-radius: 10px;
+            border-left: 4px solid #667eea;
+        }
+        
+        .question-header {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 15px;
+        }
+        
+        .question-number {
+            font-weight: bold;
+            color: #667eea;
+        }
+        
+        .question-type {
+            font-size: 12px;
+            background: #667eea;
+            color: white;
+            padding: 3px 10px;
+            border-radius: 12px;
+        }
+        
+        .question-text {
+            margin-bottom: 15px;
+            line-height: 1.6;
+            color: #333;
+        }
+        
+        .options {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        
+        .option {
+            padding: 12px 15px;
+            background: white;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .option:hover {
+            border-color: #667eea;
+            background: #f0f4ff;
+        }
+        
+        .option.selected {
+            border-color: #667eea;
+            background: #e8eeff;
+        }
+        
+        .option.correct {
+            border-color: #28a745;
+            background: #d4edda;
+        }
+        
+        .option.incorrect {
+            border-color: #dc3545;
+            background: #f8d7da;
+        }
+        
+        .option.show-correct {
+            border-color: #28a745;
+            background: #d4edda;
+        }
+        
+        input[type="text"] {
+            width: 100%;
+            padding: 10px;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            font-size: 16px;
+            transition: border-color 0.3s ease;
+        }
+        
+        input[type="text"]:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+        
+        input.correct {
+            border-color: #28a745;
+            background: #d4edda;
+        }
+        
+        input.incorrect {
+            border-color: #dc3545;
+            background: #f8d7da;
+        }
+        
+        .error-text {
+            background: #fff3cd;
+            padding: 15px;
+            border-radius: 8px;
+            line-height: 1.8;
+            color: #856404;
+            margin-bottom: 15px;
+        }
+        
+        .error-instruction {
+            font-weight: bold;
+            margin-bottom: 10px;
+            color: #667eea;
+        }
+        
+        .button-group {
+            display: flex;
+            gap: 10px;
+            margin-top: 30px;
+        }
+        
+        .submit-btn, .try-again-btn, .show-answers-btn {
+            flex: 1;
+            padding: 15px;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: transform 0.2s ease;
+        }
+        
+        .submit-btn {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+        
+        .try-again-btn {
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+        }
+        
+        .show-answers-btn {
+            background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+        }
+        
+        .submit-btn:hover, .try-again-btn:hover, .show-answers-btn:hover {
+            transform: translateY(-2px);
+        }
+        
+        .submit-btn:disabled, .try-again-btn:disabled, .show-answers-btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+        
+        .results {
+            display: none;
+            text-align: center;
+            padding: 30px;
+            background: #f8f9fa;
+            border-radius: 10px;
+            margin-top: 20px;
+        }
+        
+        .score {
+            font-size: 48px;
+            font-weight: bold;
+            color: #667eea;
+            margin-bottom: 10px;
+        }
+        
+        .feedback {
+            margin-top: 15px;
+            padding: 15px;
+            border-radius: 8px;
+        }
+        
+        .feedback.excellent {
+            background: #d4edda;
+            color: #155724;
+        }
+        
+        .feedback.good {
+            background: #d1ecf1;
+            color: #0c5460;
+        }
+        
+        .feedback.needswork {
+            background: #fff3cd;
+            color: #856404;
+        }
+        
+        .section {
+            display: none;
+        }
+        
+        .section.active {
+            display: block;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Personal Pronouns Exercise</h1>
+        <p class="subtitle">B1 Level - Professional English | 30 Questions in 3 Sets</p>
+        
+        <div class="section active" id="section1">
+            <div class="section-header">Section 1: Multiple Choice (Questions 1-10)</div>
+            <div class="progress-bar">
+                <div class="progress-fill" id="progressFill1"></div>
+            </div>
+            <div id="questionsContainer1"></div>
+            <div class="button-group">
+                <button class="submit-btn" id="submitBtn1">Submit Answers</button>
+                <button class="try-again-btn" id="tryAgainBtn1" style="display:none;">Try Again</button>
+                <button class="show-answers-btn" id="showAnswersBtn1" style="display:none;">Show Correct Answers</button>
+            </div>
+            <div class="results" id="results1"></div>
+        </div>
+        
+        <div class="section" id="section2">
+            <div class="section-header">Section 2: Fill in the Gap (Questions 11-20)</div>
+            <div class="progress-bar">
+                <div class="progress-fill" id="progressFill2"></div>
+            </div>
+            <div id="questionsContainer2"></div>
+            <div class="button-group">
+                <button class="submit-btn" id="submitBtn2">Submit Answers</button>
+                <button class="try-again-btn" id="tryAgainBtn2" style="display:none;">Try Again</button>
+                <button class="show-answers-btn" id="showAnswersBtn2" style="display:none;">Show Correct Answers</button>
+            </div>
+            <div class="results" id="results2"></div>
+        </div>
+        
+        <div class="section" id="section3">
+            <div class="section-header">Section 3: Find the Error (Questions 21-30)</div>
+            <div class="progress-bar">
+                <div class="progress-fill" id="progressFill3"></div>
+            </div>
+            <div id="questionsContainer3"></div>
+            <div class="button-group">
+                <button class="submit-btn" id="submitBtn3">Submit Answers</button>
+                <button class="try-again-btn" id="tryAgainBtn3" style="display:none;">Try Again</button>
+                <button class="show-answers-btn" id="showAnswersBtn3" style="display:none;">Show Correct Answers</button>
+            </div>
+            <div class="results" id="results3"></div>
+        </div>
+    </div>
+
+    <script>
+        const sections = [
+            // Section 1: Multiple Choice Questions (10)
+            [
+                {
+                    type: "multiple",
+                    question: "The supervisor asked my colleague and ___ to stay late.",
+                    options: ["I", "me", "my", "mine"],
+                    correct: 1
+                },
+                {
+                    type: "multiple",
+                    question: "The committee submitted ___ final report yesterday.",
+                    options: ["it", "its", "it's", "their"],
+                    correct: 1
+                },
+                {
+                    type: "multiple",
+                    question: "The clients were satisfied with the proposal ___ presented to the board.",
+                    options: ["us", "our", "we", "ours"],
+                    correct: 2
+                },
+                {
+                    type: "multiple",
+                    question: "This conference room is larger than ___, but both are equipped with video conferencing.",
+                    options: ["their", "theirs", "them", "they"],
+                    correct: 1
+                },
+                {
+                    type: "multiple",
+                    question: "The CEO will personally attend the meeting, so ___ must prepare a detailed presentation.",
+                    options: ["us", "ourselves", "we", "ours"],
+                    correct: 2
+                },
+                {
+                    type: "multiple",
+                    question: "This contract was prepared by Mr. Lee and ___.",
+                    options: ["I", "me", "myself", "mine"],
+                    correct: 1
+                },
+                {
+                    type: "multiple",
+                    question: "The company announced that ___ annual revenue exceeded expectations.",
+                    options: ["it's", "its", "their", "theirs"],
+                    correct: 1
+                },
+                {
+                    type: "multiple",
+                    question: "The passengers must identify ___ luggage at the baggage claim.",
+                    options: ["his", "their", "its", "theirs"],
+                    correct: 1
+                },
+                {
+                    type: "multiple",
+                    question: "The final responsibility for approving the budget rests with ___.",
+                    options: ["her", "she", "hers", "herself"],
+                    correct: 0
+                },
+                {
+                    type: "multiple",
+                    question: "Sarah and ___ will deliver the training session next Tuesday morning.",
+                    options: ["me", "I", "myself", "mine"],
+                    correct: 1
+                }
+            ],
+            
+            // Section 2: Fill in the Gap Questions (10)
+            [
+                {
+                    type: "fill",
+                    question: "The organization has decided that ___ will sponsor ten scholarships this year.",
+                    answer: "it"
+                },
+                {
+                    type: "fill",
+                    question: "Could you please forward the updated contract to ___ by email today?",
+                    answer: "me"
+                },
+                {
+                    type: "fill",
+                    question: "The professor and ___ research team published their findings last month.",
+                    answer: "her"
+                },
+                {
+                    type: "fill",
+                    question: "We should prepare ___ thoroughly before the important client presentation.",
+                    answer: "ourselves"
+                },
+                {
+                    type: "fill",
+                    question: "The architect presented ___ innovative design to the city planning committee.",
+                    answer: "his"
+                },
+                {
+                    type: "fill",
+                    question: "The consultant will send ___ the final report after completing the analysis.",
+                    answer: "us"
+                },
+                {
+                    type: "fill",
+                    question: "That parking space belongs to the director, and this one is ___.",
+                    answer: "ours"
+                },
+                {
+                    type: "fill",
+                    question: "The university must update ___ admission requirements before the fall semester.",
+                    answer: "its"
+                },
+                {
+                    type: "fill",
+                    question: "The committee members will introduce ___ at the beginning of the conference.",
+                    answer: "themselves"
+                },
+                {
+                    type: "fill",
+                    question: "The manager congratulated both David and ___ for exceeding our sales targets.",
+                    answer: "me"
+                }
+            ],
+            
+            // Section 3: Find the Error Questions (10)
+            [
+                {
+                    type: "error",
+                    text: "Dear Ms. Thompson, Thank you for you're inquiry about our services. We would be delighted to schedule a consultation with you at your earliest convenience.",
+                    error: "you're",
+                    correction: "your",
+                    explanation: "'You're' is a contraction of 'you are', but we need the possessive pronoun 'your'."
+                },
+                {
+                    type: "error",
+                    text: "The human resources department has updated it's policies regarding remote work. All employees should review the new guidelines carefully.",
+                    error: "it's",
+                    correction: "its",
+                    explanation: "'It's' means 'it is', but we need the possessive form 'its' (no apostrophe)."
+                },
+                {
+                    type: "error",
+                    text: "The engineering team presented they're findings to the board yesterday. Their research was comprehensive and well-documented.",
+                    error: "they're",
+                    correction: "their",
+                    explanation: "'They're' is a contraction of 'they are', but we need the possessive pronoun 'their'."
+                },
+                {
+                    type: "error",
+                    text: "If someone has questions about the new procedure, them should contact the operations manager immediately for clarification.",
+                    error: "them",
+                    correction: "they",
+                    explanation: "The subject pronoun 'they' is needed here, not the object pronoun 'them'."
+                },
+                {
+                    type: "error",
+                    text: "The contract clearly states that all intellectual property belongs to we, the company, not to individual employees.",
+                    error: "we",
+                    correction: "us",
+                    explanation: "After the preposition 'to', we need the object pronoun 'us', not the subject pronoun 'we'."
+                },
+                {
+                    type: "error",
+                    text: "My manager and me reviewed the sales figures, and we found several discrepancies that require investigation.",
+                    error: "me",
+                    correction: "I",
+                    explanation: "As part of the subject of the sentence, we need the subject pronoun 'I', not the object pronoun 'me'."
+                },
+                {
+                    type: "error",
+                    text: "This workspace is her's, while that collaborative area is available for everyone to use during office hours.",
+                    error: "her's",
+                    correction: "hers",
+                    explanation: "Possessive pronouns never use apostrophes. The correct form is 'hers'."
+                },
+                {
+                    type: "error",
+                    text: "The staff members were asked to evaluate theirselves honestly in the annual performance review process.",
+                    error: "theirselves",
+                    correction: "themselves",
+                    explanation: "The correct reflexive pronoun is 'themselves', not 'theirselves'."
+                },
+                {
+                    type: "error",
+                    text: "Please ensure that you and you're team submit the compliance documents before the regulatory deadline next month.",
+                    error: "you're",
+                    correction: "your",
+                    explanation: "'You're' means 'you are', but we need the possessive pronoun 'your'."
+                },
+                {
+                    type: "error",
+                    text: "The senior management team congratulated themselves on achieving it's quarterly targets ahead of schedule.",
+                    error: "it's",
+                    correction: "its",
+                    explanation: "'It's' is a contraction of 'it is', but we need the possessive form 'its' (no apostrophe)."
+                }
+            ]
+        ];
+
+        let userAnswers = [{}, {}, {}];
+        let currentSection = 0;
+
+        function renderSection(sectionIndex) {
+            const container = document.getElementById(`questionsContainer${sectionIndex + 1}`);
+            const questions = sections[sectionIndex];
+            
+            questions.forEach((q, index) => {
+                const qDiv = document.createElement('div');
+                qDiv.className = 'question-container';
+                
+                let typeLabel = '';
+                if (q.type === 'multiple') typeLabel = 'Multiple Choice';
+                if (q.type === 'fill') typeLabel = 'Fill the Gap';
+                if (q.type === 'error') typeLabel = 'Find the Error';
+                
+                const questionNum = sectionIndex * 10 + index + 1;
+                
+                let content = `
+                    <div class="question-header">
+                        <span class="question-number">Question ${questionNum}/30</span>
+                        <span class="question-type">${typeLabel}</span>
+                    </div>
+                `;
+                
+                if (q.type === 'multiple') {
+                    content += `<div class="question-text">${q.question}</div>`;
+                    content += `<div class="options">`;
+                    q.options.forEach((option, i) => {
+                        content += `
+                            <div class="option" data-section="${sectionIndex}" data-question="${index}" data-option="${i}">
+                                ${option}
+                            </div>
+                        `;
+                    });
+                    content += `</div>`;
+                } else if (q.type === 'fill') {
+                    content += `<div class="question-text">${q.question}</div>`;
+                    content += `<input type="text" data-section="${sectionIndex}" data-question="${index}" placeholder="Type your answer here...">`;
+                } else if (q.type === 'error') {
+                    content += `<div class="error-instruction">Find and correct the pronoun error in this text:</div>`;
+                    content += `<div class="error-text">${q.text}</div>`;
+                    content += `<input type="text" data-section="${sectionIndex}" data-question="${index}" placeholder="Type the INCORRECT word here...">`;
+                }
+                
+                qDiv.innerHTML = content;
+                container.appendChild(qDiv);
+            });
+        }
+
+        function attachEventListeners(sectionIndex) {
+            // Multiple choice listeners
+            document.querySelectorAll(`.option[data-section="${sectionIndex}"]`).forEach(option => {
+                option.addEventListener('click', function() {
+                    const section = this.dataset.section;
+                    const questionIndex = this.dataset.question;
+                    const optionIndex = this.dataset.option;
+                    
+                    // Deselect all options for this question
+                    document.querySelectorAll(`.option[data-section="${section}"][data-question="${questionIndex}"]`).forEach(opt => {
+                        opt.classList.remove('selected');
+                    });
+                    
+                    // Select clicked option
+                    this.classList.add('selected');
+                    userAnswers[sectionIndex][questionIndex] = parseInt(optionIndex);
+                    updateProgress(sectionIndex);
+                });
+            });
+            
+            // Text input listeners
+            document.querySelectorAll(`input[type="text"][data-section="${sectionIndex}"]`).forEach(input => {
+                input.addEventListener('input', function() {
+                    const questionIndex = this.dataset.question;
+                    userAnswers[sectionIndex][questionIndex] = this.value.trim();
+                    updateProgress(sectionIndex);
+                });
+            });
+        }
+
+        function updateProgress(sectionIndex) {
+            const answered = Object.keys(userAnswers[sectionIndex]).filter(k => userAnswers[sectionIndex][k] !== '').length;
+            const percentage = (answered / sections[sectionIndex].length) * 100;
+            document.getElementById(`progressFill${sectionIndex + 1}`).style.width = percentage + '%';
+        }
+
+        function checkAnswers(sectionIndex) {
+            let correct = 0;
+            const questions = sections[sectionIndex];
+            
+            questions.forEach((q, index) => {
+                if (q.type === 'multiple') {
+                    const options = document.querySelectorAll(`.option[data-section="${sectionIndex}"][data-question="${index}"]`);
+                    options.forEach((option, i) => {
+                        if (i === q.correct) {
+                            option.classList.add('correct');
+                        } else if (userAnswers[sectionIndex][index] === i) {
+                            option.classList.add('incorrect');
+                        }
+                    });
+                    
+                    if (userAnswers[sectionIndex][index] === q.correct) {
+                        correct++;
+                    }
+                } else if (q.type === 'fill') {
+                    const input = document.querySelector(`input[data-section="${sectionIndex}"][data-question="${index}"]`);
+                    const userAnswer = (userAnswers[sectionIndex][index] || '').toLowerCase().trim();
+                    const correctAnswer = q.answer.toLowerCase().trim();
+                    
+                    if (userAnswer === correctAnswer) {
+                        input.classList.add('correct');
+                        correct++;
+                    } else {
+                        input.classList.add('incorrect');
+                        input.value = `${userAnswers[sectionIndex][index] || ''} ✗ (Correct: ${q.answer})`;
+                    }
+                } else if (q.type === 'error') {
+                    const input = document.querySelector(`input[data-section="${sectionIndex}"][data-question="${index}"]`);
+                    const userAnswer = (userAnswers[sectionIndex][index] || '').toLowerCase().trim();
+                    const correctAnswer = q.error.toLowerCase().trim();
+                    
+                    if (userAnswer === correctAnswer) {
+                        input.classList.add('correct');
+                        input.value = `${userAnswers[sectionIndex][index]} ✓ (Correction: ${q.correction})`;
+                        correct++;
+                    } else {
+                        input.classList.add('incorrect');
+                        input.value = `${userAnswers[sectionIndex][index] || ''} ✗ (Error: "${q.error}" → "${q.correction}")`;
+                    }
+                }
+            });
+            
+            return correct;
+        }
+
+        function showCorrectAnswers(sectionIndex) {
+            const questions = sections[sectionIndex];
+            
+            questions.forEach((q, index) => {
+                if (q.type === 'multiple') {
+                    const options = document.querySelectorAll(`.option[data-section="${sectionIndex}"][data-question="${index}"]`);
+                    options.forEach((option, i) => {
+                        option.classList.remove('selected', 'correct', 'incorrect');
+                        if (i === q.correct) {
+                            option.classList.add('show-correct');
+                        }
+                    });
+                } else if (q.type === 'fill') {
+                    const input = document.querySelector(`input[data-section="${sectionIndex}"][data-question="${index}"]`);
+                    input.classList.remove('correct', 'incorrect');
+                    input.value = q.answer;
+                    input.classList.add('correct');
+                } else if (q.type === 'error') {
+                    const input = document.querySelector(`input[data-section="${sectionIndex}"][data-question="${index}"]`);
+                    input.classList.remove('correct', 'incorrect');
+                    input.value = `Error: "${q.error}" → Correction: "${q.correction}"`;
+                    input.classList.add('correct');
+                }
+            });
+        }
+
+        function resetSection(sectionIndex) {
+            userAnswers[sectionIndex] = {};
+            
+            // Clear multiple choice selections
+            document.querySelectorAll(`.option[data-section="${sectionIndex}"]`).forEach(option => {
+                option.classList.remove('selected', 'correct', 'incorrect', 'show-correct');
+            });
+            
+            // Clear text inputs
+            document.querySelectorAll(`input[data-section="${sectionIndex}"]`).forEach(input => {
+                input.value = '';
+                input.classList.remove('correct', 'incorrect');
+            });
+            
+            updateProgress(sectionIndex);
+            document.getElementById(`results${sectionIndex + 1}`).style.display = 'none';
+            document.getElementById(`submitBtn${sectionIndex + 1}`).style.display = 'block';
+            document.getElementById(`tryAgainBtn${sectionIndex + 1}`).style.display = 'none';
+            document.getElementById(`showAnswersBtn${sectionIndex + 1}`).style.display = 'none';
+        }
+
+        // Initialize all sections
+        for (let i = 0; i < 3; i++) {
+            renderSection(i);
+            attachEventListeners(i);
+            
+            document.getElementById(`submitBtn${i + 1}`).addEventListener('click', function() {
+                const score = checkAnswers(i);
+                const percentage = Math.round((score / sections[i].length) * 100);
+                
+                const resultsDiv = document.getElementById(`results${i + 1}`);
+                resultsDiv.innerHTML = `
+                    <div class="score">${score}/10</div>
+                    <p>You scored ${percentage}%</p>
+                    <div class="feedback ${percentage >= 90 ? 'excellent' : percentage >= 70 ? 'good' : 'needswork'}">
+                        ${percentage >= 90 ? 'Excellent! You have a strong understanding of this section.' : 
+                          percentage >= 70 ? 'Good work! Review the questions you missed to improve further.' : 
+                          'Keep practicing! Review pronoun usage rules and try again.'}
+                    </div>
+                `;
+                
+                resultsDiv.style.display = 'block';
+                this.style.display = 'none';
+                document.getElementById(`tryAgainBtn${i + 1}`).style.display = 'block';
+                document.getElementById(`showAnswersBtn${i + 1}`).style.display = 'block';
+                
+                // Show next section button if not last section
+                if (i < 2) {
+                    const nextBtn = document.createElement('button');
+                    nextBtn.className = 'submit-btn';
+                    nextBtn.textContent = 'Continue to Next Section';
+                    nextBtn.style.marginTop = '20px';
+                    nextBtn.onclick = function() {
+                        document.getElementById(`section${i + 1}`).classList.remove('active');
+                        document.getElementById(`section${i + 2}`).classList.add('active');
+                        window.scrollTo({ top: 0, behavior: 'smooth' });
+                    };
+                    resultsDiv.appendChild(nextBtn);
+                }
+            });
+            
+            document.getElementById(`tryAgainBtn${i + 1}`).addEventListener('click', function() {
+                resetSection(i);
+            });
+            
+            document.getElementById(`showAnswersBtn${i + 1}`).addEventListener('click', function() {
+                showCorrectAnswers(i);
+            });
+        }
+    </script>
+</body>
+</html>

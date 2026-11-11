@@ -1,0 +1,1785 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Modal Verbs Exercise — Obligation & Necessity</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Source+Serif+4:ital,wght@0,300;0,400;0,600;1,300&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --earth: #3d2b1f;
+    --wheat: #c8a96e;
+    --sage: #6b7c5c;
+    --cream: #f5f0e8;
+    --parchment: #ede5d0;
+    --rust: #9b3a1a;
+    --moss: #4a5e3a;
+    --sky: #7a9eb5;
+    --correct: #4a7c59;
+    --incorrect: #9b3a1a;
+    --neutral: #6b7c5c;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'Source Serif 4', serif;
+    background: var(--cream);
+    color: var(--earth);
+    min-height: 100vh;
+    background-image: 
+      radial-gradient(ellipse at 20% 50%, rgba(107,124,92,0.08) 0%, transparent 50%),
+      radial-gradient(ellipse at 80% 20%, rgba(200,169,110,0.1) 0%, transparent 40%);
+  }
+
+  header {
+    background: var(--earth);
+    color: var(--cream);
+    padding: 2.5rem 2rem 2rem;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+
+  header::before {
+    content: '🌾';
+    position: absolute;
+    font-size: 8rem;
+    opacity: 0.06;
+    left: -1rem;
+    top: -1rem;
+    transform: rotate(-15deg);
+  }
+  header::after {
+    content: '🌾';
+    position: absolute;
+    font-size: 8rem;
+    opacity: 0.06;
+    right: -1rem;
+    bottom: -1rem;
+    transform: rotate(15deg);
+  }
+
+  header h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: 2.2rem;
+    color: var(--wheat);
+    letter-spacing: 0.02em;
+    margin-bottom: 0.4rem;
+  }
+
+  header p {
+    color: rgba(245,240,232,0.75);
+    font-size: 0.95rem;
+    font-style: italic;
+    font-weight: 300;
+  }
+
+  .badge-row {
+    display: flex;
+    justify-content: center;
+    gap: 0.6rem;
+    margin-top: 1rem;
+    flex-wrap: wrap;
+  }
+
+  .badge {
+    background: rgba(200,169,110,0.2);
+    border: 1px solid rgba(200,169,110,0.4);
+    color: var(--wheat);
+    font-size: 0.75rem;
+    padding: 0.25rem 0.75rem;
+    border-radius: 20px;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    font-family: 'Source Serif 4', serif;
+  }
+
+  .container {
+    max-width: 860px;
+    margin: 0 auto;
+    padding: 2rem 1.5rem 4rem;
+  }
+
+  .section {
+    background: var(--parchment);
+    border-radius: 4px;
+    margin-bottom: 2.5rem;
+    border: 1px solid rgba(61,43,31,0.12);
+    overflow: hidden;
+    box-shadow: 0 2px 12px rgba(61,43,31,0.08);
+  }
+
+  .section-header {
+    background: var(--earth);
+    color: var(--cream);
+    padding: 1.2rem 1.8rem;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+  }
+
+  .section-num {
+    background: var(--wheat);
+    color: var(--earth);
+    width: 2rem;
+    height: 2rem;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Playfair Display', serif;
+    font-weight: 700;
+    font-size: 1rem;
+    flex-shrink: 0;
+  }
+
+  .section-header h2 {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.25rem;
+    color: var(--wheat);
+    font-weight: 400;
+  }
+
+  .section-header p {
+    font-size: 0.8rem;
+    color: rgba(245,240,232,0.65);
+    font-style: italic;
+    font-weight: 300;
+    margin-top: 0.1rem;
+  }
+
+  .section-body {
+    padding: 1.8rem;
+  }
+
+  /* MULTIPLE CHOICE */
+  .mc-question {
+    margin-bottom: 1.8rem;
+    padding-bottom: 1.8rem;
+    border-bottom: 1px solid rgba(61,43,31,0.1);
+  }
+  .mc-question:last-of-type { border-bottom: none; }
+
+  .q-text {
+    font-size: 1rem;
+    line-height: 1.6;
+    margin-bottom: 0.9rem;
+    color: var(--earth);
+  }
+
+  .q-num {
+    font-family: 'Playfair Display', serif;
+    font-weight: 700;
+    color: var(--wheat);
+    background: var(--earth);
+    padding: 0.1rem 0.5rem;
+    border-radius: 3px;
+    font-size: 0.85rem;
+    margin-right: 0.4rem;
+  }
+
+  .options {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.5rem;
+  }
+
+  @media (max-width: 540px) { .options { grid-template-columns: 1fr; } }
+
+  .opt {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    padding: 0.6rem 0.9rem;
+    border: 1.5px solid rgba(61,43,31,0.2);
+    border-radius: 4px;
+    cursor: pointer;
+    transition: all 0.18s;
+    background: rgba(245,240,232,0.5);
+    font-size: 0.92rem;
+    user-select: none;
+  }
+
+  .opt:hover { background: rgba(200,169,110,0.18); border-color: var(--wheat); }
+  .opt.selected { background: rgba(122,158,181,0.15); border-color: var(--sky); }
+  .opt.correct { background: rgba(74,124,89,0.15); border-color: var(--correct); color: var(--moss); font-weight: 600; }
+  .opt.incorrect { background: rgba(155,58,26,0.1); border-color: var(--incorrect); color: var(--rust); text-decoration: line-through; }
+  .opt.reveal-correct { background: rgba(74,124,89,0.2); border-color: var(--correct); color: var(--moss); font-weight: 600; }
+
+  .opt input[type="radio"] { display: none; }
+
+  .opt-letter {
+    width: 1.4rem;
+    height: 1.4rem;
+    border-radius: 50%;
+    background: rgba(61,43,31,0.12);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.72rem;
+    font-weight: 700;
+    flex-shrink: 0;
+    color: var(--earth);
+  }
+
+  .feedback {
+    margin-top: 0.6rem;
+    font-size: 0.85rem;
+    font-style: italic;
+    color: var(--sage);
+    min-height: 1.2em;
+  }
+  .feedback.wrong { color: var(--rust); }
+  .feedback.right { color: var(--moss); }
+
+  /* SECTION CONTROLS */
+  .section-controls {
+    display: flex;
+    gap: 0.7rem;
+    margin-top: 1.5rem;
+    flex-wrap: wrap;
+    align-items: center;
+    border-top: 1px solid rgba(61,43,31,0.1);
+    padding-top: 1.2rem;
+  }
+
+  .btn {
+    padding: 0.55rem 1.3rem;
+    border-radius: 4px;
+    border: none;
+    cursor: pointer;
+    font-family: 'Source Serif 4', serif;
+    font-size: 0.88rem;
+    transition: all 0.18s;
+    letter-spacing: 0.02em;
+  }
+
+  .btn-check { background: var(--earth); color: var(--cream); }
+  .btn-check:hover { background: var(--moss); }
+  .btn-retry { background: transparent; border: 1.5px solid var(--earth); color: var(--earth); }
+  .btn-retry:hover { background: rgba(61,43,31,0.08); }
+  .btn-reveal { background: transparent; border: 1.5px solid var(--rust); color: var(--rust); }
+  .btn-reveal:hover { background: rgba(155,58,26,0.08); }
+
+  .score-display {
+    margin-left: auto;
+    font-family: 'Playfair Display', serif;
+    font-size: 1rem;
+    color: var(--sage);
+  }
+
+  /* ERROR CORRECTION */
+  .passage {
+    font-size: 0.97rem;
+    line-height: 1.9;
+    color: var(--earth);
+    background: rgba(245,240,232,0.7);
+    border: 1px solid rgba(61,43,31,0.1);
+    border-radius: 4px;
+    padding: 1.3rem 1.5rem;
+    margin-bottom: 1.2rem;
+  }
+
+  .err-word {
+    background: rgba(200,169,110,0.25);
+    border-bottom: 2px solid var(--wheat);
+    padding: 0 2px;
+    cursor: pointer;
+    border-radius: 2px;
+    transition: background 0.15s;
+    position: relative;
+  }
+  .err-word:hover { background: rgba(200,169,110,0.5); }
+  .err-word.clicked-wrong { background: rgba(155,58,26,0.12); border-bottom-color: var(--rust); }
+  .err-word.found { background: rgba(74,124,89,0.15); border-bottom-color: var(--correct); }
+  .err-word.revealed { background: rgba(155,58,26,0.15); border-bottom-color: var(--rust); }
+
+  .err-instruction {
+    font-size: 0.88rem;
+    font-style: italic;
+    color: var(--sage);
+    margin-bottom: 1rem;
+    padding: 0.6rem 0.9rem;
+    background: rgba(107,124,92,0.08);
+    border-radius: 4px;
+    border-left: 3px solid var(--sage);
+  }
+
+  .err-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 1rem;
+    font-size: 0.88rem;
+  }
+  .err-table th {
+    background: rgba(61,43,31,0.08);
+    padding: 0.5rem 0.8rem;
+    text-align: left;
+    border-bottom: 1px solid rgba(61,43,31,0.15);
+    color: var(--earth);
+    font-weight: 600;
+  }
+  .err-table td {
+    padding: 0.45rem 0.8rem;
+    border-bottom: 1px solid rgba(61,43,31,0.07);
+  }
+  .err-table tr.found-row td { color: var(--moss); }
+  .err-table tr.revealed-row td { color: var(--rust); font-style: italic; }
+
+  /* FILL THE GAPS */
+  .ftg-passage {
+    font-size: 0.97rem;
+    line-height: 2.1;
+    color: var(--earth);
+    background: rgba(245,240,232,0.7);
+    border: 1px solid rgba(61,43,31,0.1);
+    border-radius: 4px;
+    padding: 1.3rem 1.5rem;
+    margin-bottom: 1rem;
+  }
+
+  .gap-input {
+    display: inline-block;
+    border: none;
+    border-bottom: 2px solid var(--wheat);
+    background: transparent;
+    font-family: 'Source Serif 4', serif;
+    font-size: 0.97rem;
+    color: var(--earth);
+    padding: 0 4px 1px;
+    min-width: 110px;
+    text-align: center;
+    outline: none;
+    transition: border-color 0.2s;
+    vertical-align: baseline;
+  }
+  .gap-input:focus { border-bottom-color: var(--sky); }
+  .gap-input.correct { border-bottom-color: var(--correct); color: var(--moss); font-weight: 600; }
+  .gap-input.incorrect { border-bottom-color: var(--rust); color: var(--rust); }
+  .gap-input.revealed { border-bottom-color: var(--rust); color: var(--rust); font-style: italic; }
+
+  .wordbank {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-bottom: 1.2rem;
+    padding: 0.8rem;
+    background: rgba(107,124,92,0.07);
+    border-radius: 4px;
+    border: 1px dashed rgba(107,124,92,0.3);
+  }
+  .wordbank-label {
+    font-size: 0.78rem;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--sage);
+    font-weight: 600;
+    width: 100%;
+    margin-bottom: 0.3rem;
+  }
+  .word-chip {
+    background: var(--parchment);
+    border: 1px solid rgba(61,43,31,0.2);
+    padding: 0.25rem 0.7rem;
+    border-radius: 20px;
+    font-size: 0.85rem;
+    color: var(--earth);
+  }
+
+  /* Progress */
+  .progress-bar-wrap {
+    height: 4px;
+    background: rgba(61,43,31,0.1);
+    border-radius: 2px;
+    margin-bottom: 1.5rem;
+    overflow: hidden;
+  }
+  .progress-bar {
+    height: 100%;
+    background: linear-gradient(90deg, var(--sage), var(--wheat));
+    border-radius: 2px;
+    transition: width 0.4s;
+    width: 0%;
+  }
+
+  .score-summary {
+    text-align: center;
+    font-family: 'Playfair Display', serif;
+    font-size: 1.5rem;
+    color: var(--earth);
+    margin-top: 0.5rem;
+  }
+
+  .small-note {
+    font-size: 0.8rem;
+    color: var(--sage);
+    font-style: italic;
+    margin-top: 0.3rem;
+    display: block;
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <h1>Modal Verbs: Obligation & Necessity</h1>
+  <p>Professional English — Level B1/B2</p>
+  <div class="badge-row">
+    <span class="badge">must</span>
+    <span class="badge">have to</span>
+    <span class="badge">need to</span>
+    <span class="badge">mustn't</span>
+    <span class="badge">don't have to</span>
+    <span class="badge">needn't</span>
+  </div>
+</header>
+
+<div class="container">
+
+<!-- ═══════════════════════════════════════════════════
+     SECTION 1 — MULTIPLE CHOICE
+═══════════════════════════════════════════════════ -->
+<div class="section" id="sec1">
+  <div class="section-header">
+    <div class="section-num">1</div>
+    <div>
+      <h2>Multiple Choice</h2>
+      <p>Choose the single correct answer for each sentence.</p>
+    </div>
+  </div>
+  <div class="section-body">
+    <div id="mc-questions"></div>
+    <div class="section-controls">
+      <button class="btn btn-check" onclick="checkMC()">Check Answers</button>
+      <button class="btn btn-retry" onclick="resetMC()">Try Again</button>
+      <button class="btn btn-reveal" onclick="revealMC()">Reveal Answers</button>
+      <span class="score-display" id="mc-score"></span>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════
+     SECTION 2 — ERROR CORRECTION
+═══════════════════════════════════════════════════ -->
+<div class="section" id="sec2">
+  <div class="section-header">
+    <div class="section-num">2</div>
+    <div>
+      <h2>Find the Errors</h2>
+      <p>Click on the ten underlined words that contain errors.</p>
+    </div>
+  </div>
+  <div class="section-body">
+    <div class="err-instruction">
+      The text below contains <strong>10 modal verb errors</strong>. The underlined words may or may not be incorrect — click on each one you think is wrong. Click a highlighted word again to deselect it.
+    </div>
+    <div class="passage" id="err-passage"></div>
+    <table class="err-table" id="err-table">
+      <thead><tr><th>#</th><th>Error Found</th><th>Correction</th></tr></thead>
+      <tbody id="err-tbody"></tbody>
+    </table>
+    <div class="section-controls">
+      <button class="btn btn-check" onclick="checkErrors()">Check Answers</button>
+      <button class="btn btn-retry" onclick="resetErrors()">Try Again</button>
+      <button class="btn btn-reveal" onclick="revealErrors()">Reveal Answers</button>
+      <span class="score-display" id="err-score"></span>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════
+     SECTION 3 — FILL THE GAPS
+═══════════════════════════════════════════════════ -->
+<div class="section" id="sec3">
+  <div class="section-header">
+    <div class="section-num">3</div>
+    <div>
+      <h2>Fill the Gaps</h2>
+      <p>Complete the text with the correct modal verb or phrase.</p>
+    </div>
+  </div>
+  <div class="section-body">
+    <div class="wordbank">
+      <span class="wordbank-label">Word Bank</span>
+      <span class="word-chip">must</span>
+      <span class="word-chip">mustn't</span>
+      <span class="word-chip">have to</span>
+      <span class="word-chip">don't have to</span>
+      <span class="word-chip">need to</span>
+      <span class="word-chip">don't need to</span>
+      <span class="word-chip">needn't</span>
+    </div>
+    <div class="ftg-passage" id="ftg-passage"></div>
+    <span class="small-note">* Where two answers are possible, both are accepted.</span>
+    <div class="section-controls">
+      <button class="btn btn-check" onclick="checkFTG()">Check Answers</button>
+      <button class="btn btn-retry" onclick="resetFTG()">Try Again</button>
+      <button class="btn btn-reveal" onclick="revealFTG()">Reveal Answers</button>
+      <span class="score-display" id="ftg-score"></span>
+    </div>
+  </div>
+</div>
+
+</div><!-- /container -->
+
+<script>
+// ═══════════════════════════════════════════════════
+// DATA
+// ═══════════════════════════════════════════════════
+
+const mcData = [
+  {
+    q: "Workers on the farm ___ wear protective gloves when handling chemical fertilisers. It is a legal requirement.",
+    opts: ["A. needn't", "B. must", "C. don't have to", "D. mustn't"],
+    answer: 1, // B
+    explanation: "must expresses strong obligation (legal requirement)."
+  },
+  {
+    q: "You ___ enter the grain storage area without authorisation. It is strictly forbidden.",
+    opts: ["A. must", "B. need to", "C. mustn't", "D. have to"],
+    answer: 2, // C
+    explanation: "mustn't expresses prohibition — it is forbidden to enter."
+  },
+  {
+    q: "The seasonal workers ___ provide their own tools; the farm supplies everything they need.",
+    opts: ["A. mustn't", "B. must", "C. need to", "D. don't have to"],
+    answer: 3, // D
+    explanation: "don't have to shows there is no obligation — it's optional."
+  },
+  {
+    q: "Before the harvest begins, the manager ___ confirm the schedule with all team leaders.",
+    opts: ["A. needn't", "B. needs to", "C. don't need to", "D. mustn't"],
+    answer: 1, // B
+    explanation: "needs to expresses necessity — it is important to do this."
+  },
+  {
+    q: "The irrigation system ___ be switched off during a rainfall warning — doing so causes crop damage.",
+    opts: ["A. mustn't", "B. needn't", "C. don't have to", "D. need to"],
+    answer: 0, // A
+    explanation: "mustn't expresses prohibition — switching it off is dangerous."
+  },
+  {
+    q: "You ___ submit the soil quality report today; the deadline is next Friday.",
+    opts: ["A. must", "B. have to", "C. needn't", "D. need to"],
+    answer: 2, // C
+    explanation: "needn't means it is not necessary to do it today."
+  },
+  {
+    q: "All drivers ___ hold a valid licence before operating any agricultural machinery on public roads.",
+    opts: ["A. needn't", "B. don't have to", "C. must", "D. mustn't"],
+    answer: 2, // C
+    explanation: "must expresses a strong rule or legal obligation."
+  },
+  {
+    q: "Staff ___ attend the optional Friday briefing, but it is highly recommended.",
+    opts: ["A. must", "B. mustn't", "C. need to", "D. don't need to"],
+    answer: 3, // D
+    explanation: "don't need to indicates the briefing is not compulsory."
+  },
+  {
+    q: "The pesticide containers ___ be left open near water sources. This is an environmental regulation.",
+    opts: ["A. needn't", "B. must", "C. mustn't", "D. don't have to"],
+    answer: 2, // C
+    explanation: "mustn't is required to express this prohibition."
+  },
+  {
+    q: "New employees ___ complete a three-day health and safety induction before starting field work.",
+    opts: ["A. don't have to", "B. needn't", "C. mustn't", "D. have to"],
+    answer: 3, // D
+    explanation: "have to expresses external obligation — it is required by the employer."
+  }
+];
+
+// ── ERROR CORRECTION TEXT ──────────────────────────
+// 10 clickable spans; some are errors (isError:true), some are correct (isError:false)
+// Errors: must(→mustn't), needn't(→must/have to), mustn't(→don't have to/needn't), 
+//         must(→mustn't), don't have to(→must), need to(→needn't/don't need to),
+//         mustn't(→must/have to), needn't(→mustn't), must(→needn't/don't have to), 
+//         don't need to(→must/have to)
+// Total underlined spans: let's make 14 (10 errors + 4 correct distractors)
+
+const errPassage = {
+  text: `Managing a working farm requires clear rules and good communication. All farm employees
+[must|correct|must — correct: this expresses obligation] follow the code of conduct outlined in their contracts. New recruits [needn't|error|must / have to — all staff must attend] attend the
+mandatory first-day safety briefing; it covers essential procedures that could save lives. Once
+they understand the regulations, workers [mustn't|error|don't have to / needn't — it is not required] reread the full manual every week, as
+a summary sheet is always available in the staff room.
+
+During the harvest season, teams [must|correct|must — correct] coordinate their shifts carefully to avoid
+equipment clashes. Drivers [must|error|mustn't — it is forbidden] leave vehicles unattended on slopes, as this creates a
+serious safety hazard. All operators [don't have to|error|must / have to — it is a legal requirement] carry their licence with them at all
+times when driving on public roads.
+
+In the packing facility, staff [need to|error|needn't / don't need to — the system does it automatically] count individual items manually;
+the automated sorting system handles this. However, they [mustn't|correct|mustn't — correct: prohibition against ignoring faults] ignore any
+faults reported by the machine. On the other hand, supervisors [needn't|error|mustn't — it is forbidden] bypass
+the daily hygiene log, as this is a strict food safety requirement.
+
+Finally, employees [must|error|needn't / don't have to — experience is not required] have prior farming experience to apply for general
+harvest roles; training is provided. But applicants [don't need to|error|must / have to — medical clearance is legally required] obtain
+medical clearance before handling chemicals. This step is required by law and [must|correct|must — correct] never be skipped.`,
+};
+
+// Parse the passage text
+function parseErrPassage() {
+  const parts = errPassage.text.split(/\[([^\]]+)\]/g);
+  // parts alternates: normal text, token, normal text, token, ...
+  let html = '';
+  let spanIndex = 0;
+  for (let i = 0; i < parts.length; i++) {
+    if (i % 2 === 0) {
+      html += parts[i].replace(/\n/g, ' ');
+    } else {
+      const [word, type, explanation] = parts[i].split('|');
+      const isError = type === 'error';
+      html += `<span class="err-word" 
+        data-error="${isError}" 
+        data-explanation="${explanation.replace(/"/g,'&quot;')}"
+        data-index="${spanIndex}"
+        onclick="toggleError(this)">${word}</span>`;
+      spanIndex++;
+    }
+  }
+  return html;
+}
+
+// ── FILL THE GAPS TEXT ─────────────────────────────
+// 10 gaps, some accept two answers
+
+const ftgData = [
+  { before: "Every farm worker ", after: " complete a risk assessment form before operating heavy machinery. It is a company rule.", answers: ["must","have to"], display: "must / have to" },
+  { before: "You ", after: " apply pesticides during strong winds — it is extremely dangerous and causes environmental damage.", answers: ["mustn't"], display: "mustn't" },
+  { before: "Temporary workers ", after: " bring their own safety equipment; the farm provides boots, gloves, and helmets free of charge.", answers: ["don't have to","needn't","don't need to"], display: "don't have to / needn't" },
+  { before: "The crop rotation schedule ", after: " be reviewed every season to maintain soil health. This is essential.", answers: ["must","has to","needs to"], display: "must / has to / needs to" },
+  { before: "Inspectors ", after: " make an appointment before visiting; they have the right to arrive unannounced.", answers: ["don't have to","needn't","don't need to"], display: "don't have to / needn't" },
+  { before: "All refrigerated storage units ", after: " be left open overnight — this compromises food safety standards.", answers: ["mustn't"], display: "mustn't" },
+  { before: "Staff working in the greenhouse ", after: " wear UV-protective clothing; the ventilation system filters out harmful rays.", answers: ["don't have to","needn't","don't need to"], display: "don't have to / needn't" },
+  { before: "The farm manager ", after: " submit the annual environmental impact report by the end of March. It is a legal obligation.", answers: ["must","has to","needs to"], display: "must / has to" },
+  { before: "You ", after: " worry about the irrigation this week; the automated system has been programmed.", answers: ["needn't","don't have to","don't need to"], display: "needn't / don't have to" },
+  { before: "All visitors ", after: " sign the site register on arrival. It is required for health and safety reasons.", answers: ["must","have to","need to"], display: "must / have to / need to" },
+];
+
+// ═══════════════════════════════════════════════════
+// SECTION 1 — MULTIPLE CHOICE
+// ═══════════════════════════════════════════════════
+
+function buildMC() {
+  const container = document.getElementById('mc-questions');
+  container.innerHTML = '';
+  mcData.forEach((item, qi) => {
+    const letters = ['A','B','C','D'];
+    let optHTML = '';
+    item.opts.forEach((opt, oi) => {
+      optHTML += `<label class="opt" id="mc${qi}_${oi}" onclick="selectOpt(${qi},${oi})">
+        <input type="radio" name="mc${qi}" value="${oi}">
+        <span class="opt-letter">${letters[oi]}</span>
+        <span>${opt.substring(3)}</span>
+      </label>`;
+    });
+    container.innerHTML += `
+      <div class="mc-question" id="mcq${qi}">
+        <div class="q-text"><span class="q-num">${qi+1}</span>${item.q}</div>
+        <div class="options">${optHTML}</div>
+        <div class="feedback" id="mcfb${qi}"></div>
+      </div>`;
+  });
+}
+
+function selectOpt(qi, oi) {
+  const letters = ['A','B','C','D'];
+  for (let i = 0; i < 4; i++) {
+    const el = document.getElementById(`mc${qi}_${i}`);
+    if (el) { el.classList.remove('selected'); }
+  }
+  const sel = document.getElementById(`mc${qi}_${oi}`);
+  if (sel) sel.classList.add('selected');
+}
+
+function checkMC() {
+  let score = 0;
+  mcData.forEach((item, qi) => {
+    const fb = document.getElementById(`mcfb${qi}`);
+    let chosen = -1;
+    for (let i = 0; i < 4; i++) {
+      const el = document.getElementById(`mc${qi}_${i}`);
+      if (el && el.classList.contains('selected')) { chosen = i; break; }
+    }
+    if (chosen === -1) { fb.textContent = 'Please select an answer.'; fb.className='feedback'; return; }
+    const correctEl = document.getElementById(`mc${qi}_${item.answer}`);
+    const chosenEl = document.getElementById(`mc${qi}_${chosen}`);
+    if (chosen === item.answer) {
+      chosenEl.classList.add('correct');
+      fb.textContent = '✓ Correct! ' + item.explanation;
+      fb.className = 'feedback right';
+      score++;
+    } else {
+      chosenEl.classList.add('incorrect');
+      fb.textContent = '✗ Not quite. ' + item.explanation;
+      fb.className = 'feedback wrong';
+    }
+  });
+  document.getElementById('mc-score').textContent = `Score: ${score} / ${mcData.length}`;
+}
+
+function resetMC() {
+  buildMC();
+  document.getElementById('mc-score').textContent = '';
+}
+
+function revealMC() {
+  mcData.forEach((item, qi) => {
+    for (let i = 0; i < 4; i++) {
+      const el = document.getElementById(`mc${qi}_${i}`);
+      if (!el) continue;
+      el.classList.remove('selected','correct','incorrect');
+      if (i === item.answer) el.classList.add('reveal-correct');
+    }
+    const fb = document.getElementById(`mcfb${qi}`);
+    fb.textContent = '→ ' + item.opts[item.answer].substring(3) + '. ' + item.explanation;
+    fb.className = 'feedback right';
+  });
+  document.getElementById('mc-score').textContent = '';
+}
+
+// ═══════════════════════════════════════════════════
+// SECTION 2 — ERROR CORRECTION
+// ═══════════════════════════════════════════════════
+
+function buildErrors() {
+  document.getElementById('err-passage').innerHTML = parseErrPassage();
+  document.getElementById('err-tbody').innerHTML = '';
+  document.getElementById('err-score').textContent = '';
+  // remove clicked state
+  document.querySelectorAll('.err-word').forEach(el => {
+    el.classList.remove('found','clicked-wrong','revealed');
+    el.dataset.clicked = '';
+  });
+}
+
+function toggleError(el) {
+  if (el.dataset.locked) return;
+  const clicked = el.dataset.clicked === '1';
+  el.dataset.clicked = clicked ? '' : '1';
+  el.classList.toggle('clicked-wrong', !clicked);
+}
+
+function checkErrors() {
+  let score = 0;
+  const tbody = document.getElementById('err-tbody');
+  tbody.innerHTML = '';
+  let foundCount = 0;
+  let wrongCount = 0;
+
+  document.querySelectorAll('.err-word').forEach(el => {
+    const isError = el.dataset.error === 'true';
+    const clicked = el.dataset.clicked === '1';
+    if (clicked && isError) {
+      el.classList.remove('clicked-wrong');
+      el.classList.add('found');
+      el.dataset.locked = '1';
+      foundCount++;
+      score++;
+      const row = document.createElement('tr');
+      row.className = 'found-row';
+      row.innerHTML = `<td>${foundCount}</td><td>❌ <s>${el.textContent}</s></td><td>✓ ${el.dataset.explanation}</td>`;
+      tbody.appendChild(row);
+    } else if (clicked && !isError) {
+      el.classList.add('clicked-wrong');
+      wrongCount++;
+    } else if (!clicked) {
+      el.classList.remove('clicked-wrong');
+    }
+  });
+
+  // Count total errors for display
+  const totalErrors = document.querySelectorAll('.err-word[data-error="true"]').length;
+  document.getElementById('err-score').textContent = `Found: ${score} / ${totalErrors} errors${wrongCount ? ' ('+wrongCount+' incorrect selection'+(wrongCount>1?'s':'')+')' : ''}`;
+}
+
+function resetErrors() {
+  buildErrors();
+}
+
+function revealErrors() {
+  const tbody = document.getElementById('err-tbody');
+  tbody.innerHTML = '';
+  let count = 0;
+  document.querySelectorAll('.err-word').forEach(el => {
+    const isError = el.dataset.error === 'true';
+    const alreadyFound = el.classList.contains('found');
+    if (isError && !alreadyFound) {
+      el.classList.add('revealed');
+      count++;
+      const row = document.createElement('tr');
+      row.className = 'revealed-row';
+      row.innerHTML = `<td>${count}</td><td>❌ <s>${el.textContent}</s></td><td>→ ${el.dataset.explanation}</td>`;
+      tbody.appendChild(row);
+    }
+  });
+  // keep found rows
+  document.querySelectorAll('.err-word.found').forEach(el => {
+    const row = document.createElement('tr');
+    row.className = 'found-row';
+    row.innerHTML = `<td>✓</td><td>❌ <s>${el.textContent}</s></td><td>→ ${el.dataset.explanation}</td>`;
+    tbody.insertBefore(row, tbody.firstChild);
+  });
+  document.getElementById('err-score').textContent = '';
+}
+
+// ═══════════════════════════════════════════════════
+// SECTION 3 — FILL THE GAPS
+// ═══════════════════════════════════════════════════
+
+function buildFTG() {
+  let html = '';
+  ftgData.forEach((item, i) => {
+    html += `${item.before}<input class="gap-input" id="gap${i}" type="text" placeholder="...">${item.after} `;
+    if (i < ftgData.length - 1) html += '<br><br>';
+  });
+  document.getElementById('ftg-passage').innerHTML = html;
+  document.getElementById('ftg-score').textContent = '';
+}
+
+function normalise(str) {
+  return str.trim().toLowerCase().replace(/'/g,"'").replace(/'/g,"'");
+}
+
+function checkFTG() {
+  let score = 0;
+  ftgData.forEach((item, i) => {
+    const inp = document.getElementById(`gap${i}`);
+    if (!inp) return;
+    const val = normalise(inp.value);
+    const accepted = item.answers.map(normalise);
+    const correct = accepted.includes(val);
+    inp.classList.remove('correct','incorrect','revealed');
+    if (correct) {
+      inp.classList.add('correct');
+      score++;
+    } else if (val === '') {
+      inp.classList.add('incorrect');
+    } else {
+      inp.classList.add('incorrect');
+    }
+  });
+  document.getElementById('ftg-score').textContent = `Score: ${score} / ${ftgData.length}`;
+}
+
+function resetFTG() {
+  buildFTG();
+}
+
+function revealFTG() {
+  ftgData.forEach((item, i) => {
+    const inp = document.getElementById(`gap${i}`);
+    if (!inp) return;
+    inp.classList.remove('correct','incorrect');
+    inp.classList.add('revealed');
+    inp.value = item.display;
+    inp.disabled = true;
+  });
+  document.getElementById('ftg-score').textContent = '';
+}
+
+// ═══════════════════════════════════════════════════
+// INIT
+// ═══════════════════════════════════════════════════
+buildMC();
+buildErrors();
+buildFTG();
+</script>
+</body>
+</html><!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Modal Verbs Exercise — Obligation & Necessity</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Source+Serif+4:ital,wght@0,300;0,400;0,600;1,300&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --earth: #3d2b1f;
+    --wheat: #c8a96e;
+    --sage: #6b7c5c;
+    --cream: #f5f0e8;
+    --parchment: #ede5d0;
+    --rust: #9b3a1a;
+    --moss: #4a5e3a;
+    --sky: #7a9eb5;
+    --correct: #4a7c59;
+    --incorrect: #9b3a1a;
+    --neutral: #6b7c5c;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'Source Serif 4', serif;
+    background: var(--cream);
+    color: var(--earth);
+    min-height: 100vh;
+    background-image: 
+      radial-gradient(ellipse at 20% 50%, rgba(107,124,92,0.08) 0%, transparent 50%),
+      radial-gradient(ellipse at 80% 20%, rgba(200,169,110,0.1) 0%, transparent 40%);
+  }
+
+  header {
+    background: var(--earth);
+    color: var(--cream);
+    padding: 2.5rem 2rem 2rem;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+
+  header::before {
+    content: '🌾';
+    position: absolute;
+    font-size: 8rem;
+    opacity: 0.06;
+    left: -1rem;
+    top: -1rem;
+    transform: rotate(-15deg);
+  }
+  header::after {
+    content: '🌾';
+    position: absolute;
+    font-size: 8rem;
+    opacity: 0.06;
+    right: -1rem;
+    bottom: -1rem;
+    transform: rotate(15deg);
+  }
+
+  header h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: 2.2rem;
+    color: var(--wheat);
+    letter-spacing: 0.02em;
+    margin-bottom: 0.4rem;
+  }
+
+  header p {
+    color: rgba(245,240,232,0.75);
+    font-size: 0.95rem;
+    font-style: italic;
+    font-weight: 300;
+  }
+
+  .badge-row {
+    display: flex;
+    justify-content: center;
+    gap: 0.6rem;
+    margin-top: 1rem;
+    flex-wrap: wrap;
+  }
+
+  .badge {
+    background: rgba(200,169,110,0.2);
+    border: 1px solid rgba(200,169,110,0.4);
+    color: var(--wheat);
+    font-size: 0.75rem;
+    padding: 0.25rem 0.75rem;
+    border-radius: 20px;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    font-family: 'Source Serif 4', serif;
+  }
+
+  .container {
+    max-width: 860px;
+    margin: 0 auto;
+    padding: 2rem 1.5rem 4rem;
+  }
+
+  .section {
+    background: var(--parchment);
+    border-radius: 4px;
+    margin-bottom: 2.5rem;
+    border: 1px solid rgba(61,43,31,0.12);
+    overflow: hidden;
+    box-shadow: 0 2px 12px rgba(61,43,31,0.08);
+  }
+
+  .section-header {
+    background: var(--earth);
+    color: var(--cream);
+    padding: 1.2rem 1.8rem;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+  }
+
+  .section-num {
+    background: var(--wheat);
+    color: var(--earth);
+    width: 2rem;
+    height: 2rem;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Playfair Display', serif;
+    font-weight: 700;
+    font-size: 1rem;
+    flex-shrink: 0;
+  }
+
+  .section-header h2 {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.25rem;
+    color: var(--wheat);
+    font-weight: 400;
+  }
+
+  .section-header p {
+    font-size: 0.8rem;
+    color: rgba(245,240,232,0.65);
+    font-style: italic;
+    font-weight: 300;
+    margin-top: 0.1rem;
+  }
+
+  .section-body {
+    padding: 1.8rem;
+  }
+
+  /* MULTIPLE CHOICE */
+  .mc-question {
+    margin-bottom: 1.8rem;
+    padding-bottom: 1.8rem;
+    border-bottom: 1px solid rgba(61,43,31,0.1);
+  }
+  .mc-question:last-of-type { border-bottom: none; }
+
+  .q-text {
+    font-size: 1rem;
+    line-height: 1.6;
+    margin-bottom: 0.9rem;
+    color: var(--earth);
+  }
+
+  .q-num {
+    font-family: 'Playfair Display', serif;
+    font-weight: 700;
+    color: var(--wheat);
+    background: var(--earth);
+    padding: 0.1rem 0.5rem;
+    border-radius: 3px;
+    font-size: 0.85rem;
+    margin-right: 0.4rem;
+  }
+
+  .options {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.5rem;
+  }
+
+  @media (max-width: 540px) { .options { grid-template-columns: 1fr; } }
+
+  .opt {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    padding: 0.6rem 0.9rem;
+    border: 1.5px solid rgba(61,43,31,0.2);
+    border-radius: 4px;
+    cursor: pointer;
+    transition: all 0.18s;
+    background: rgba(245,240,232,0.5);
+    font-size: 0.92rem;
+    user-select: none;
+  }
+
+  .opt:hover { background: rgba(200,169,110,0.18); border-color: var(--wheat); }
+  .opt.selected { background: rgba(122,158,181,0.15); border-color: var(--sky); }
+  .opt.correct { background: rgba(74,124,89,0.15); border-color: var(--correct); color: var(--moss); font-weight: 600; }
+  .opt.incorrect { background: rgba(155,58,26,0.1); border-color: var(--incorrect); color: var(--rust); text-decoration: line-through; }
+  .opt.reveal-correct { background: rgba(74,124,89,0.2); border-color: var(--correct); color: var(--moss); font-weight: 600; }
+
+  .opt input[type="radio"] { display: none; }
+
+  .opt-letter {
+    width: 1.4rem;
+    height: 1.4rem;
+    border-radius: 50%;
+    background: rgba(61,43,31,0.12);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.72rem;
+    font-weight: 700;
+    flex-shrink: 0;
+    color: var(--earth);
+  }
+
+  .feedback {
+    margin-top: 0.6rem;
+    font-size: 0.85rem;
+    font-style: italic;
+    color: var(--sage);
+    min-height: 1.2em;
+  }
+  .feedback.wrong { color: var(--rust); }
+  .feedback.right { color: var(--moss); }
+
+  /* SECTION CONTROLS */
+  .section-controls {
+    display: flex;
+    gap: 0.7rem;
+    margin-top: 1.5rem;
+    flex-wrap: wrap;
+    align-items: center;
+    border-top: 1px solid rgba(61,43,31,0.1);
+    padding-top: 1.2rem;
+  }
+
+  .btn {
+    padding: 0.55rem 1.3rem;
+    border-radius: 4px;
+    border: none;
+    cursor: pointer;
+    font-family: 'Source Serif 4', serif;
+    font-size: 0.88rem;
+    transition: all 0.18s;
+    letter-spacing: 0.02em;
+  }
+
+  .btn-check { background: var(--earth); color: var(--cream); }
+  .btn-check:hover { background: var(--moss); }
+  .btn-retry { background: transparent; border: 1.5px solid var(--earth); color: var(--earth); }
+  .btn-retry:hover { background: rgba(61,43,31,0.08); }
+  .btn-reveal { background: transparent; border: 1.5px solid var(--rust); color: var(--rust); }
+  .btn-reveal:hover { background: rgba(155,58,26,0.08); }
+
+  .score-display {
+    margin-left: auto;
+    font-family: 'Playfair Display', serif;
+    font-size: 1rem;
+    color: var(--sage);
+  }
+
+  /* ERROR CORRECTION */
+  .passage {
+    font-size: 0.97rem;
+    line-height: 1.9;
+    color: var(--earth);
+    background: rgba(245,240,232,0.7);
+    border: 1px solid rgba(61,43,31,0.1);
+    border-radius: 4px;
+    padding: 1.3rem 1.5rem;
+    margin-bottom: 1.2rem;
+  }
+
+  .err-word {
+    background: rgba(200,169,110,0.25);
+    border-bottom: 2px solid var(--wheat);
+    padding: 0 2px;
+    cursor: pointer;
+    border-radius: 2px;
+    transition: background 0.15s;
+    position: relative;
+  }
+  .err-word:hover { background: rgba(200,169,110,0.5); }
+  .err-word.clicked-wrong { background: rgba(155,58,26,0.12); border-bottom-color: var(--rust); }
+  .err-word.found { background: rgba(74,124,89,0.15); border-bottom-color: var(--correct); }
+  .err-word.revealed { background: rgba(155,58,26,0.15); border-bottom-color: var(--rust); }
+
+  .err-instruction {
+    font-size: 0.88rem;
+    font-style: italic;
+    color: var(--sage);
+    margin-bottom: 1rem;
+    padding: 0.6rem 0.9rem;
+    background: rgba(107,124,92,0.08);
+    border-radius: 4px;
+    border-left: 3px solid var(--sage);
+  }
+
+  .err-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 1rem;
+    font-size: 0.88rem;
+  }
+  .err-table th {
+    background: rgba(61,43,31,0.08);
+    padding: 0.5rem 0.8rem;
+    text-align: left;
+    border-bottom: 1px solid rgba(61,43,31,0.15);
+    color: var(--earth);
+    font-weight: 600;
+  }
+  .err-table td {
+    padding: 0.45rem 0.8rem;
+    border-bottom: 1px solid rgba(61,43,31,0.07);
+  }
+  .err-table tr.found-row td { color: var(--moss); }
+  .err-table tr.revealed-row td { color: var(--rust); font-style: italic; }
+
+  /* FILL THE GAPS */
+  .ftg-passage {
+    font-size: 0.97rem;
+    line-height: 2.1;
+    color: var(--earth);
+    background: rgba(245,240,232,0.7);
+    border: 1px solid rgba(61,43,31,0.1);
+    border-radius: 4px;
+    padding: 1.3rem 1.5rem;
+    margin-bottom: 1rem;
+  }
+
+  .gap-input {
+    display: inline-block;
+    border: none;
+    border-bottom: 2px solid var(--wheat);
+    background: transparent;
+    font-family: 'Source Serif 4', serif;
+    font-size: 0.97rem;
+    color: var(--earth);
+    padding: 0 4px 1px;
+    min-width: 110px;
+    text-align: center;
+    outline: none;
+    transition: border-color 0.2s;
+    vertical-align: baseline;
+  }
+  .gap-input:focus { border-bottom-color: var(--sky); }
+  .gap-input.correct { border-bottom-color: var(--correct); color: var(--moss); font-weight: 600; }
+  .gap-input.incorrect { border-bottom-color: var(--rust); color: var(--rust); }
+  .gap-input.revealed { border-bottom-color: var(--rust); color: var(--rust); font-style: italic; }
+
+  .wordbank {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-bottom: 1.2rem;
+    padding: 0.8rem;
+    background: rgba(107,124,92,0.07);
+    border-radius: 4px;
+    border: 1px dashed rgba(107,124,92,0.3);
+  }
+  .wordbank-label {
+    font-size: 0.78rem;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--sage);
+    font-weight: 600;
+    width: 100%;
+    margin-bottom: 0.3rem;
+  }
+  .word-chip {
+    background: var(--parchment);
+    border: 1px solid rgba(61,43,31,0.2);
+    padding: 0.25rem 0.7rem;
+    border-radius: 20px;
+    font-size: 0.85rem;
+    color: var(--earth);
+  }
+
+  /* Progress */
+  .progress-bar-wrap {
+    height: 4px;
+    background: rgba(61,43,31,0.1);
+    border-radius: 2px;
+    margin-bottom: 1.5rem;
+    overflow: hidden;
+  }
+  .progress-bar {
+    height: 100%;
+    background: linear-gradient(90deg, var(--sage), var(--wheat));
+    border-radius: 2px;
+    transition: width 0.4s;
+    width: 0%;
+  }
+
+  .score-summary {
+    text-align: center;
+    font-family: 'Playfair Display', serif;
+    font-size: 1.5rem;
+    color: var(--earth);
+    margin-top: 0.5rem;
+  }
+
+  .small-note {
+    font-size: 0.8rem;
+    color: var(--sage);
+    font-style: italic;
+    margin-top: 0.3rem;
+    display: block;
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <h1>Modal Verbs: Obligation & Necessity</h1>
+  <p>Professional English — Level B1/B2</p>
+  <div class="badge-row">
+    <span class="badge">must</span>
+    <span class="badge">have to</span>
+    <span class="badge">need to</span>
+    <span class="badge">mustn't</span>
+    <span class="badge">don't have to</span>
+    <span class="badge">needn't</span>
+  </div>
+</header>
+
+<div class="container">
+
+<!-- ═══════════════════════════════════════════════════
+     SECTION 1 — MULTIPLE CHOICE
+═══════════════════════════════════════════════════ -->
+<div class="section" id="sec1">
+  <div class="section-header">
+    <div class="section-num">1</div>
+    <div>
+      <h2>Multiple Choice</h2>
+      <p>Choose the single correct answer for each sentence.</p>
+    </div>
+  </div>
+  <div class="section-body">
+    <div id="mc-questions"></div>
+    <div class="section-controls">
+      <button class="btn btn-check" onclick="checkMC()">Check Answers</button>
+      <button class="btn btn-retry" onclick="resetMC()">Try Again</button>
+      <button class="btn btn-reveal" onclick="revealMC()">Reveal Answers</button>
+      <span class="score-display" id="mc-score"></span>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════
+     SECTION 2 — ERROR CORRECTION
+═══════════════════════════════════════════════════ -->
+<div class="section" id="sec2">
+  <div class="section-header">
+    <div class="section-num">2</div>
+    <div>
+      <h2>Find the Errors</h2>
+      <p>Click on the ten underlined words that contain errors.</p>
+    </div>
+  </div>
+  <div class="section-body">
+    <div class="err-instruction">
+      The text below contains <strong>10 modal verb errors</strong>. The underlined words may or may not be incorrect — click on each one you think is wrong. Click a highlighted word again to deselect it.
+    </div>
+    <div class="passage" id="err-passage"></div>
+    <table class="err-table" id="err-table">
+      <thead><tr><th>#</th><th>Error Found</th><th>Correction</th></tr></thead>
+      <tbody id="err-tbody"></tbody>
+    </table>
+    <div class="section-controls">
+      <button class="btn btn-check" onclick="checkErrors()">Check Answers</button>
+      <button class="btn btn-retry" onclick="resetErrors()">Try Again</button>
+      <button class="btn btn-reveal" onclick="revealErrors()">Reveal Answers</button>
+      <span class="score-display" id="err-score"></span>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════
+     SECTION 3 — FILL THE GAPS
+═══════════════════════════════════════════════════ -->
+<div class="section" id="sec3">
+  <div class="section-header">
+    <div class="section-num">3</div>
+    <div>
+      <h2>Fill the Gaps</h2>
+      <p>Complete the text with the correct modal verb or phrase.</p>
+    </div>
+  </div>
+  <div class="section-body">
+    <div class="wordbank">
+      <span class="wordbank-label">Word Bank</span>
+      <span class="word-chip">must</span>
+      <span class="word-chip">mustn't</span>
+      <span class="word-chip">have to</span>
+      <span class="word-chip">don't have to</span>
+      <span class="word-chip">need to</span>
+      <span class="word-chip">don't need to</span>
+      <span class="word-chip">needn't</span>
+    </div>
+    <div class="ftg-passage" id="ftg-passage"></div>
+    <span class="small-note">* Where two answers are possible, both are accepted.</span>
+    <div class="section-controls">
+      <button class="btn btn-check" onclick="checkFTG()">Check Answers</button>
+      <button class="btn btn-retry" onclick="resetFTG()">Try Again</button>
+      <button class="btn btn-reveal" onclick="revealFTG()">Reveal Answers</button>
+      <span class="score-display" id="ftg-score"></span>
+    </div>
+  </div>
+</div>
+
+</div><!-- /container -->
+
+<script>
+// ═══════════════════════════════════════════════════
+// DATA
+// ═══════════════════════════════════════════════════
+
+const mcData = [
+  {
+    q: "Workers on the farm ___ wear protective gloves when handling chemical fertilisers. It is a legal requirement.",
+    opts: ["A. needn't", "B. must", "C. don't have to", "D. mustn't"],
+    answer: 1, // B
+    explanation: "must expresses strong obligation (legal requirement)."
+  },
+  {
+    q: "You ___ enter the grain storage area without authorisation. It is strictly forbidden.",
+    opts: ["A. must", "B. need to", "C. mustn't", "D. have to"],
+    answer: 2, // C
+    explanation: "mustn't expresses prohibition — it is forbidden to enter."
+  },
+  {
+    q: "The seasonal workers ___ provide their own tools; the farm supplies everything they need.",
+    opts: ["A. mustn't", "B. must", "C. need to", "D. don't have to"],
+    answer: 3, // D
+    explanation: "don't have to shows there is no obligation — it's optional."
+  },
+  {
+    q: "Before the harvest begins, the manager ___ confirm the schedule with all team leaders.",
+    opts: ["A. needn't", "B. needs to", "C. don't need to", "D. mustn't"],
+    answer: 1, // B
+    explanation: "needs to expresses necessity — it is important to do this."
+  },
+  {
+    q: "The irrigation system ___ be switched off during a rainfall warning — doing so causes crop damage.",
+    opts: ["A. mustn't", "B. needn't", "C. don't have to", "D. need to"],
+    answer: 0, // A
+    explanation: "mustn't expresses prohibition — switching it off is dangerous."
+  },
+  {
+    q: "You ___ submit the soil quality report today; the deadline is next Friday.",
+    opts: ["A. must", "B. have to", "C. needn't", "D. need to"],
+    answer: 2, // C
+    explanation: "needn't means it is not necessary to do it today."
+  },
+  {
+    q: "All drivers ___ hold a valid licence before operating any agricultural machinery on public roads.",
+    opts: ["A. needn't", "B. don't have to", "C. must", "D. mustn't"],
+    answer: 2, // C
+    explanation: "must expresses a strong rule or legal obligation."
+  },
+  {
+    q: "Staff ___ attend the optional Friday briefing, but it is highly recommended.",
+    opts: ["A. must", "B. mustn't", "C. need to", "D. don't need to"],
+    answer: 3, // D
+    explanation: "don't need to indicates the briefing is not compulsory."
+  },
+  {
+    q: "The pesticide containers ___ be left open near water sources. This is an environmental regulation.",
+    opts: ["A. needn't", "B. must", "C. mustn't", "D. don't have to"],
+    answer: 2, // C
+    explanation: "mustn't is required to express this prohibition."
+  },
+  {
+    q: "New employees ___ complete a three-day health and safety induction before starting field work.",
+    opts: ["A. don't have to", "B. needn't", "C. mustn't", "D. have to"],
+    answer: 3, // D
+    explanation: "have to expresses external obligation — it is required by the employer."
+  }
+];
+
+// ── ERROR CORRECTION TEXT ──────────────────────────
+// 10 clickable spans; some are errors (isError:true), some are correct (isError:false)
+// Errors: must(→mustn't), needn't(→must/have to), mustn't(→don't have to/needn't), 
+//         must(→mustn't), don't have to(→must), need to(→needn't/don't need to),
+//         mustn't(→must/have to), needn't(→mustn't), must(→needn't/don't have to), 
+//         don't need to(→must/have to)
+// Total underlined spans: let's make 14 (10 errors + 4 correct distractors)
+
+const errPassage = {
+  text: `Managing a working farm requires clear rules and good communication. All farm employees
+[must|correct|must — correct: this expresses obligation] follow the code of conduct outlined in their contracts. New recruits [needn't|error|must / have to — all staff must attend] attend the
+mandatory first-day safety briefing; it covers essential procedures that could save lives. Once
+they understand the regulations, workers [mustn't|error|don't have to / needn't — it is not required] reread the full manual every week, as
+a summary sheet is always available in the staff room.
+
+During the harvest season, teams [must|correct|must — correct] coordinate their shifts carefully to avoid
+equipment clashes. Drivers [must|error|mustn't — it is forbidden] leave vehicles unattended on slopes, as this creates a
+serious safety hazard. All operators [don't have to|error|must / have to — it is a legal requirement] carry their licence with them at all
+times when driving on public roads.
+
+In the packing facility, staff [need to|error|needn't / don't need to — the system does it automatically] count individual items manually;
+the automated sorting system handles this. However, they [mustn't|correct|mustn't — correct: prohibition against ignoring faults] ignore any
+faults reported by the machine. On the other hand, supervisors [needn't|error|mustn't — it is forbidden] bypass
+the daily hygiene log, as this is a strict food safety requirement.
+
+Finally, employees [must|error|needn't / don't have to — experience is not required] have prior farming experience to apply for general
+harvest roles; training is provided. But applicants [don't need to|error|must / have to — medical clearance is legally required] obtain
+medical clearance before handling chemicals. This step is required by law and [must|correct|must — correct] never be skipped.`,
+};
+
+// Parse the passage text
+function parseErrPassage() {
+  const parts = errPassage.text.split(/\[([^\]]+)\]/g);
+  // parts alternates: normal text, token, normal text, token, ...
+  let html = '';
+  let spanIndex = 0;
+  for (let i = 0; i < parts.length; i++) {
+    if (i % 2 === 0) {
+      html += parts[i].replace(/\n/g, ' ');
+    } else {
+      const [word, type, explanation] = parts[i].split('|');
+      const isError = type === 'error';
+      html += `<span class="err-word" 
+        data-error="${isError}" 
+        data-explanation="${explanation.replace(/"/g,'&quot;')}"
+        data-index="${spanIndex}"
+        onclick="toggleError(this)">${word}</span>`;
+      spanIndex++;
+    }
+  }
+  return html;
+}
+
+// ── FILL THE GAPS TEXT ─────────────────────────────
+// 10 gaps, some accept two answers
+
+const ftgData = [
+  { before: "Every farm worker ", after: " complete a risk assessment form before operating heavy machinery. It is a company rule.", answers: ["must","have to"], display: "must / have to" },
+  { before: "You ", after: " apply pesticides during strong winds — it is extremely dangerous and causes environmental damage.", answers: ["mustn't"], display: "mustn't" },
+  { before: "Temporary workers ", after: " bring their own safety equipment; the farm provides boots, gloves, and helmets free of charge.", answers: ["don't have to","needn't","don't need to"], display: "don't have to / needn't" },
+  { before: "The crop rotation schedule ", after: " be reviewed every season to maintain soil health. This is essential.", answers: ["must","has to","needs to"], display: "must / has to / needs to" },
+  { before: "Inspectors ", after: " make an appointment before visiting; they have the right to arrive unannounced.", answers: ["don't have to","needn't","don't need to"], display: "don't have to / needn't" },
+  { before: "All refrigerated storage units ", after: " be left open overnight — this compromises food safety standards.", answers: ["mustn't"], display: "mustn't" },
+  { before: "Staff working in the greenhouse ", after: " wear UV-protective clothing; the ventilation system filters out harmful rays.", answers: ["don't have to","needn't","don't need to"], display: "don't have to / needn't" },
+  { before: "The farm manager ", after: " submit the annual environmental impact report by the end of March. It is a legal obligation.", answers: ["must","has to","needs to"], display: "must / has to" },
+  { before: "You ", after: " worry about the irrigation this week; the automated system has been programmed.", answers: ["needn't","don't have to","don't need to"], display: "needn't / don't have to" },
+  { before: "All visitors ", after: " sign the site register on arrival. It is required for health and safety reasons.", answers: ["must","have to","need to"], display: "must / have to / need to" },
+];
+
+// ═══════════════════════════════════════════════════
+// SECTION 1 — MULTIPLE CHOICE
+// ═══════════════════════════════════════════════════
+
+function buildMC() {
+  const container = document.getElementById('mc-questions');
+  container.innerHTML = '';
+  mcData.forEach((item, qi) => {
+    const letters = ['A','B','C','D'];
+    let optHTML = '';
+    item.opts.forEach((opt, oi) => {
+      optHTML += `<label class="opt" id="mc${qi}_${oi}" onclick="selectOpt(${qi},${oi})">
+        <input type="radio" name="mc${qi}" value="${oi}">
+        <span class="opt-letter">${letters[oi]}</span>
+        <span>${opt.substring(3)}</span>
+      </label>`;
+    });
+    container.innerHTML += `
+      <div class="mc-question" id="mcq${qi}">
+        <div class="q-text"><span class="q-num">${qi+1}</span>${item.q}</div>
+        <div class="options">${optHTML}</div>
+        <div class="feedback" id="mcfb${qi}"></div>
+      </div>`;
+  });
+}
+
+function selectOpt(qi, oi) {
+  const letters = ['A','B','C','D'];
+  for (let i = 0; i < 4; i++) {
+    const el = document.getElementById(`mc${qi}_${i}`);
+    if (el) { el.classList.remove('selected'); }
+  }
+  const sel = document.getElementById(`mc${qi}_${oi}`);
+  if (sel) sel.classList.add('selected');
+}
+
+function checkMC() {
+  let score = 0;
+  mcData.forEach((item, qi) => {
+    const fb = document.getElementById(`mcfb${qi}`);
+    let chosen = -1;
+    for (let i = 0; i < 4; i++) {
+      const el = document.getElementById(`mc${qi}_${i}`);
+      if (el && el.classList.contains('selected')) { chosen = i; break; }
+    }
+    if (chosen === -1) { fb.textContent = 'Please select an answer.'; fb.className='feedback'; return; }
+    const correctEl = document.getElementById(`mc${qi}_${item.answer}`);
+    const chosenEl = document.getElementById(`mc${qi}_${chosen}`);
+    if (chosen === item.answer) {
+      chosenEl.classList.add('correct');
+      fb.textContent = '✓ Correct! ' + item.explanation;
+      fb.className = 'feedback right';
+      score++;
+    } else {
+      chosenEl.classList.add('incorrect');
+      fb.textContent = '✗ Not quite. ' + item.explanation;
+      fb.className = 'feedback wrong';
+    }
+  });
+  document.getElementById('mc-score').textContent = `Score: ${score} / ${mcData.length}`;
+}
+
+function resetMC() {
+  buildMC();
+  document.getElementById('mc-score').textContent = '';
+}
+
+function revealMC() {
+  mcData.forEach((item, qi) => {
+    for (let i = 0; i < 4; i++) {
+      const el = document.getElementById(`mc${qi}_${i}`);
+      if (!el) continue;
+      el.classList.remove('selected','correct','incorrect');
+      if (i === item.answer) el.classList.add('reveal-correct');
+    }
+    const fb = document.getElementById(`mcfb${qi}`);
+    fb.textContent = '→ ' + item.opts[item.answer].substring(3) + '. ' + item.explanation;
+    fb.className = 'feedback right';
+  });
+  document.getElementById('mc-score').textContent = '';
+}
+
+// ═══════════════════════════════════════════════════
+// SECTION 2 — ERROR CORRECTION
+// ═══════════════════════════════════════════════════
+
+function buildErrors() {
+  document.getElementById('err-passage').innerHTML = parseErrPassage();
+  document.getElementById('err-tbody').innerHTML = '';
+  document.getElementById('err-score').textContent = '';
+  // remove clicked state
+  document.querySelectorAll('.err-word').forEach(el => {
+    el.classList.remove('found','clicked-wrong','revealed');
+    el.dataset.clicked = '';
+  });
+}
+
+function toggleError(el) {
+  if (el.dataset.locked) return;
+  const clicked = el.dataset.clicked === '1';
+  el.dataset.clicked = clicked ? '' : '1';
+  el.classList.toggle('clicked-wrong', !clicked);
+}
+
+function checkErrors() {
+  let score = 0;
+  const tbody = document.getElementById('err-tbody');
+  tbody.innerHTML = '';
+  let foundCount = 0;
+  let wrongCount = 0;
+
+  document.querySelectorAll('.err-word').forEach(el => {
+    const isError = el.dataset.error === 'true';
+    const clicked = el.dataset.clicked === '1';
+    if (clicked && isError) {
+      el.classList.remove('clicked-wrong');
+      el.classList.add('found');
+      el.dataset.locked = '1';
+      foundCount++;
+      score++;
+      const row = document.createElement('tr');
+      row.className = 'found-row';
+      row.innerHTML = `<td>${foundCount}</td><td>❌ <s>${el.textContent}</s></td><td>✓ ${el.dataset.explanation}</td>`;
+      tbody.appendChild(row);
+    } else if (clicked && !isError) {
+      el.classList.add('clicked-wrong');
+      wrongCount++;
+    } else if (!clicked) {
+      el.classList.remove('clicked-wrong');
+    }
+  });
+
+  // Count total errors for display
+  const totalErrors = document.querySelectorAll('.err-word[data-error="true"]').length;
+  document.getElementById('err-score').textContent = `Found: ${score} / ${totalErrors} errors${wrongCount ? ' ('+wrongCount+' incorrect selection'+(wrongCount>1?'s':'')+')' : ''}`;
+}
+
+function resetErrors() {
+  buildErrors();
+}
+
+function revealErrors() {
+  const tbody = document.getElementById('err-tbody');
+  tbody.innerHTML = '';
+  let count = 0;
+  document.querySelectorAll('.err-word').forEach(el => {
+    const isError = el.dataset.error === 'true';
+    const alreadyFound = el.classList.contains('found');
+    if (isError && !alreadyFound) {
+      el.classList.add('revealed');
+      count++;
+      const row = document.createElement('tr');
+      row.className = 'revealed-row';
+      row.innerHTML = `<td>${count}</td><td>❌ <s>${el.textContent}</s></td><td>→ ${el.dataset.explanation}</td>`;
+      tbody.appendChild(row);
+    }
+  });
+  // keep found rows
+  document.querySelectorAll('.err-word.found').forEach(el => {
+    const row = document.createElement('tr');
+    row.className = 'found-row';
+    row.innerHTML = `<td>✓</td><td>❌ <s>${el.textContent}</s></td><td>→ ${el.dataset.explanation}</td>`;
+    tbody.insertBefore(row, tbody.firstChild);
+  });
+  document.getElementById('err-score').textContent = '';
+}
+
+// ═══════════════════════════════════════════════════
+// SECTION 3 — FILL THE GAPS
+// ═══════════════════════════════════════════════════
+
+function buildFTG() {
+  let html = '';
+  ftgData.forEach((item, i) => {
+    html += `${item.before}<input class="gap-input" id="gap${i}" type="text" placeholder="...">${item.after} `;
+    if (i < ftgData.length - 1) html += '<br><br>';
+  });
+  document.getElementById('ftg-passage').innerHTML = html;
+  document.getElementById('ftg-score').textContent = '';
+}
+
+function normalise(str) {
+  return str.trim().toLowerCase().replace(/'/g,"'").replace(/'/g,"'");
+}
+
+function checkFTG() {
+  let score = 0;
+  ftgData.forEach((item, i) => {
+    const inp = document.getElementById(`gap${i}`);
+    if (!inp) return;
+    const val = normalise(inp.value);
+    const accepted = item.answers.map(normalise);
+    const correct = accepted.includes(val);
+    inp.classList.remove('correct','incorrect','revealed');
+    if (correct) {
+      inp.classList.add('correct');
+      score++;
+    } else if (val === '') {
+      inp.classList.add('incorrect');
+    } else {
+      inp.classList.add('incorrect');
+    }
+  });
+  document.getElementById('ftg-score').textContent = `Score: ${score} / ${ftgData.length}`;
+}
+
+function resetFTG() {
+  buildFTG();
+}
+
+function revealFTG() {
+  ftgData.forEach((item, i) => {
+    const inp = document.getElementById(`gap${i}`);
+    if (!inp) return;
+    inp.classList.remove('correct','incorrect');
+    inp.classList.add('revealed');
+    inp.value = item.display;
+    inp.disabled = true;
+  });
+  document.getElementById('ftg-score').textContent = '';
+}
+
+// ═══════════════════════════════════════════════════
+// INIT
+// ═══════════════════════════════════════════════════
+buildMC();
+buildErrors();
+buildFTG();
+</script>
+</body>
+</html>
