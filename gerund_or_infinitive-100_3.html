@@ -1,0 +1,1561 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Quick Warm-Up: Gerund or Infinitive?</title>
+
+  <!-- Google Fonts: Inter -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <!-- Tailwind Custom Configuration -->
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Inter', 'system-ui', '-apple-system', 'sans-serif'],
+          },
+          colors: {
+            canvas: '#F8FAFC',
+            ink: '#0F172A',
+            primary: '#4F46E5',
+            correct: '#059669',
+            incorrect: '#E11D48',
+          },
+          boxShadow: {
+            card: '0 10px 30px -5px rgba(15, 23, 42, 0.06), 0 4px 10px -2px rgba(15, 23, 42, 0.03)',
+            button: '0 2px 6px -1px rgba(15, 23, 42, 0.05)',
+          }
+        }
+      }
+    };
+  </script>
+
+  <style>
+    /* Smooth reveal transitions for feedback and question updates */
+    @keyframes fadeSlideUp {
+      from {
+        opacity: 0;
+        transform: translateY(8px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .animate-reveal {
+      animation: fadeSlideUp 0.28s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    }
+
+    .animate-card-enter {
+      animation: fadeSlideUp 0.24s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    }
+
+    /* Tactile press feedback */
+    .tactile-btn {
+      transition: transform 0.12s ease, background-color 0.18s ease, border-color 0.18s ease, box-shadow 0.18s ease, color 0.18s ease;
+    }
+    .tactile-btn:not(:disabled):active {
+      transform: scale(0.985);
+    }
+  </style>
+</head>
+<body class="bg-[#F8FAFC] text-[#0F172A] font-sans antialiased min-h-screen flex flex-col justify-between selection:bg-indigo-100 selection:text-indigo-900">
+
+  <!-- Main Centered Container -->
+  <main class="w-full max-w-3xl mx-auto px-4 sm:px-8 py-6 sm:py-10 flex-grow flex flex-col justify-center">
+
+    <!-- Header Section -->
+    <header class="mb-6 sm:mb-8">
+      <div class="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-4">
+        <div>
+          <h1 class="text-2xl sm:text-3xl md:text-[2rem] font-extrabold tracking-tight text-[#0F172A] leading-tight">
+            Quick Warm-Up: Gerund or Infinitive?
+          </h1>
+          <p class="mt-1.5 text-base sm:text-lg text-slate-600 font-normal">
+            Select the correct verb form to complete each sentence.
+          </p>
+        </div>
+
+        <!-- Score Pill -->
+        <div class="self-start sm:self-center shrink-0">
+          <div id="score-pill" class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white border border-slate-200/90 shadow-button text-sm sm:text-base font-semibold text-[#0F172A]">
+            <span class="w-2.5 h-2.5 rounded-full bg-[#4F46E5]"></span>
+            <span>Score: <span id="score-value" class="text-[#4F46E5] font-bold">0</span></span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Progress Bar & Counter -->
+      <div id="progress-wrapper" class="mt-5 sm:mt-6">
+        <div class="flex flex-wrap items-center justify-between gap-2 text-xs sm:text-sm font-semibold text-slate-500 mb-2">
+          <div class="flex items-center gap-2.5">
+            <span id="progress-text" class="text-[#0F172A] tabular-nums">Question 1 of 20</span>
+            <span class="inline-flex items-center px-2.5 py-0.5 rounded-full bg-slate-100 border border-slate-200/80 text-[11px] sm:text-xs font-medium text-slate-600">
+              20 of 100 selected
+            </span>
+          </div>
+          <span id="progress-percent" class="text-slate-400 tabular-nums">5%</span>
+        </div>
+        <div class="w-full h-2.5 bg-slate-200/80 rounded-full overflow-hidden">
+          <div
+            id="progress-bar"
+            class="h-full bg-[#4F46E5] rounded-full transition-all duration-300 ease-out"
+            style="width: 5%;"
+          ></div>
+        </div>
+      </div>
+    </header>
+
+    <!-- Active Exercise Card -->
+    <section
+      id="quiz-card"
+      aria-live="polite"
+      class="bg-white rounded-2xl sm:rounded-3xl border border-[#E2E8F0] shadow-card p-6 sm:p-9 md:p-10 transition-all"
+    >
+      <!-- Question Sentence Prompt -->
+      <div id="question-content" class="animate-card-enter">
+        <p
+          id="sentence-display"
+          class="text-xl sm:text-2xl md:text-[1.65rem] font-medium text-[#0F172A] leading-relaxed sm:leading-[1.65]"
+        >
+          <!-- Dynamically populated sentence -->
+        </p>
+
+        <!-- 3 Option Buttons -->
+        <div
+          id="options-grid"
+          role="group"
+          aria-label="Verb form choices"
+          class="mt-7 sm:mt-9 grid grid-cols-1 sm:grid-cols-3 gap-3 sm:gap-4"
+        >
+          <!-- Dynamically populated buttons -->
+        </div>
+
+        <!-- Feedback & Grammar Rule Callout (Hidden until answered) -->
+        <div id="feedback-area" class="hidden mt-6 sm:mt-7">
+          <div
+            id="explanation-box"
+            class="rounded-2xl p-4 sm:p-5 border flex items-start gap-3.5 animate-reveal"
+          >
+            <div id="explanation-icon" class="shrink-0 mt-0.5">
+              <!-- SVG icon inserted dynamically -->
+            </div>
+            <div class="text-sm sm:text-base leading-relaxed">
+              <p id="feedback-heading" class="font-bold mb-0.5"></p>
+              <p id="explanation-text" class="text-slate-700"></p>
+            </div>
+          </div>
+
+          <!-- Next Question / See Results Action Row -->
+          <div class="mt-6 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 animate-reveal">
+            <span class="hidden sm:inline-flex items-center gap-1.5 text-xs font-medium text-slate-400">
+              Press <kbd class="px-2 py-0.5 bg-slate-100 border border-slate-200 rounded-md text-slate-600 font-semibold">Enter</kbd> or <kbd class="px-2 py-0.5 bg-slate-100 border border-slate-200 rounded-md text-slate-600 font-semibold">Space</kbd> to continue
+            </span>
+
+            <button
+              id="next-btn"
+              type="button"
+              class="tactile-btn w-full sm:w-auto sm:ml-auto inline-flex items-center justify-center gap-2 px-6 py-3.5 rounded-xl bg-[#4F46E5] hover:bg-indigo-700 text-white font-semibold text-base sm:text-lg shadow-sm focus:outline-none focus:ring-4 focus:ring-indigo-500/25 cursor-pointer"
+            >
+              <span id="next-btn-label">Next Question →</span>
+            </button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- End Summary Screen (Hidden until all 20 items are completed) -->
+    <section
+      id="summary-card"
+      class="hidden bg-white rounded-2xl sm:rounded-3xl border border-[#E2E8F0] shadow-card p-6 sm:p-9 md:p-10 animate-card-enter"
+    >
+      <!-- Top Score Banner -->
+      <div class="text-center pb-6 sm:pb-8 border-b border-slate-100">
+        <div class="inline-flex items-center justify-center px-4 py-1.5 rounded-full bg-indigo-50 text-[#4F46E5] text-sm font-semibold mb-3">
+          Warm-Up Complete
+        </div>
+        <h2 class="text-3xl sm:text-4xl font-extrabold text-[#0F172A] tracking-tight">
+          You scored <span id="final-score" class="text-[#4F46E5]">0 / 20 · 0%</span>
+        </h2>
+        <p id="final-feedback" class="mt-2.5 text-base sm:text-lg text-slate-600 max-w-xl mx-auto">
+          <!-- Encouraging feedback message -->
+        </p>
+
+        <div class="mt-6">
+          <button
+            id="restart-btn"
+            type="button"
+            class="tactile-btn inline-flex items-center justify-center gap-2.5 px-6 py-3.5 rounded-xl bg-[#4F46E5] hover:bg-indigo-700 text-white font-semibold text-base sm:text-lg shadow-sm focus:outline-none focus:ring-4 focus:ring-indigo-500/25 cursor-pointer"
+          >
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24" aria-hidden="true">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+            </svg>
+            <span>New Random Set of 20</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Review List & Filter Controls -->
+      <div class="mt-6 sm:mt-8">
+        <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 mb-4">
+          <h3 class="text-sm font-bold uppercase tracking-wider text-slate-400">
+            Sentence Review &amp; Grammar Takeaways
+          </h3>
+
+          <!-- Filter Tabs: All 20 Sentences vs. Review Missed (N) -->
+          <div
+            id="review-filter-bar"
+            role="group"
+            aria-label="Filter sentence review"
+            class="inline-flex self-start sm:self-auto p-1 rounded-xl bg-slate-100 border border-slate-200/70"
+          >
+            <button
+              id="filter-all-btn"
+              type="button"
+              class="px-3.5 py-1.5 rounded-lg text-xs sm:text-sm font-semibold transition-all cursor-pointer bg-white text-[#0F172A] shadow-xs"
+            >
+              All 20 Sentences
+            </button>
+            <button
+              id="filter-missed-btn"
+              type="button"
+              class="px-3.5 py-1.5 rounded-lg text-xs sm:text-sm font-semibold transition-all cursor-pointer text-slate-600 hover:text-[#0F172A]"
+            >
+              Review Missed (0)
+            </button>
+          </div>
+        </div>
+
+        <div id="review-list" class="space-y-3">
+          <!-- Dynamically populated review items -->
+        </div>
+      </div>
+    </section>
+
+    <!-- Subtle Keyboard Shortcut Footer Hint -->
+    <footer id="keyboard-hint" class="mt-5 text-center text-xs sm:text-sm text-slate-400">
+      Tip: Use keys <kbd class="px-1.5 py-0.5 bg-white border border-slate-200 rounded text-slate-500 font-medium">1</kbd>, <kbd class="px-1.5 py-0.5 bg-white border border-slate-200 rounded text-slate-500 font-medium">2</kbd>, or <kbd class="px-1.5 py-0.5 bg-white border border-slate-200 rounded text-slate-500 font-medium">3</kbd> to choose an answer.
+    </footer>
+  </main>
+
+  <script>
+    /**
+     * 100-Sentence Question Bank (50 Gerund items: IDs 1–50; 50 Infinitive items: IDs 51–100).
+     */
+    const QUESTION_BANK = [
+      // --- 50 GERUND ITEMS (IDs 1–50) ---
+      {
+        id: 1,
+        before: "After four hours on the highway, he finally stopped",
+        after: "because the fog had become too thick.",
+        correct: "driving",
+        options: ["driving", "to drive", "drive"],
+        rule: "Use stop + gerund (-ing) when ending or quitting an activity altogether."
+      },
+      {
+        id: 2,
+        before: "I distinctly remember",
+        after: "the front door before we left for the airport, so it must be locked.",
+        correct: "locking",
+        options: ["locking", "to lock", "lock"],
+        rule: "Use remember + gerund (-ing) to recall a past memory or action that already happened."
+      },
+      {
+        id: 3,
+        before: "If the screen stays frozen, try",
+        after: "the power button for ten seconds to force a restart.",
+        correct: "holding",
+        options: ["holding", "to hold", "hold"],
+        rule: "Use try + gerund (-ing) when suggesting an experiment or method to see if it works."
+      },
+      {
+        id: 4,
+        before: "All of us on the design team are really looking forward to",
+        after: "with you on the upcoming launch.",
+        correct: "collaborating",
+        options: ["collaborating", "collaborate", "have collaborated"],
+        rule: "In 'look forward to', 'to' is a preposition, so it must be followed by a gerund (-ing)."
+      },
+      {
+        id: 5,
+        before: "To stay on schedule, we should avoid",
+        after: "unnecessary changes once the client approves the draft.",
+        correct: "making",
+        options: ["making", "to make", "make"],
+        rule: "The verb 'avoid' is always followed directly by a gerund (-ing)."
+      },
+      {
+        id: 6,
+        before: "Despite the emails shown in the meeting, the spokesperson flatly denied",
+        after: "anything about the leak.",
+        correct: "knowing",
+        options: ["knowing", "to know", "know"],
+        rule: "'Deny' is followed by a gerund (-ing) when referring to a past or ongoing action."
+      },
+      {
+        id: 7,
+        before: "Having lived in northern Norway for five years, he is completely used to",
+        after: "in sub-zero temperatures.",
+        correct: "commuting",
+        options: ["commuting", "commute", "have commuted"],
+        rule: "'Be used to' means be accustomed to; here 'to' is a preposition followed by a gerund (-ing)."
+      },
+      {
+        id: 8,
+        before: "Whenever that song comes on the radio, I can't help",
+        after: "along to the chorus.",
+        correct: "singing",
+        options: ["singing", "to sing", "sing"],
+        rule: "The expression 'can't help' (meaning can't stop oneself) is always followed by a gerund (-ing)."
+      },
+      {
+        id: 9,
+        before: "After reviewing the figures twice, the analyst admitted",
+        after: "a calculation error in the final column.",
+        correct: "making",
+        options: ["making", "to make", "make"],
+        rule: "'Admit' is followed directly by a gerund (-ing)."
+      },
+      {
+        id: 10,
+        before: "That museum is huge, so it's definitely worth",
+        after: "an entire afternoon to explore the upper galleries.",
+        correct: "setting aside",
+        options: ["setting aside", "to set aside", "set aside"],
+        rule: "The adjective 'worth' is followed directly by a gerund (-ing)."
+      },
+      {
+        id: 11,
+        before: "Local residents strongly recommend",
+        after: "the coastal trail early in the morning before the fog rolls in.",
+        correct: "hiking",
+        options: ["hiking", "to hike", "hike"],
+        rule: "When there is no indirect object, 'recommend' is followed directly by a gerund (-ing)."
+      },
+      {
+        id: 12,
+        before: "Accepting the promotion in Tokyo will mean",
+        after: "across the world within the next two months.",
+        correct: "relocating",
+        options: ["relocating", "to relocate", "relocate"],
+        rule: "Use mean + gerund (-ing) when expressing that something involves or results in a consequence."
+      },
+      {
+        id: 13,
+        before: "Because of the severe weather forecast, the organizers postponed",
+        after: "the outdoor concert until Sunday.",
+        correct: "holding",
+        options: ["holding", "to hold", "hold"],
+        rule: "The verb 'postpone' is always followed by a gerund (-ing)."
+      },
+      {
+        id: 14,
+        before: "Have you ever considered",
+        after: "your own consulting business after your contract ends?",
+        correct: "starting",
+        options: ["starting", "to start", "start"],
+        rule: "The verb 'consider' takes a gerund (-ing), never an infinitive."
+      },
+      {
+        id: 15,
+        before: "She immediately regretted",
+        after: "such harsh words during the argument with her brother.",
+        correct: "saying",
+        options: ["saying", "to say", "say"],
+        rule: "Use regret + gerund (-ing) to express remorse about something already done in the past."
+      },
+      {
+        id: 16,
+        before: "You can improve your pronunciation significantly by",
+        after: "aloud for fifteen minutes every evening.",
+        correct: "reading",
+        options: ["reading", "to read", "read"],
+        rule: "Prepositions such as 'by' are always followed by a gerund (-ing)."
+      },
+      {
+        id: 17,
+        before: "Several commuters objected to",
+        after: "extra fees for bringing folding bicycles onto the train.",
+        correct: "paying",
+        options: ["paying", "to pay", "pay"],
+        rule: "In 'object to', 'to' is a preposition and must be followed by a gerund (-ing)."
+      },
+      {
+        id: 18,
+        before: "Many newcomers have difficulty",
+        after: "affordable housing near the city center.",
+        correct: "finding",
+        options: ["finding", "to find", "find"],
+        rule: "The expression 'have difficulty (in)' is followed by a gerund (-ing)."
+      },
+      {
+        id: 19,
+        before: "It's no use",
+        after: "about the spilled coffee; let's grab some paper towels and clean it up.",
+        correct: "complaining",
+        options: ["complaining", "to complain", "complain"],
+        rule: "The idiom 'it's no use' is always followed by a gerund (-ing)."
+      },
+      {
+        id: 20,
+        before: "The new role involves",
+        after: "weekly progress updates with clients across three time zones.",
+        correct: "coordinating",
+        options: ["coordinating", "to coordinate", "coordinate"],
+        rule: "The verb 'involve' is followed by a gerund (-ing)."
+      },
+      {
+        id: 21,
+        before: "He left the conference room without",
+        after: "a single word to anyone at the table.",
+        correct: "saying",
+        options: ["saying", "to say", "say"],
+        rule: "Prepositions like 'without' are always followed by a gerund (-ing)."
+      },
+      {
+        id: 22,
+        before: "I'll never forget",
+        after: "the northern lights dance across the sky on our first night in Iceland.",
+        correct: "seeing",
+        options: ["seeing", "to see", "see"],
+        rule: "Use forget + gerund (-ing) (usually with 'never') when recalling an unforgettable past memory."
+      },
+      {
+        id: 23,
+        before: "Even when the crowd grew noisy, the pianist kept",
+        after: "as if she were alone in the hall.",
+        correct: "playing",
+        options: ["playing", "to play", "play"],
+        rule: "'Keep' (meaning continue) is followed by a gerund (-ing)."
+      },
+      {
+        id: 24,
+        before: "Most people hate",
+        after: "what to do when they are already working at full capacity.",
+        correct: "being told",
+        options: ["being told", "to be telling", "be told"],
+        rule: "Use a passive gerund ('being + past participle') after verbs like 'hate' when receiving an action."
+      },
+      {
+        id: 25,
+        before: "If we leave without a map, we risk",
+        after: "lost in the national park after sunset.",
+        correct: "getting",
+        options: ["getting", "to get", "get"],
+        rule: "The verb 'risk' is always followed by a gerund (-ing)."
+      },
+      {
+        id: 26,
+        before: "Do you mind",
+        after: "the window slightly so we can get some fresh air in here?",
+        correct: "opening",
+        options: ["opening", "to open", "open"],
+        rule: "The verb 'mind' is always followed by a gerund (-ing)."
+      },
+      {
+        id: 27,
+        before: "Instead of",
+        after: "for a taxi in the rain, we decided to take the underground.",
+        correct: "waiting",
+        options: ["waiting", "to wait", "wait"],
+        rule: "The prepositional phrase 'instead of' must be followed by a gerund (-ing)."
+      },
+      {
+        id: 28,
+        before: "The hospital is deeply committed to",
+        after: "patient wait times in the emergency department.",
+        correct: "reducing",
+        options: ["reducing", "to reduce", "reduce"],
+        rule: "In 'be committed to', 'to' is a preposition followed by a gerund (-ing)."
+      },
+      {
+        id: 29,
+        before: "I don't really feel like",
+        after: "tonight—shall we order Thai food instead?",
+        correct: "cooking",
+        options: ["cooking", "to cook", "cook"],
+        rule: "The expression 'feel like' (meaning want to) takes a gerund (-ing)."
+      },
+      {
+        id: 30,
+        before: "She spent the entire weekend",
+        after: "old family photographs into digital albums.",
+        correct: "scanning",
+        options: ["scanning", "to scan", "scan"],
+        rule: "The structure 'spend + time/money' is followed by a gerund (-ing)."
+      },
+      {
+        id: 31,
+        before: "It took him a few weeks to get used to",
+        after: "on the left side of the road.",
+        correct: "driving",
+        options: ["driving", "to drive", "drive"],
+        rule: "In 'get used to', 'to' is a preposition and requires a gerund (-ing)."
+      },
+      {
+        id: 32,
+        before: "The CEO couldn't resist",
+        after: "a hint about the upcoming product launch during the interview.",
+        correct: "dropping",
+        options: ["dropping", "to drop", "drop"],
+        rule: "The verb 'resist' is followed by a gerund (-ing)."
+      },
+      {
+        id: 33,
+        before: "There's no point in",
+        after: "for the train now; it already left five minutes ago.",
+        correct: "running",
+        options: ["running", "to run", "run"],
+        rule: "Prepositions like 'in' (in 'there's no point in') are followed by a gerund (-ing)."
+      },
+      {
+        id: 34,
+        before: "Can you imagine",
+        after: "in a lighthouse on a remote island for an entire winter?",
+        correct: "living",
+        options: ["living", "to live", "live"],
+        rule: "The verb 'imagine' is followed by a gerund (-ing)."
+      },
+      {
+        id: 35,
+        before: "Even after the bell rang, the professor went on",
+        after: "the final theorem on the board.",
+        correct: "explaining",
+        options: ["explaining", "to explain", "explain"],
+        rule: "Use go on + gerund (-ing) when continuing the same action without interruption."
+      },
+      {
+        id: 36,
+        before: "I genuinely miss",
+        after: "long walks along the river with my college friends.",
+        correct: "taking",
+        options: ["taking", "to take", "take"],
+        rule: "The verb 'miss' is always followed by a gerund (-ing)."
+      },
+      {
+        id: 37,
+        before: "Before",
+        after: "the contract, make sure you read every clause on the back page.",
+        correct: "signing",
+        options: ["signing", "to sign", "sign"],
+        rule: "When 'before' acts as a preposition without a new subject, it is followed by a gerund (-ing)."
+      },
+      {
+        id: 38,
+        before: "He apologized for",
+        after: "so late to the quarterly budget review.",
+        correct: "arriving",
+        options: ["arriving", "to arrive", "arrive"],
+        rule: "The verb + preposition 'apologize for' takes a gerund (-ing)."
+      },
+      {
+        id: 39,
+        before: "Do you fancy",
+        after: "that new documentary at the independent cinema tonight?",
+        correct: "watching",
+        options: ["watching", "to watch", "watch"],
+        rule: "The verb 'fancy' (meaning want or feel like) is followed by a gerund (-ing)."
+      },
+      {
+        id: 40,
+        before: "She is tired of",
+        after: "like a junior assistant after leading three major projects.",
+        correct: "being treated",
+        options: ["being treated", "to be treated", "be treated"],
+        rule: "After a preposition ('of'), use a passive gerund ('being + past participle') when receiving the action."
+      },
+      {
+        id: 41,
+        before: "The committee is strongly opposed to",
+        after: "the historic library building.",
+        correct: "demolishing",
+        options: ["demolishing", "to demolish", "demolish"],
+        rule: "In 'be opposed to', 'to' is a preposition followed by a gerund (-ing)."
+      },
+      {
+        id: 42,
+        before: "To master the piece, you should practice",
+        after: "the transition between the second and third movements.",
+        correct: "playing",
+        options: ["playing", "to play", "play"],
+        rule: "The verb 'practice' is always followed by a gerund (-ing)."
+      },
+      {
+        id: 43,
+        before: "I can't stand",
+        after: "in long queues at the airport during holiday weekends.",
+        correct: "waiting",
+        options: ["waiting", "to wait", "wait"],
+        rule: "The expression 'can't stand' is followed by a gerund (-ing)."
+      },
+      {
+        id: 44,
+        before: "They finally quit",
+        after: "to fix the old printer and ordered a replacement.",
+        correct: "trying",
+        options: ["trying", "to try", "try"],
+        rule: "The verb 'quit' is followed by a gerund (-ing)."
+      },
+      {
+        id: 45,
+        before: "In addition to",
+        after: "fluent Spanish, she also speaks conversational Japanese.",
+        correct: "speaking",
+        options: ["speaking", "to speak", "speak"],
+        rule: "In 'in addition to', 'to' is a preposition followed by a gerund (-ing)."
+      },
+      {
+        id: 46,
+        before: "The treasurer confessed to",
+        after: "funds from the reserve account without authorization.",
+        correct: "transferring",
+        options: ["transferring", "to transfer", "transfer"],
+        rule: "In 'confess to', 'to' is a preposition and takes a gerund (-ing)."
+      },
+      {
+        id: 47,
+        before: "We're thinking about",
+        after: "a cabin by the lake for the first two weeks of August.",
+        correct: "renting",
+        options: ["renting", "to rent", "rent"],
+        rule: "Prepositions such as 'about' are followed by a gerund (-ing)."
+      },
+      {
+        id: 48,
+        before: "The delay was caused by the supplier",
+        after: "the shipping label incorrectly.",
+        correct: "printing",
+        options: ["printing", "to print", "print"],
+        rule: "After a preposition ('by'), a gerund (-ing) is used even when preceded by its own subject."
+      },
+      {
+        id: 49,
+        before: "Would you consider",
+        after: "your presentation by ten minutes so we have time for questions?",
+        correct: "shortening",
+        options: ["shortening", "to shorten", "shorten"],
+        rule: "'Consider' is always followed by a gerund (-ing)."
+      },
+      {
+        id: 50,
+        before: "She succeeded in",
+        after: "enough signatures to put the proposal on the ballot.",
+        correct: "gathering",
+        options: ["gathering", "to gather", "gather"],
+        rule: "The verb + preposition 'succeed in' is followed by a gerund (-ing)."
+      },
+
+      // --- 50 INFINITIVE ITEMS (IDs 51–100) ---
+      {
+        id: 51,
+        before: "After driving for four hours straight, we stopped",
+        after: "some coffee and stretch our legs.",
+        correct: "to get",
+        options: ["getting", "to get", "get"],
+        rule: "Use stop + to-infinitive when pausing one activity in order to do something else."
+      },
+      {
+        id: 52,
+        before: "We regret",
+        after: "you that your application for the summer fellowship has not been successful.",
+        correct: "to inform",
+        options: ["informing", "to inform", "inform"],
+        rule: "Use regret + to-infinitive in formal announcements when delivering disappointing news."
+      },
+      {
+        id: 53,
+        before: "With raw material costs rising this quarter, the company simply can't afford",
+        after: "any further delays.",
+        correct: "to suffer",
+        options: ["suffering", "to suffer", "suffer"],
+        rule: "The verb 'afford' is always followed by a to-infinitive."
+      },
+      {
+        id: 54,
+        before: "Even though the train was delayed by an hour, she still managed",
+        after: "the keynote speech on time.",
+        correct: "to catch",
+        options: ["catching", "to catch", "catch"],
+        rule: "'Manage' (meaning succeed in doing something difficult) is followed by a to-infinitive."
+      },
+      {
+        id: 55,
+        before: "Don't forget",
+        after: "your boarding pass before heading through security, as the scanners are strict.",
+        correct: "to download",
+        options: ["downloading", "to download", "download"],
+        rule: "Use forget + to-infinitive when someone fails to remember a task they need to do."
+      },
+      {
+        id: 56,
+        before: "It took weeks of negotiation, but we finally persuaded the board",
+        after: "the sustainability proposal.",
+        correct: "to approve",
+        options: ["approving", "to approve", "approve"],
+        rule: "Verbs like 'persuade' follow the pattern: verb + object + to-infinitive."
+      },
+      {
+        id: 57,
+        before: "People tend",
+        after: "more productive in the morning when they tackle their hardest task first.",
+        correct: "to be",
+        options: ["being", "to be", "be"],
+        rule: "The verb 'tend' is always followed by a to-infinitive."
+      },
+      {
+        id: 58,
+        before: "The witnesses refused",
+        after: "any questions until their legal representative arrived at the station.",
+        correct: "to answer",
+        options: ["answering", "to answer", "answer"],
+        rule: "'Refuse' is always followed by a to-infinitive."
+      },
+      {
+        id: 59,
+        before: "After outlining the quarterly results, the director went on",
+        after: "the new product roadmap.",
+        correct: "to present",
+        options: ["presenting", "to present", "present"],
+        rule: "Use go on + to-infinitive when finishing one topic and moving on to the next."
+      },
+      {
+        id: 60,
+        before: "Please remember",
+        after: "the lights and lock the back studio before you leave tonight.",
+        correct: "to turn off",
+        options: ["turning off", "to turn off", "turn off"],
+        rule: "Use remember + to-infinitive when reminding yourself or someone else to perform a future task."
+      },
+      {
+        id: 61,
+        before: "Despite several attempts, the climbers failed",
+        after: "the summit before the storm hit.",
+        correct: "to reach",
+        options: ["reaching", "to reach", "reach"],
+        rule: "The verb 'fail' is always followed by a to-infinitive."
+      },
+      {
+        id: 62,
+        before: "If you have any questions about the syllabus, please don't hesitate",
+        after: "me after class.",
+        correct: "to contact",
+        options: ["contacting", "to contact", "contact"],
+        rule: "The verb 'hesitate' is followed by a to-infinitive."
+      },
+      {
+        id: 63,
+        before: "He pretended",
+        after: "the joke even though it was obvious he hadn't caught the punchline.",
+        correct: "to understand",
+        options: ["understanding", "to understand", "understand"],
+        rule: "The verb 'pretend' is always followed by a to-infinitive."
+      },
+      {
+        id: 64,
+        before: "The residents' association threatened",
+        after: "legal action if the noise continued past midnight.",
+        correct: "to take",
+        options: ["taking", "to take", "take"],
+        rule: "The verb 'threaten' is followed by a to-infinitive."
+      },
+      {
+        id: 65,
+        before: "We've arranged",
+        after: "the visiting speakers at the train station tomorrow morning.",
+        correct: "to meet",
+        options: ["meeting", "to meet", "meet"],
+        rule: "The verb 'arrange' is followed by a to-infinitive."
+      },
+      {
+        id: 66,
+        before: "Several witnesses claimed",
+        after: "a silver sedan speeding away from the intersection.",
+        correct: "to have seen",
+        options: ["seeing", "to have seen", "have seen"],
+        rule: "Use a perfect infinitive ('to have + past participle') after 'claim' to refer to an earlier event."
+      },
+      {
+        id: 67,
+        before: "After months of hard work, the volunteers truly deserve",
+        after: "for their dedication.",
+        correct: "to be recognized",
+        options: ["recognizing", "to be recognized", "be recognized"],
+        rule: "After 'deserve', use a passive to-infinitive ('to be + past participle') when receiving recognition."
+      },
+      {
+        id: 68,
+        before: "My advisor strongly encouraged me",
+        after: "for the international research grant.",
+        correct: "to apply",
+        options: ["applying", "to apply", "apply"],
+        rule: "Verbs like 'encourage' take an object followed by a to-infinitive."
+      },
+      {
+        id: 69,
+        before: "The new software will enable analysts",
+        after: "large datasets in a fraction of the usual time.",
+        correct: "to process",
+        options: ["processing", "to process", "process"],
+        rule: "The verb 'enable' follows the pattern: enable + object + to-infinitive."
+      },
+      {
+        id: 70,
+        before: "Local authorities warned hikers",
+        after: "on the marked trails due to unstable cliffs.",
+        correct: "to stay",
+        options: ["staying", "to stay", "stay"],
+        rule: "The verb 'warn' takes an object followed by a to-infinitive."
+      },
+      {
+        id: 71,
+        before: "She was reluctant",
+        after: "her opinion until she had reviewed all the evidence.",
+        correct: "to share",
+        options: ["sharing", "to share", "share"],
+        rule: "Adjectives expressing willingness or hesitation (like 'reluctant') are followed by a to-infinitive."
+      },
+      {
+        id: 72,
+        before: "With so many skilled players on the roster, the team is bound",
+        after: "well this season.",
+        correct: "to perform",
+        options: ["performing", "to perform", "perform"],
+        rule: "The adjective expression 'be bound' (meaning certain) is followed by a to-infinitive."
+      },
+      {
+        id: 73,
+        before: "I didn't mean",
+        after: "your feelings; I was only trying to offer constructive feedback.",
+        correct: "to hurt",
+        options: ["hurting", "to hurt", "hurt"],
+        rule: "Use mean + to-infinitive when expressing intention."
+      },
+      {
+        id: 74,
+        before: "We tried",
+        after: "the heavy oak wardrobe up the narrow staircase, but it simply wouldn't fit.",
+        correct: "to carry",
+        options: ["carrying", "to carry", "carry"],
+        rule: "Use try + to-infinitive when making an effort to do something difficult."
+      },
+      {
+        id: 75,
+        before: "The strict coach made the entire squad",
+        after: "extra sprints after practice.",
+        correct: "run",
+        options: ["running", "to run", "run"],
+        rule: "In the active voice, 'make + object' is followed by a bare infinitive (without 'to')."
+      },
+      {
+        id: 76,
+        before: "Would you rather",
+        after: "the report tonight or finish it fresh tomorrow morning?",
+        correct: "review",
+        options: ["reviewing", "to review", "review"],
+        rule: "The modal idiom 'would rather' is followed by a bare infinitive (without 'to')."
+      },
+      {
+        id: 77,
+        before: "You had better",
+        after: "your travel insurance before booking non-refundable flights.",
+        correct: "check",
+        options: ["checking", "to check", "check"],
+        rule: "The expression 'had better' is always followed by a bare infinitive (without 'to')."
+      },
+      {
+        id: 78,
+        before: "Security guards wouldn't let anyone",
+        after: "the auditorium once the recording had begun.",
+        correct: "enter",
+        options: ["entering", "to enter", "enter"],
+        rule: "The verb 'let + object' is always followed by a bare infinitive (without 'to')."
+      },
+      {
+        id: 79,
+        before: "She appears",
+        after: "her keys somewhere between the café and the subway station.",
+        correct: "to have lost",
+        options: ["losing", "to have lost", "lose"],
+        rule: "After 'appear', use a perfect infinitive ('to have + past participle') for a completed past action."
+      },
+      {
+        id: 80,
+        before: "The museum doesn't allow visitors",
+        after: "flash photography inside the portrait gallery.",
+        correct: "to use",
+        options: ["using", "to use", "use"],
+        rule: "When 'allow' is followed by an object ('visitors'), use a to-infinitive."
+      },
+      {
+        id: 81,
+        before: "Her decision",
+        after: "architecture came after a summer internship at a design firm.",
+        correct: "to study",
+        options: ["studying", "to study", "study"],
+        rule: "Abstract nouns such as 'decision' are often followed by a to-infinitive."
+      },
+      {
+        id: 82,
+        before: "The technician promised",
+        after: "the heating system before the cold front arrived.",
+        correct: "to repair",
+        options: ["repairing", "to repair", "repair"],
+        rule: "The verb 'promise' is always followed by a to-infinitive."
+      },
+      {
+        id: 83,
+        before: "Bad weather forced the ferry operator",
+        after: "all afternoon crossings.",
+        correct: "to cancel",
+        options: ["canceling", "to cancel", "cancel"],
+        rule: "The verb 'force' follows the pattern: force + object + to-infinitive."
+      },
+      {
+        id: 84,
+        before: "We were fortunate",
+        after: "the last two seats on the evening express train.",
+        correct: "to get",
+        options: ["getting", "to get", "get"],
+        rule: "Adjectives describing luck or reaction (like 'fortunate') take a to-infinitive."
+      },
+      {
+        id: 85,
+        before: "Applicants are expected",
+        after: "a portfolio of recent work along with their résumé.",
+        correct: "to submit",
+        options: ["submitting", "to submit", "submit"],
+        rule: "Passive reporting verbs like 'be expected' are followed by a to-infinitive."
+      },
+      {
+        id: 86,
+        before: "The union demanded",
+        after: "with senior management before any restructuring took place.",
+        correct: "to meet",
+        options: ["meeting", "to meet", "meet"],
+        rule: "The verb 'demand' is followed by a to-infinitive."
+      },
+      {
+        id: 87,
+        before: "Could you remind me",
+        after: "the dentist tomorrow morning to confirm my appointment?",
+        correct: "to call",
+        options: ["calling", "to call", "call"],
+        rule: "The verb 'remind' follows the pattern: remind + object + to-infinitive."
+      },
+      {
+        id: 88,
+        before: "She offered",
+        after: "us to the airport so we wouldn't have to pay for parking.",
+        correct: "to drive",
+        options: ["driving", "to drive", "drive"],
+        rule: "The verb 'offer' is always followed by a to-infinitive."
+      },
+      {
+        id: 89,
+        before: "I'd rather not",
+        after: "personal finances in front of the entire dinner table.",
+        correct: "discuss",
+        options: ["discussing", "to discuss", "discuss"],
+        rule: "The negative form 'would rather not' takes a bare infinitive (without 'to')."
+      },
+      {
+        id: 90,
+        before: "He seems",
+        after: "a lot of weight since he started cycling to work every day.",
+        correct: "to have lost",
+        options: ["losing", "to have lost", "lose"],
+        rule: "Use 'seem + perfect infinitive' ('to have + past participle') for an action completed before now."
+      },
+      {
+        id: 91,
+        before: "The doctor advised him",
+        after: "his daily caffeine intake to improve his sleep.",
+        correct: "to reduce",
+        options: ["reducing", "to reduce", "reduce"],
+        rule: "When 'advise' is followed by an object ('him'), use a to-infinitive."
+      },
+      {
+        id: 92,
+        before: "It is essential",
+        after: "all safety valves before pressurizing the pipeline.",
+        correct: "to inspect",
+        options: ["inspecting", "to inspect", "inspect"],
+        rule: "Structures starting with 'It is + adjective' (like 'essential') are followed by a to-infinitive."
+      },
+      {
+        id: 93,
+        before: "They finally agreed",
+        after: "the cost of the repairs equally between both apartments.",
+        correct: "to split",
+        options: ["splitting", "to split", "split"],
+        rule: "The verb 'agree' is always followed by a to-infinitive."
+      },
+      {
+        id: 94,
+        before: "The keynote speaker urged young scientists",
+        after: "bold questions about climate resilience.",
+        correct: "to ask",
+        options: ["asking", "to ask", "ask"],
+        rule: "The verb 'urge' takes an object followed by a to-infinitive."
+      },
+      {
+        id: 95,
+        before: "You'd better not",
+        after: "your laptop unattended in the café even for a minute.",
+        correct: "leave",
+        options: ["leaving", "to leave", "leave"],
+        rule: "The negative form 'had better not' is followed by a bare infinitive (without 'to')."
+      },
+      {
+        id: 96,
+        before: "All passengers wish",
+        after: "immediately if their connecting flight is delayed.",
+        correct: "to be notified",
+        options: ["notifying", "to be notified", "be notified"],
+        rule: "After 'wish', use a passive to-infinitive ('to be + past participle') when receiving the action."
+      },
+      {
+        id: 97,
+        before: "His ability",
+        after: "calm under intense pressure makes him an ideal emergency coordinator.",
+        correct: "to remain",
+        options: ["remaining", "to remain", "remain"],
+        rule: "The noun 'ability' is followed by a to-infinitive."
+      },
+      {
+        id: 98,
+        before: "The host invited everyone",
+        after: "on the terrace while dinner was being served.",
+        correct: "to gather",
+        options: ["gathering", "to gather", "gather"],
+        rule: "The verb 'invite' follows the pattern: invite + object + to-infinitive."
+      },
+      {
+        id: 99,
+        before: "She happened",
+        after: "past the bookstore just as the author was signing copies.",
+        correct: "to walk",
+        options: ["walking", "to walk", "walk"],
+        rule: "The verb 'happen' (meaning do something by chance) is followed by a to-infinitive."
+      },
+      {
+        id: 100,
+        before: "We hope",
+        after: "all renovations to the community center by the end of next month.",
+        correct: "to complete",
+        options: ["completing", "to complete", "complete"],
+        rule: "The verb 'hope' is always followed by a to-infinitive."
+      }
+    ];
+
+    const GERUND_POOL = QUESTION_BANK.slice(0, 50);
+    const INFINITIVE_POOL = QUESTION_BANK.slice(50, 100);
+    const seenIds = new Set();
+
+    // Application State
+    const state = {
+      questions: [],
+      currentIndex: 0,
+      score: 0,
+      answered: false,
+      finished: false,
+      reviewFilter: 'all', // 'all' | 'missed'
+      history: [] // Stores { question, chosen, isCorrect }
+    };
+
+    // DOM Element References
+    const els = {
+      scoreValue: document.getElementById('score-value'),
+      progressWrapper: document.getElementById('progress-wrapper'),
+      progressText: document.getElementById('progress-text'),
+      progressPercent: document.getElementById('progress-percent'),
+      progressBar: document.getElementById('progress-bar'),
+      quizCard: document.getElementById('quiz-card'),
+      questionContent: document.getElementById('question-content'),
+      sentenceDisplay: document.getElementById('sentence-display'),
+      optionsGrid: document.getElementById('options-grid'),
+      feedbackArea: document.getElementById('feedback-area'),
+      explanationBox: document.getElementById('explanation-box'),
+      explanationIcon: document.getElementById('explanation-icon'),
+      feedbackHeading: document.getElementById('feedback-heading'),
+      explanationText: document.getElementById('explanation-text'),
+      nextBtn: document.getElementById('next-btn'),
+      nextBtnLabel: document.getElementById('next-btn-label'),
+      summaryCard: document.getElementById('summary-card'),
+      finalScore: document.getElementById('final-score'),
+      finalFeedback: document.getElementById('final-feedback'),
+      filterAllBtn: document.getElementById('filter-all-btn'),
+      filterMissedBtn: document.getElementById('filter-missed-btn'),
+      reviewList: document.getElementById('review-list'),
+      restartBtn: document.getElementById('restart-btn'),
+      keyboardHint: document.getElementById('keyboard-hint')
+    };
+
+    /**
+     * Proper Fisher-Yates shuffle helper for arrays.
+     */
+    function shuffleList(list) {
+      const copy = [...list];
+      for (let i = copy.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [copy[i], copy[j]] = [copy[j], copy[i]];
+      }
+      return copy;
+    }
+
+    /**
+     * Generates a balanced, streak-free list of target option indices (0, 1, or 2)
+     * across 20 questions so correct answers are evenly spread across buttons [1], [2], and [3].
+     */
+    function generateBalancedOptionPositions(count = 20) {
+      const counts = shuffleList([7, 7, 6]);
+      const pool = [
+        ...Array(counts[0]).fill(0),
+        ...Array(counts[1]).fill(1),
+        ...Array(counts[2]).fill(2)
+      ];
+
+      for (let attempt = 0; attempt < 100; attempt++) {
+        const candidate = shuffleList(pool);
+        let hasTripleStreak = false;
+        for (let i = 2; i < candidate.length; i++) {
+          if (candidate[i] === candidate[i - 1] && candidate[i] === candidate[i - 2]) {
+            hasTripleStreak = true;
+            break;
+          }
+        }
+        if (!hasTripleStreak) {
+          return candidate;
+        }
+      }
+      return shuffleList(pool);
+    }
+
+    /**
+     * Samples `count` items from a category pool, prioritizing unseen question IDs
+     * during the browser session before cycling.
+     */
+    function sampleFromCategory(categoryPool, count) {
+      const unseen = categoryPool.filter(q => !seenIds.has(q.id));
+      const seen = categoryPool.filter(q => seenIds.has(q.id));
+
+      if (unseen.length >= count) {
+        return shuffleList(unseen).slice(0, count);
+      }
+
+      const picked = [...shuffleList(unseen)];
+      categoryPool.forEach(q => seenIds.delete(q.id));
+      const needed = count - picked.length;
+      const remainingPool = seen.filter(q => !picked.some(p => p.id === q.id));
+      picked.push(...shuffleList(remainingPool).slice(0, needed));
+      return picked;
+    }
+
+    /**
+     * Draws 20 random questions (10 gerunds + 10 infinitives), shuffles their order,
+     * and arranges each question's 3 choices with balanced option positions.
+     */
+    function drawRandomSessionSet() {
+      const gerundTen = sampleFromCategory(GERUND_POOL, 10);
+      const infinitiveTen = sampleFromCategory(INFINITIVE_POOL, 10);
+      const combinedTwenty = shuffleList([...gerundTen, ...infinitiveTen]);
+
+      combinedTwenty.forEach(q => seenIds.add(q.id));
+
+      const targetPositions = generateBalancedOptionPositions(combinedTwenty.length);
+      return combinedTwenty.map((item, idx) => {
+        const distractors = shuffleList(item.options.filter(opt => opt !== item.correct));
+        const targetPos = targetPositions[idx];
+        const arrangedOptions = [];
+        let distractorIdx = 0;
+
+        for (let pos = 0; pos < 3; pos++) {
+          if (pos === targetPos) {
+            arrangedOptions.push(item.correct);
+          } else {
+            arrangedOptions.push(distractors[distractorIdx++]);
+          }
+        }
+
+        return {
+          ...item,
+          options: arrangedOptions
+        };
+      });
+    }
+
+    /**
+     * Escapes basic HTML characters for safe DOM rendering.
+     */
+    function escapeHTML(str) {
+      return str
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#39;');
+    }
+
+    /**
+     * Combines `before`, an inline blank/answer HTML pill, and `after` with proper spacing.
+     */
+    function assembleSentenceHTML(question, pillHTML) {
+      const beforeEscaped = escapeHTML(question.before.trim());
+      const afterTrimmed = question.after.trim();
+      const afterEscaped = escapeHTML(afterTrimmed);
+      const startsWithPunctuation = /^[,.;:?!—–'")\]]/.test(afterTrimmed);
+      const leadingSpace = beforeEscaped.length > 0 ? ' ' : '';
+      const trailingSpace = afterEscaped.length > 0 && !startsWithPunctuation ? ' ' : '';
+      return `${beforeEscaped}${leadingSpace}${pillHTML}${trailingSpace}${afterEscaped}`;
+    }
+
+    /**
+     * Formats a sentence string with an interactive inline blank pill
+     * that fills in with the selected verb form (colored green or red upon answering).
+     */
+    function formatSentenceHTML(question, selectedAnswer = null, isCorrect = null) {
+      if (selectedAnswer !== null) {
+        const pillClasses = isCorrect
+          ? 'bg-[#ECFDF5] text-[#059669] border-b-2 border-[#059669]'
+          : 'bg-[#FFF1F2] text-[#E11D48] border-b-2 border-[#E11D48]';
+        const pillHTML = `<span class="inline-block px-3 py-0.5 mx-0.5 rounded-lg ${pillClasses} font-bold transition-all">${escapeHTML(selectedAnswer)}</span>`;
+        return assembleSentenceHTML(question, pillHTML);
+      }
+
+      const blankPillHTML = `<span class="inline-block min-w-[6rem] text-center px-3 py-0.5 mx-0.5 rounded-lg bg-indigo-50/90 text-[#4F46E5] border-b-2 border-[#4F46E5] font-semibold tracking-wider select-none">______</span>`;
+      return assembleSentenceHTML(question, blankPillHTML);
+    }
+
+    /**
+     * Initializes or resets the exercise with a fresh random set of 20 questions.
+     */
+    function startExercise() {
+      state.questions = drawRandomSessionSet();
+      state.currentIndex = 0;
+      state.score = 0;
+      state.answered = false;
+      state.finished = false;
+      state.reviewFilter = 'all';
+      state.history = [];
+
+      // Update UI visibility
+      els.scoreValue.textContent = '0';
+      els.progressWrapper.classList.remove('hidden');
+      els.quizCard.classList.remove('hidden');
+      els.summaryCard.classList.add('hidden');
+      els.keyboardHint.classList.remove('hidden');
+
+      renderQuestion();
+    }
+
+    /**
+     * Renders the active question, options, and progress state.
+     */
+    function renderQuestion() {
+      const total = state.questions.length;
+      const current = state.questions[state.currentIndex];
+      state.answered = false;
+
+      // Update progress bar & counter
+      const questionNumber = state.currentIndex + 1;
+      const pct = Math.round((questionNumber / total) * 100);
+      els.progressText.textContent = `Question ${questionNumber} of ${total}`;
+      els.progressPercent.textContent = `${pct}%`;
+      els.progressBar.style.width = `${pct}%`;
+
+      // Re-trigger subtle entrance animation on question content
+      els.questionContent.classList.remove('animate-card-enter');
+      void els.questionContent.offsetWidth;
+      els.questionContent.classList.add('animate-card-enter');
+
+      // Render sentence with blank pill
+      els.sentenceDisplay.innerHTML = formatSentenceHTML(current, null, null);
+
+      // Render 3 option buttons with [1], [2], [3] keyboard shortcut hints
+      els.optionsGrid.innerHTML = '';
+      current.options.forEach((optionText, idx) => {
+        const btn = document.createElement('button');
+        btn.type = 'button';
+        btn.dataset.option = optionText;
+        btn.dataset.index = String(idx);
+        btn.className = [
+          'tactile-btn group relative flex items-center justify-center gap-2.5',
+          'px-5 py-4 rounded-xl sm:rounded-2xl border-2 border-[#E2E8F0] bg-white',
+          'text-lg sm:text-xl font-semibold text-[#0F172A] shadow-button',
+          'hover:border-[#4F46E5] hover:bg-indigo-50/40 focus:outline-none focus:ring-4 focus:ring-indigo-500/20',
+          'cursor-pointer'
+        ].join(' ');
+
+        btn.innerHTML = `
+          <span class="inline-flex items-center justify-center px-1.5 py-0.5 rounded-md bg-slate-100 group-hover:bg-indigo-100 text-xs font-bold text-slate-500 group-hover:text-[#4F46E5] transition-colors tabular-nums">
+            [${idx + 1}]
+          </span>
+          <span>${escapeHTML(optionText)}</span>
+        `;
+
+        btn.addEventListener('click', () => {
+          btn.blur();
+          handleOptionSelect(optionText);
+        });
+
+        els.optionsGrid.appendChild(btn);
+      });
+
+      // Hide feedback panel until user answers
+      els.feedbackArea.classList.add('hidden');
+      els.nextBtnLabel.textContent =
+        state.currentIndex === total - 1 ? 'See Results →' : 'Next Question →';
+    }
+
+    /**
+     * Handles selecting one of the 3 verb form options.
+     */
+    function handleOptionSelect(chosenOption) {
+      if (state.answered || state.finished) return;
+      state.answered = true;
+
+      const current = state.questions[state.currentIndex];
+      const isCorrect = chosenOption === current.correct;
+
+      if (isCorrect) {
+        state.score += 1;
+        els.scoreValue.textContent = String(state.score);
+      }
+
+      state.history.push({
+        question: current,
+        chosen: chosenOption,
+        isCorrect
+      });
+
+      // Dynamically fill the inline blank pill with the selected verb form
+      els.sentenceDisplay.innerHTML = formatSentenceHTML(current, chosenOption, isCorrect);
+
+      // Update and lock all option buttons
+      const buttons = els.optionsGrid.querySelectorAll('button');
+      buttons.forEach(btn => {
+        const opt = btn.dataset.option;
+        btn.disabled = true;
+        btn.classList.remove(
+          'hover:border-[#4F46E5]',
+          'hover:bg-indigo-50/40',
+          'cursor-pointer',
+          'border-[#E2E8F0]',
+          'bg-white',
+          'text-[#0F172A]'
+        );
+        btn.classList.add('cursor-default');
+
+        const badge = btn.querySelector('span:first-child');
+        if (badge) {
+          badge.classList.remove('group-hover:bg-indigo-100', 'group-hover:text-[#4F46E5]');
+        }
+
+        if (opt === current.correct) {
+          // Correct option: Emerald Green (#059669)
+          btn.classList.add('bg-[#059669]', 'border-[#059669]', 'text-white', 'shadow-sm');
+          if (badge) {
+            badge.classList.remove('bg-slate-100', 'text-slate-500');
+            badge.classList.add('bg-white/20', 'text-white');
+            badge.innerHTML = '✓';
+          }
+        } else if (opt === chosenOption && !isCorrect) {
+          // Incorrect chosen option: Rose Red (#E11D48)
+          btn.classList.add('bg-[#E11D48]', 'border-[#E11D48]', 'text-white', 'shadow-sm');
+          if (badge) {
+            badge.classList.remove('bg-slate-100', 'text-slate-500');
+            badge.classList.add('bg-white/20', 'text-white');
+            badge.innerHTML = '✕';
+          }
+        } else {
+          // Unselected neutral option
+          btn.classList.add('bg-slate-50', 'border-slate-200/70', 'text-slate-400', 'opacity-70');
+        }
+      });
+
+      // Style and show grammar rule callout
+      els.explanationBox.className = isCorrect
+        ? 'rounded-2xl p-4 sm:p-5 border border-emerald-200 bg-[#ECFDF5] flex items-start gap-3.5 animate-reveal'
+        : 'rounded-2xl p-4 sm:p-5 border border-rose-200 bg-[#FFF1F2] flex items-start gap-3.5 animate-reveal';
+
+      els.explanationIcon.innerHTML = isCorrect
+        ? `<div class="w-7 h-7 rounded-full bg-[#059669] text-white flex items-center justify-center shadow-xs">
+             <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.6" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>
+           </div>`
+        : `<div class="w-7 h-7 rounded-full bg-[#E11D48] text-white flex items-center justify-center shadow-xs">
+             <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.6" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/></svg>
+           </div>`;
+
+      els.feedbackHeading.textContent = isCorrect
+        ? 'Correct!'
+        : `Not quite — correct answer: ${current.correct}`;
+      els.feedbackHeading.className = isCorrect
+        ? 'font-bold mb-0.5 text-emerald-950'
+        : 'font-bold mb-0.5 text-rose-950';
+
+      els.explanationText.textContent = current.rule;
+      els.feedbackArea.classList.remove('hidden');
+    }
+
+    /**
+     * Advances to the next question or displays the summary screen.
+     */
+    function handleNext() {
+      if (!state.answered || state.finished) return;
+
+      if (state.currentIndex < state.questions.length - 1) {
+        state.currentIndex += 1;
+        renderQuestion();
+      } else {
+        showSummary();
+      }
+    }
+
+    /**
+     * Updates filter tab styles and renders the review list based on active filter.
+     */
+    function renderReviewList() {
+      const missedCount = state.history.filter(entry => !entry.isCorrect).length;
+      const activeClasses = 'px-3.5 py-1.5 rounded-lg text-xs sm:text-sm font-semibold transition-all cursor-pointer bg-white text-[#0F172A] shadow-xs';
+      const inactiveClasses = 'px-3.5 py-1.5 rounded-lg text-xs sm:text-sm font-semibold transition-all cursor-pointer text-slate-600 hover:text-[#0F172A]';
+      const disabledClasses = 'px-3.5 py-1.5 rounded-lg text-xs sm:text-sm font-semibold text-slate-400 opacity-60 cursor-not-allowed';
+
+      els.filterAllBtn.className = state.reviewFilter === 'all' ? activeClasses : inactiveClasses;
+
+      if (missedCount > 0) {
+        els.filterMissedBtn.disabled = false;
+        els.filterMissedBtn.className = state.reviewFilter === 'missed' ? activeClasses : inactiveClasses;
+      } else {
+        els.filterMissedBtn.disabled = true;
+        els.filterMissedBtn.className = disabledClasses;
+      }
+
+      const entriesToShow = state.history
+        .map((entry, idx) => ({ ...entry, number: idx + 1 }))
+        .filter(entry => state.reviewFilter === 'all' || !entry.isCorrect);
+
+      els.reviewList.innerHTML = '';
+      entriesToShow.forEach((entry) => {
+        const { question, chosen, isCorrect, number } = entry;
+        const correctBoldHTML = `<strong class="font-bold text-[#059669]">${escapeHTML(question.correct)}</strong>`;
+        const completedSentenceHTML = assembleSentenceHTML(question, correctBoldHTML);
+
+        const row = document.createElement('div');
+        row.className = 'p-4 rounded-xl border border-[#E2E8F0] bg-slate-50/60 flex items-start gap-3.5';
+
+        const statusBadge = isCorrect
+          ? `<span class="shrink-0 mt-0.5 inline-flex items-center justify-center w-6 h-6 rounded-full bg-[#ECFDF5] border border-emerald-200 text-[#059669] text-xs font-bold" title="Answered correctly">✓</span>`
+          : `<span class="shrink-0 mt-0.5 inline-flex items-center justify-center w-6 h-6 rounded-full bg-[#FFF1F2] border border-rose-200 text-[#E11D48] text-xs font-bold" title="Missed">✕</span>`;
+
+        const missedNoteHTML = !isCorrect
+          ? `<span class="inline-block mt-1 text-xs font-medium text-[#E11D48]">Your choice: <span class="line-through">${escapeHTML(chosen)}</span></span>`
+          : '';
+
+        row.innerHTML = `
+          ${statusBadge}
+          <div class="min-w-0 flex-1">
+            <p class="text-base sm:text-[1.05rem] text-[#0F172A] leading-snug">
+              <span class="text-slate-400 font-semibold mr-1">${number}.</span> ${completedSentenceHTML}
+            </p>
+            ${missedNoteHTML}
+            <p class="mt-1.5 text-xs sm:text-sm text-slate-600 leading-relaxed">
+              ${escapeHTML(question.rule)}
+            </p>
+          </div>
+        `;
+
+        els.reviewList.appendChild(row);
+      });
+    }
+
+    /**
+     * Displays the end summary screen with final score, percentage, filter tabs, and review list.
+     */
+    function showSummary() {
+      state.finished = true;
+      state.reviewFilter = 'all';
+      const total = state.questions.length;
+      const percentage = Math.round((state.score / total) * 100);
+      const missedCount = total - state.score;
+
+      els.quizCard.classList.add('hidden');
+      els.progressWrapper.classList.add('hidden');
+      els.keyboardHint.classList.add('hidden');
+      els.summaryCard.classList.remove('hidden');
+
+      els.finalScore.textContent = `${state.score} / ${total} · ${percentage}%`;
+
+      if (state.score === total) {
+        els.finalFeedback.textContent = 'Flawless work! You nailed every single gerund and infinitive pattern.';
+      } else if (state.score >= 16) {
+        els.finalFeedback.textContent = 'Great job! You have a strong command of these verb patterns. Review any tricky items below.';
+      } else if (state.score >= 10) {
+        els.finalFeedback.textContent = 'Good warm-up! Take a quick look at the grammar notes below to reinforce the key differences.';
+      } else {
+        els.finalFeedback.textContent = 'Nice warm-up practice! Read through the takeaway notes below, then try a new random set.';
+      }
+
+      els.filterAllBtn.textContent = `All ${total} Sentences`;
+      els.filterMissedBtn.textContent = `Review Missed (${missedCount})`;
+
+      renderReviewList();
+    }
+
+    // Event Listeners
+    els.nextBtn.addEventListener('click', () => {
+      els.nextBtn.blur();
+      handleNext();
+    });
+
+    els.restartBtn.addEventListener('click', () => {
+      els.restartBtn.blur();
+      startExercise();
+    });
+
+    els.filterAllBtn.addEventListener('click', () => {
+      state.reviewFilter = 'all';
+      renderReviewList();
+    });
+
+    els.filterMissedBtn.addEventListener('click', () => {
+      if (els.filterMissedBtn.disabled) return;
+      state.reviewFilter = 'missed';
+      renderReviewList();
+    });
+
+    // Global Keyboard Shortcuts: 1, 2, 3 to select; Enter or Space for Next
+    document.addEventListener('keydown', (e) => {
+      if (e.metaKey || e.ctrlKey || e.altKey) return;
+
+      if (!state.finished && !state.answered) {
+        if (e.key === '1' || e.key === '2' || e.key === '3') {
+          const optionIndex = Number(e.key) - 1;
+          const currentOptions = state.questions[state.currentIndex]?.options;
+          if (currentOptions && currentOptions[optionIndex]) {
+            e.preventDefault();
+            handleOptionSelect(currentOptions[optionIndex]);
+          }
+        }
+      } else if (!state.finished && state.answered) {
+        if (e.key === 'Enter' || e.key === ' ') {
+          e.preventDefault();
+          handleNext();
+        }
+      }
+    });
+
+    // Start immediately on page load
+    window.addEventListener('DOMContentLoaded', () => {
+      startExercise();
+    });
+  </script>
+</body>
+</html>
